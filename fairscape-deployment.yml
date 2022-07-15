@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: fairscape
+  labels:
+    app: fairscape
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fairscape
+  template:
+    metadata:
+      labels:
+        app: fairscape
+    spec:
+      containers:
+      - name: fairscape
+        image: jackofsum/fairscape:0.0.1
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MONGO_HOST
+          value: "10.250.124.184"
+        - name: MONGO_DATABASE
+          value: clarklab
+        - name: MONGO_COLLECTION
+          value: fairscape
+        - name: MINIO_URI
+          value: minio.uvarc.io
+        - name: MINIO_BUCKET
+          value: clarklab
+
+        # credentials loaded from secrets file
+        - name: MONGO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: mongo-access-key
+        - name: MONGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: mongo-secret-key
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: minio-access-key
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: minio-secret-key
