@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Deployment
 metadata:
   name: fairscape
+  namespace: clarklab
   labels:
     app: fairscape
 spec:
@@ -52,3 +53,11 @@ spec:
             secretKeyRef:
               name: fairscape-secrets
               key: minio-secret-key
+
+        resources:
+          requests:
+            memory: "6024Mi"
+            cpu: "250m"
+          limits:
+            memory: "8024Mi"
+            cpu: "500m"
