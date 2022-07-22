@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fairscape-ingress
+  namespace: clarklab
+spec:
+  #tls:
+  #- hosts:
+  #  - clarklab.uvarc.io
+  #  secretName: tls-secret
+  rules:
+  - host: clarklab.uvarc.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fairscape-service
+            port:
+              number: 80
