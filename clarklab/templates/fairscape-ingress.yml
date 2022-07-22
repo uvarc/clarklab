@@ -9,7 +9,7 @@ spec:
   #  - clarklab.uvarc.io
   #  secretName: tls-secret
   rules:
-  - host: clarklab.uvarc.io
+  - host: fairscape.pods.uvarc.io
     http:
       paths:
       - path: /
