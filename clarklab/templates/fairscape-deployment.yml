@@ -31,8 +31,6 @@ spec:
           value: minio.uvarc.io
         - name: MINIO_BUCKET
           value: clarklab
-
-        # credentials loaded from secrets file
         - name: MONGO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
@@ -61,3 +59,4 @@ spec:
           limits:
             memory: "8024Mi"
             cpu: "500m"
+      serviceAccountName: fairscape-sa 
