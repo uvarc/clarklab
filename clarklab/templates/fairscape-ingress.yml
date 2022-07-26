@@ -1,21 +1,37 @@
-apiVersion: networking.k8s.io/v1
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: fairscape-ingress
+#   namespace: clarklab
+# spec:
+#   #tls:
+#   #- hosts:
+#   #  - clarklab.uvarc.io
+#   #  secretName: tls-secret
+#   rules:
+#   - host: fairscape.pods.uvarc.io
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: fairscape-service
+#             port:
+#               number: 80
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
   name: fairscape-ingress
   namespace: clarklab
 spec:
-  #tls:
-  #- hosts:
-  #  - clarklab.uvarc.io
-  #  secretName: tls-secret
   rules:
   - host: fairscape.pods.uvarc.io
     http:
       paths:
       - path: /
-        pathType: Prefix
         backend:
-          service:
-            name: fairscape-service
-            port:
-              number: 80
+          serviceName: fairscape-service
+          servicePort: 80
