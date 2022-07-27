@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: fairscape-selfsigned-cert
+  namespace: clarklab
+spec:
+  dnsNames:
+    - fairscape.pods.uvarc.io
+  secretName: fairscape-tls-ingress-secret
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
