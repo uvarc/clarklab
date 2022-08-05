@@ -5,9 +5,8 @@ metadata:
   namespace: clarklab
 spec:
   selector:
-    app: fairscape 
+    app: fairscape
   ports:
-  - name: http
-    protocol: TCP
-    port: 80
-    targetPort: 8000
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
