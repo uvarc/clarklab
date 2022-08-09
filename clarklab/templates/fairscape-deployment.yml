@@ -19,7 +19,7 @@ spec:
       - name: fairscape
         image: jackofsum/fairscape:0.0.1
         ports:
-        - containerPort: 8000
+        - containerPort: 80
         env:
         - name: MONGO_HOST
           value: "10.250.124.184"
