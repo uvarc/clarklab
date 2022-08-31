@@ -22,12 +22,12 @@ spec:
         - name: fairescape-port
           containerPort: 80
           protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 80
-          initialDelaySeconds: 3
-          periodSeconds: 3
+        #livenessProbe:
+        #  httpGet:
+        #    path: /healthz
+        #    port: 80
+        #  initialDelaySeconds: 3
+        #  periodSeconds: 3
         env:
         - name: MONGO_HOST
           value: "10.250.124.184"
