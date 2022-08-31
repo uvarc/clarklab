@@ -17,11 +17,17 @@ spec:
     spec:
       containers:
       - name: fairscape
-        image: jackofsum/fairscape:0.0.1
+        image: jackofsum/fairscape:0.0.2
         ports:
         - name: fairescape-port
-          containerPort: 8000
+          containerPort: 80
           protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
         env:
         - name: MONGO_HOST
           value: "10.250.124.184"
@@ -53,7 +59,6 @@ spec:
             secretKeyRef:
               name: fairscape-secrets
               key: minio-secret-key
-
         resources:
           requests:
             memory: "6024Mi"
