@@ -12,10 +12,8 @@ spec:
       http:
         paths:
           - backend:
-              service:
-                name: fairscape-service
-                port:
-                  number: 80
+              serviceName: fairscape-service
+              servicePort: 443
             path: /
     # This section is only required if TLS is to be enabled for the Ingress
   tls:
