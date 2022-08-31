@@ -10,4 +10,4 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: fairescape-port
+      targetPort: 80
