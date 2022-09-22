@@ -25,4 +25,11 @@ spec:
           value: "fairscape"
         - name: MONGO_INITDB_ROOT_PASSWORD
           value: "temporarymongo"
+        resources:
+          requests:
+            memory: "6024Mi"
+            cpu: "250m"
+          limits:
+            memory: "8024Mi"
+            cpu: "500m"
           
