@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: fairscape-ingress
+  namespace: clarklab
+spec:
+  rules:
+    - host: jupyter.fairscape.pods.uvarc.io
+      http:
+        paths:
+          - backend:
+              serviceName: proxy-public
+              servicePort: 80
+            path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+  # tls:
+  #    - hosts:
+  #        - fairscape.pods.uvarc.io
+  #      secretName: fairscape-tls-ingress-secret
