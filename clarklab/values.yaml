@@ -1,3 +1,4 @@
-proxy:
-  service:
-    type: ClusterIP
+jupyterhub:
+  proxy:
+    service:
+      type: ClusterIP
