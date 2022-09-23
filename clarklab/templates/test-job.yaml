@@ -10,4 +10,11 @@ spec:
         image: perl:5.34.0
         command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
       restartPolicy: Never
+      resources:
+          requests:
+            memory: "2000Mi"
+            cpu: "100m"
+          limits:
+            memory: "4000Mi"
+            cpu: "200m"
   backoffLimit: 4
