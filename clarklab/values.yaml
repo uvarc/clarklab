@@ -1,5 +1,4 @@
 jupyterhub:
-  namespaceOverride: clarklab
   proxy:
     service:
       type: ClusterIP
