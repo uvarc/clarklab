@@ -23,19 +23,23 @@ jupyterhub:
     service:
       type: ClusterIP
   prePuller:
+    continuous:
+      enabled: false
     hook:
       enabled: false
     labels:
       app: jupyterhub
     resources:
       requests:
-        memory: "1000Mi"
-        cpu: "100m"
+        memory: "0Mi"
+        cpu: "0m"
       limits:
-        memory: "2000Mi"
-        cpu: "200m"
+        memory: "0Mi"
+        cpu: "0m"
   scheduling:
-    userPlaceholder:
+    userScheduler:
+      enabled: true
+      replicas: 1
       resources:
         requests:
           memory: "1000Mi"
@@ -43,4 +47,5 @@ jupyterhub:
         limits:
           memory: "2000Mi"
           cpu: "200m"
-    
+    userPlaceholder:
+      enabled: false 
