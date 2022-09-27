@@ -1,38 +1,44 @@
 jupyterhub:
   hub:
+    labels:
+      app: jupyterhub
     resources: 
       requests:
-        memory: "6024Mi"
-        cpu: "250m"
+        memory: "1000Mi"
+        cpu: "100m"
       limits:
-        memory: "8024Mi"
-        cpu: "500m"
+        memory: "2000Mi"
+        cpu: "200m"
   proxy:
+    labels:
+      app: jupyterhub
     chp:
       resources:
         requests:
-          memory: "6024Mi"
-          cpu: "250m"
+          memory: "1000Mi"
+          cpu: "100m"
         limits:
-          memory: "8024Mi"
-          cpu: "500m"
+          memory: "2000Mi"
+          cpu: "200m"
     service:
       type: ClusterIP
   prePuller:
-    resources: 
+    labels:
+      app: jupyterhub
+    resources:
       requests:
-        memory: "6024Mi"
-        cpu: "250m"
+        memory: "1000Mi"
+        cpu: "100m"
       limits:
-        memory: "8024Mi"
-        cpu: "500m"
+        memory: "2000Mi"
+        cpu: "200m"
   scheduling:
     userPlaceholder:
       resources:
         requests:
-          memory: "6024Mi"
-          cpu: "250m"
+          memory: "1000Mi"
+          cpu: "100m"
         limits:
-          memory: "8024Mi"
-          cpu: "500m"
+          memory: "2000Mi"
+          cpu: "200m"
     
