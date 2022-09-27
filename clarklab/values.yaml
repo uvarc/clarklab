@@ -23,6 +23,8 @@ jupyterhub:
     service:
       type: ClusterIP
   prePuller:
+    hook:
+      enabled: false
     labels:
       app: jupyterhub
     resources:
