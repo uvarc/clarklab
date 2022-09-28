@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jupyterhub-service
+  namespace: clarklab
+spec:
+  selector:
+    app: jupyterhub
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8000

@@ -12,7 +12,7 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: proxy-public
+              serviceName: jupyterhub-service
               servicePort: 80
             path: /
     # This section is only required if TLS is to be enabled for the Ingress
