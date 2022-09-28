@@ -17,11 +17,10 @@ spec:
     spec:
       containers:
       - name: jupyterhub
-        image: jupyterhub/jupyterhub
+        image: jupyterhub/datascience-notebook
         ports:
         - name: http
-          containerPort: 8000
-        command: ["jupyterhub"]
+          containerPort: 8888
         resources:
           requests:
             memory: "6024Mi"
