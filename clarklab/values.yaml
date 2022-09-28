@@ -2,6 +2,17 @@ jupyterhub:
   hub:
     labels:
       app: jupyterhub
+    db:
+      # use only for testing
+      type: sqlite-memory
+
+      # for persistance
+      # type: sqlite-pvc
+
+      #pvc:
+      #  selector:
+      #    matchLabels:
+      #      app: "jupyterhub"
     resources: 
       requests:
         memory: "1000Mi"
