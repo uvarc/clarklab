@@ -22,3 +22,10 @@ spec:
         - name: http
           containerPort: 8000
         command: ["jupyterhub"]
+        resources:
+          requests:
+            memory: "6024Mi"
+            cpu: "250m"
+          limits:
+            memory: "8024Mi"
+            cpu: "500m"
