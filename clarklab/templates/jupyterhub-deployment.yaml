@@ -28,3 +28,10 @@ spec:
           limits:
             memory: "8024Mi"
             cpu: "500m"
+        volumeMounts:
+        - mountPath: "/home/joyvan/work"
+          name: notebook-storage
+      volumes:
+      - name: notebook-storage
+        persistentVolumeClaim:
+          claimName: jupyterhub-pvc
