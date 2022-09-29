@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: jupyterhub
-        image: jupyter/datascience-notebook
+        image: jupyter/datascience-notebook:2022-09-29
         ports:
         - name: http
           containerPort: 8888
