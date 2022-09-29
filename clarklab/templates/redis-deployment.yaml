@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  namespace: clarklab
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+        - name: redis
+          containerPort: 6379
+        resources:
+          requests:
+            memory: "6024Mi"
+            cpu: "250m"
+          limits:
+            memory: "8024Mi"
+            cpu: "500m"
+  
