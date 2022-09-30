@@ -4,7 +4,7 @@ metadata:
   name: jupyterhub-configmap
   namespace: clarklab
 data:
-  jupyter_server_config.py: |
+  jupyter_notebook_config.py: |
     c.NotebookApp.allow_remote_access = True
     c.NotebookApp.ip = '*'
     c.NotebookApp.open_browser = False

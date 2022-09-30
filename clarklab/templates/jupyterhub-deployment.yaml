@@ -31,7 +31,7 @@ spec:
         volumeMounts:
         - mountPath: "/home/joyvan/work"
           name: notebook-storage
-        - mountPath: "/.jupyter/"
+        - mountPath: "/home/joyvan/.jupyter"
           name: jupyter-config
       volumes:
       - name: notebook-storage
