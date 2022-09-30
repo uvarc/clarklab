@@ -4,6 +4,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "http://http://jupyter.fairscape.pods.uvarc.io"
+    #nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   name: jupyterhub-ingress
   namespace: clarklab
 spec:
@@ -16,7 +19,7 @@ spec:
               servicePort: 80
             path: /
     # This section is only required if TLS is to be enabled for the Ingress
-  # tls:
-  #    - hosts:
-  #        - fairscape.pods.uvarc.io
-  #      secretName: fairscape-tls-ingress-secret
+   tls:
+      - hosts:
+          - jupyter.fairscape.pods.uvarc.io
+        secretName: fairscape-tls-ingress-secret
