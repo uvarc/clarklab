@@ -21,6 +21,9 @@ spec:
         ports:
         - name: http
           containerPort: 8888
+        env:
+        - name: "JUPYTER_CONFIG_DIR"
+          value: "/config"
         resources:
           requests:
             memory: "6024Mi"
@@ -31,7 +34,7 @@ spec:
         volumeMounts:
         - mountPath: "/home/joyvan/work"
           name: notebook-storage
-        - mountPath: "/home/joyvan/.jupyter"
+        - mountPath: "/config"
           name: jupyter-config
       volumes:
       - name: notebook-storage
