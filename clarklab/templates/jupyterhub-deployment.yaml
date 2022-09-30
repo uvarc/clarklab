@@ -22,8 +22,8 @@ spec:
         - name: http
           containerPort: 8888
         env:
-        - name: "JUPYTER_CONFIG_DIR"
-          value: "/config"
+        - name: NOTEBOOK_ARGS
+          value: " --NotebookApp.allow_remote_access = True --NotebookApp.ip = '*' --NotebookApp.open_browser = False --NotebookApp.port = 8888 --NotebookApp.websocket_url = 'wss://jupyter.fairscape.pods.uvarc.io'"
         resources:
           requests:
             memory: "6024Mi"
