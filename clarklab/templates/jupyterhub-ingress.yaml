@@ -21,4 +21,4 @@ spec:
   tls:
     - hosts:
       - jupyter.fairscape.pods.uvarc.io
-      secretName: jupyter-tls-ingress-secret
+      secretName: fairscape-tls-ingress-secret
