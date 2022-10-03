@@ -17,7 +17,15 @@ spec:
     spec:
       securityContext:
         runAsUser: 1000 
+        runAsGroup: 1000
         fsGroup: 1000
+      initContainers:
+        - name: volume-mount-hack
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /secrets"]
+          volumeMounts:
+          - name: tls-credentials
+            mountPath: /secrets
       containers:
       - name: jupyterhub
         image: jackofsum/jupyter_test:0.0.1
@@ -34,13 +42,13 @@ spec:
         volumeMounts:
         - mountPath: "/home/jovyan/work"
           name: notebook-storage
-        - name: ssh-credentials
+        - name: tls-credentials
           readOnly: true
-          mountPath: "/etc/ssh-cred"
+          mountPath: "/etc/tls-cred"
       volumes:
       - name: notebook-storage
         persistentVolumeClaim:
           claimName: jupyterhub-pvc
-      - name: ssh-credentials
+      - name: tls-credentials
         secret:
           secretName: fairscape-tls-ingress-secret
