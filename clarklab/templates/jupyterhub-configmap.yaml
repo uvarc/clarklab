@@ -7,6 +7,6 @@ data:
   jupyter_notebook_config.py: |
     c.NotebookApp.allow_remote_access = True
     c.NotebookApp.ip = '*'
+    c.NotebookApp.password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$tI28XnWtHdxwC5fXLOUqiA$W2IU4DwHIr3qIfK4BcsKBpT08IIxrhtLqvv7NF9UhWY'
     c.NotebookApp.open_browser = False
     c.NotebookApp.port = 8888
-    c.NotebookApp.websocket_url = 'wss://jupyter.fairscape.pods.uvarc.io'
