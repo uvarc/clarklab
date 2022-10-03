@@ -15,24 +15,6 @@ spec:
       labels:
         app: jupyterhub
     spec:
-      securityContext:
-        runAsUser: 1000 
-        runAsGroup: 1000
-        fsGroup: 1000
-      initContainers:
-        - name: volume-mount-hack
-          image: busybox
-          command: ["sh", "-c", "chown -R 1000:1000 /secrets"]
-          volumeMounts:
-          - name: tls-credentials
-            mountPath: /secrets
-          resources:
-            requests:
-              memory: "500Mi"
-              cpu: "50m"
-            limits:
-              memory: "1000Mi"
-              cpu: "100m"
       containers:
       - name: jupyterhub
         image: jackofsum/jupyter_test:0.0.1
