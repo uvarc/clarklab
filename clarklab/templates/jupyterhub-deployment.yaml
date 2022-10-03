@@ -34,7 +34,7 @@ spec:
         volumeMounts:
         - mountPath: "/home/jovyan/work"
           name: notebook-storage
-        - mountPath: "/home/jovyan/.jupyter"
+        - mountPath: "/home/jovyan/config"
           name: jupyter-config
       volumes:
       - name: notebook-storage
