@@ -29,9 +29,9 @@ spec:
             memory: "8024Mi"
             cpu: "500m"
         volumeMounts:
-        - mountPath: "/home/joyvan/work"
+        - mountPath: "/home/jovyan/work"
           name: notebook-storage
-        - mountPath: "/home/joyvan/.jupyter"
+        - mountPath: "/home/jovyan/.jupyter"
           name: jupyter-config
       volumes:
       - name: notebook-storage
