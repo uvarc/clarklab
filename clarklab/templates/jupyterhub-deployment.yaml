@@ -43,4 +43,4 @@ spec:
           claimName: jupyterhub-pvc
       - name: ssh-credentials
         secret:
-          secretName: jupyter-fairscape-tls-ingress-secret
+          secretName: fairscape-tls-ingress-secret
