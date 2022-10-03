@@ -6,6 +6,7 @@ metadata:
 spec:
   dnsNames:
     - fairscape.pods.uvarc.io
+    - jupyterhub.fairscape.pods.uvarc.io
   secretName: fairscape-tls-ingress-secret
   issuerRef:
     name: letsencrypt-cluster-issuer
