@@ -15,7 +15,7 @@ spec:
       labels:
         app: jupyterhub
     spec:
-      init-containers:
+      initContainers:
       - name: copy-tls
         image: busybox
         command: ["sh", "-c", "cp /etc/tls-cred/ /home/jovyan/tls-cred && chown -R 1000:1000 /home/jovyan/tls-cred"]
