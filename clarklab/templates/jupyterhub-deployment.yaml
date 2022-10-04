@@ -15,13 +15,24 @@ spec:
       labels:
         app: jupyterhub
     spec:
+      init-containers:
+      - name: copy-tls
+        image: busybox
+        command: ["sh", "-c", "cp /etc/tls-cred/ /home/jovyan/tls-cred && chown -R 1000:1000 /home/jovyan/tls-cred"]
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "100m"
+          limits:
+            memory: "1000Mi"
+            cpu: "200m"
       containers:
       - name: jupyterhub
         image: jupyter/datascience-notebook
         command: 
         - "start-notebook.sh"
-        - "--ServerApp.keyfile=/etc/tls-cred/tls.key"
-        - "--ServerApp.certfile=/etc/tls-cred/tls.crt"
+        - "--ServerApp.keyfile=/home/jovyan/tls.key"
+        - "--ServerApp.certfile=/home/jovyan/tls.crt"
         - "--ServerApp.ip='*'"
         - "--ServerApp.allow_remote_access=True"
         - "--ServerApp.port=8888"
