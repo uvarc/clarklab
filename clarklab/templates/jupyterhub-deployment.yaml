@@ -17,7 +17,15 @@ spec:
     spec:
       containers:
       - name: jupyterhub
-        image: jackofsum/jupyter_test:0.0.2
+        image: jupyter/datascience-notebook
+        command: 
+        - "start-notebook.sh"
+        - "--ServerApp.keyfile=/etc/tls-cred/tls.key"
+        - "--ServerApp.certfile=/etc/tls-cred/tls.crt"
+        - "--ServerApp.ip='*'"
+        - "--ServerApp.allow_remote_access=True"
+        - "--ServerApp.port=8888"
+        - "--ServerApp.open_browser=False"
         ports:
         - name: http
           containerPort: 8888
