@@ -26,6 +26,9 @@ spec:
         - "--ServerApp.allow_remote_access=True"
         - "--ServerApp.port=8888"
         - "--ServerApp.open_browser=False"
+        env:
+        - name: "GRANT_SUDO"
+          value: "yes"
         ports:
         - name: http
           containerPort: 8888
