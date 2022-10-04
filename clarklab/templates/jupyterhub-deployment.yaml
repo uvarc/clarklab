@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: copy-tls
         image: busybox
-        command: ["sh", "-c", "cp /etc/tls-cred/ /home/jovyan/tls-cred && chown -R 1000:1000 /home/jovyan/tls-cred"]
+        command: ["sh", "-c", "cp /etc/tls-cred/ /home/jovyan/work/tls-cred && chown -R 1000:1000 /home/jovyan/work/tls-cred"]
         resources:
           requests:
             memory: "500Mi"
@@ -26,6 +26,11 @@ spec:
           limits:
             memory: "1000Mi"
             cpu: "200m"
+        volumeMounts:
+        - mountPath: "/home/jovyan/work"
+          name: notebook-storage
+        - name: tls-credentials
+          mountPath: "/etc/tls-cred"
       containers:
       - name: jupyterhub
         image: jupyter/datascience-notebook
