@@ -24,7 +24,6 @@ spec:
         - "--ServerApp.allow_remote_access=True"
         - "--ServerApp.port=8888"
         - "--ServerApp.open_browser=False"
-        - "--Server"
         env:
         - name: "NOTEBOOK_ARGS"
           value: "--log-level='DEBUG'"
