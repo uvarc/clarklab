@@ -43,7 +43,6 @@ spec:
         - mountPath: "/home/jovyan/work"
           name: notebook-storage
         - name: tls-credentials
-          readOnly: true
           mountPath: "/etc/tls-cred"
       volumes:
       - name: notebook-storage
