@@ -36,8 +36,8 @@ spec:
         image: jupyter/datascience-notebook
         command: 
         - "start-notebook.sh"
-        - "--ServerApp.keyfile=/home/jovyan/tls.key"
-        - "--ServerApp.certfile=/home/jovyan/tls.crt"
+        - "--ServerApp.keyfile=/home/jovyan/work/tls-cred/tls.key"
+        - "--ServerApp.certfile=/home/jovyan/work/tls-cred/tls.crt"
         - "--ServerApp.ip='*'"
         - "--ServerApp.allow_remote_access=True"
         - "--ServerApp.port=8888"
