@@ -24,7 +24,7 @@ spec:
         - "--ServerApp.allow_remote_access=True"
         - "--ServerApp.port=8888"
         - "--ServerApp.open_browser=False"
-        - "--ServerApp.websocket_url=ws://jupyterhub.fairscape.pods.uvarc.io"
+        - "--NotebookApp.allow_origin='https://jupyterhub.fairscape.pods.uvarc.io'"
         env:
         - name: "NOTEBOOK_ARGS"
           value: "--log-level='DEBUG'"
