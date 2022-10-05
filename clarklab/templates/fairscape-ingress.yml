@@ -14,18 +14,9 @@ spec:
           - backend:
               serviceName: fairscape-service
               servicePort: 80
-            path: /
-    - host: jupyterhub.fairscape.pods.uvarc.io
-      http:
-        paths:
-          - backend:
-              serviceName: jupyterhub-service
-              servicePort: 80
-            path: /
-      
+            path: / 
     # This section is only required if TLS is to be enabled for the Ingress
   tls:
       - hosts:
           - fairscape.pods.uvarc.io
-          - jupyterhub.fairscape.pods.uvarc.io
         secretName: fairscape-tls-ingress-secret
