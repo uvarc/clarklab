@@ -4,25 +4,9 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.org/server-snippets: |
-      location / {
-            proxy_pass http://jupyterhub-service;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header Host $host;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-      location ~* /(api/kernels/[^/]+/(channels|iopub|shell|stdin)|terminals/websocket)/? {
-            proxy_pass http://jupyterhub-service;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header Host $host;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            # WebSocket support
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection $connection_upgrade;
-        }
-    
+
   name: jupyterhub-ingress
   namespace: clarklab
 spec:
@@ -30,6 +14,10 @@ spec:
     - host: jupyterhub.fairscape.pods.uvarc.io
       http:
         paths:
+          - backend:
+              serviceName: jupyterhub-service
+              servicePort: 80
+            path: /
           - backend:
               serviceName: jupyterhub-service
               servicePort: 80
