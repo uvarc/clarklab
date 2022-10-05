@@ -45,7 +45,6 @@ spec:
               name: fairscape-secrets
               key: mongo-access-key
         - name: MONGO_SECRET_KEY
-          value: "temporarymongo"
           valueFrom:
             secretKeyRef:
               name: fairscape-secrets
