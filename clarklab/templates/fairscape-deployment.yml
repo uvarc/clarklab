@@ -30,8 +30,7 @@ spec:
         #  periodSeconds: 3
         env:
         - name: MONGO_HOST
-          #value: "10.250.124.184"
-          value: mongo
+          value: "10.250.124.184"
         - name: MONGO_DATABASE
           value: clarklab
         - name: MONGO_COLLECTION
@@ -41,17 +40,16 @@ spec:
         - name: MINIO_BUCKET
           value: clarklab
         - name: MONGO_ACCESS_KEY
-          value: "fairscape"
-          #valueFrom:
-          #  secretKeyRef:
-          #    name: fairscape-secrets
-          #    key: mongo-access-key
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: mongo-access-key
         - name: MONGO_SECRET_KEY
           value: "temporarymongo"
-          #valueFrom:
-          #  secretKeyRef:
-          #    name: fairscape-secrets
-          #    key: mongo-secret-key
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: mongo-secret-key
         - name: MINIO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
