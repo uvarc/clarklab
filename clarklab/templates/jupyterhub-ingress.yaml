@@ -18,10 +18,6 @@ spec:
               serviceName: jupyterhub-service
               servicePort: 80
             path: /
-          - backend:
-              serviceName: jupyterhub-service
-              servicePort: 80
-            path: /
       
     # This section is only required if TLS is to be enabled for the Ingress
   tls:
