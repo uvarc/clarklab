@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: fairscape
-        image: jackofsum/fairscape:0.0.5
+        image: jackofsum/fairscape:0.0.6
         ports:
         - name: http
           containerPort: 8080
