@@ -1,12 +1,11 @@
-
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTS"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: /
-
+    nginx.org/websocket-services: "jupyterhub-service"
   name: jupyterhub-ingress
   namespace: clarklab
 spec:
