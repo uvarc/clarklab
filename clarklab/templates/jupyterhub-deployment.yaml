@@ -25,9 +25,6 @@ spec:
         - "--ServerApp.port=8888"
         - "--ServerApp.open_browser=False"
         - "--NotebookApp.allow_origin='https://jupyterhub.fairscape.pods.uvarc.io'"
-        env:
-        - name: "NOTEBOOK_ARGS"
-          value: "--log-level='DEBUG'"
         ports:
         - name: http
           containerPort: 8888
@@ -41,12 +38,8 @@ spec:
         volumeMounts:
         - mountPath: "/home/jovyan/work"
           name: notebook-storage
-        - name: tls-credentials
-          mountPath: "/etc/tls-cred"
+      serviceAccountName: fairscape-sa 
       volumes:
       - name: notebook-storage
         persistentVolumeClaim:
           claimName: jupyterhub-pvc
-      - name: tls-credentials
-        secret:
-          secretName: fairscape-tls-ingress-secret
