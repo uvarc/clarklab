@@ -20,7 +20,7 @@ spec:
       containers:
       - name: fairscape
         #image: jackofsum/fairscape:0.0.6
-        image: ghcr.io/fairscape/mds_python:sha256-cb8a4bd806ceaec55f2aef58c683898e6e730ba4a657880ba23bd9766dbfe578.sig
+        image: ghcr.io/fairscape/mds_python:main
         ports:
         - name: http
           containerPort: 8080
