@@ -15,6 +15,8 @@ spec:
       labels:
         app: fairscape
     spec:
+      imagePullSecrets:
+      - name: ghcr-secret
       containers:
       - name: fairscape
         #image: jackofsum/fairscape:0.0.6
