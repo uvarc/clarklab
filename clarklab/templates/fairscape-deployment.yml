@@ -19,7 +19,7 @@ spec:
       - name: ghcr-secret
       containers:
       - name: fairscape
-        image: ghcr.io/fairscape/mds_python:sha256-d8233330be8218d988b68c9cdb34f35cc9bec732ff4cd8cceef4ae074ac0a1d0.sig
+        image: ghcr.io/fairscape/mds_python:main
         imagePullPolicy: Always
         ports:
         - name: http
