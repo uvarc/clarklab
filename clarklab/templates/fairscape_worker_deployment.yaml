@@ -21,7 +21,7 @@ spec:
       - name: fairscape
         image: ghcr.io/fairscape/mds_python:main
         imagePullPolicy: Always
-        command: ["celery", "-A mds", "worker", "--loglevel=INFO"]
+        command: ["celery", "-A compute", "worker", "--loglevel=INFO"]
         ports:
         - name: http
           containerPort: 8080
