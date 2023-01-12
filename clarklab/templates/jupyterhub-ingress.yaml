@@ -26,4 +26,4 @@ spec:
   tls:
       - hosts:
           - jupyterhub.fairscape.pods.uvarc.io
-        secretName: fairscape-nginx-tls-ingress-secret
+        secretName: jupyterhub-nginx-tls-ingress-secret
