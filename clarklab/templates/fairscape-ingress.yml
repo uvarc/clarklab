@@ -5,6 +5,9 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
     acme.cert-manager.io/http01-edit-in-place: "true"
+# annotations for jupyterhub websockets
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.org/websocket-services: "jupyterhub-service"
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
   name: fairscape-ingress
   namespace: clarklab
