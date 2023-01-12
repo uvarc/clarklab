@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -6,6 +6,8 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.org/websocket-services: "jupyterhub-service"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
   name: jupyterhub-ingress
   namespace: clarklab
 spec:
@@ -13,13 +15,15 @@ spec:
     - host: jupyterhub.fairscape.pods.uvarc.io
       http:
         paths:
-          - backend:
-              serviceName: jupyterhub-service
-              servicePort: 80
-            path: /
-      
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: jupyterhub-service
+                port:
+                  number: 80 
     # This section is only required if TLS is to be enabled for the Ingress
-#  tls:
-#      - hosts:
-#          - jupyterhub.fairscape.pods.uvarc.io
-#        secretName: fairscape-tls-ingress-secret
+  tls:
+      - hosts:
+          - jupyterhub.fairscape.pods.uvarc.io
+        secretName: fairscape-nginx-tls-ingress-secret
