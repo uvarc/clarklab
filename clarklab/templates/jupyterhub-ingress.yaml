@@ -19,7 +19,7 @@ spec:
             path: /
       
     # This section is only required if TLS is to be enabled for the Ingress
-  tls:
-      - hosts:
-          - jupyterhub.fairscape.pods.uvarc.io
-        secretName: fairscape-tls-ingress-secret
+#  tls:
+#      - hosts:
+#          - jupyterhub.fairscape.pods.uvarc.io
+#        secretName: fairscape-tls-ingress-secret
