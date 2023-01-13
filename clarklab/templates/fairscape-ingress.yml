@@ -7,22 +7,12 @@
 #     acme.cert-manager.io/http01-edit-in-place: "true"
 # # annotations for jupyterhub websockets
 #     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-#     nginx.org/websocket-services: "jupyterhub-service"
+#     nginx.org/websocket-services: "fairscape-service"
 #     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
 #   name: fairscape-ingress
 #   namespace: clarklab
 # spec:
 #   rules:
-#     - host: jupyterhub.fairscape.pods.uvarc.io
-#       http:
-#         paths:
-#           - pathType: Prefix
-#             path: "/"
-#             backend:
-#               service:
-#                 name: jupyterhub-service
-#                 port:
-#                   number: 80 
 #     - host: fairscape.pods.uvarc.io
 #       http:
 #         paths:
@@ -37,5 +27,4 @@
 #   tls:
 #       - hosts:
 #           - fairscape.pods.uvarc.io
-#           - jupyterhub.fairscape.pods.uvarc.io
 #         secretName: fairscape-nginx-tls-ingress-secret
