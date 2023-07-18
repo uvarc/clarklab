@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: minio_deployment
+  name: minio-deployment
   namespace: clarklab
   labels:
     app: minio-fairscape
