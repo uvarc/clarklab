@@ -18,7 +18,7 @@ spec:
             path: "/"
             backend:
               service:
-                name: minio-service
+                name: minio-frontend-service
                 port:
                   number: 80
 # This section is only required if TLS is to be enabled for the Ingress
