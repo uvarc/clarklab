@@ -5,7 +5,7 @@ metadata:
   namespace: clarklab
 spec:
   selector:
-    app: jupyterhub
+    app: minio-fairscape
   ports:
   - name: frontend-tls
     protocol: TCP
