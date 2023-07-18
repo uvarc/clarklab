@@ -27,7 +27,7 @@ spec:
         - name: s3
           containerPort: 9000
         - name: frontend
-          contianerPort: 9001
+          containerPort: 9001
         command: ["server", "/data", "--console-address ':9001'"]
         volumeMounts:
         - mountPath: "/data"
