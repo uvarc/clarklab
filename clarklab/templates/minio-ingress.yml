@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.org/websocket-services: "fairscape-service"
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
+  name: fairscape-ingress
+  namespace: clarklab
+spec:
+  rules:
+    - host: minio.pods.uvarc.io
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: minio-service
+                port:
+                  number: 80
+# This section is only required if TLS is to be enabled for the Ingress
+  tls:
+      - hosts:
+          - minio.pods.uvarc.io
+        secretName: fairscape-nginx-tls-ingress-secret
