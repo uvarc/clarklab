@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio_deployment
+  namespace: clarklab
+  labels:
+    app: minio-fairscape
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio-fairscape
+  template:
+    metadata:
+      labels:
+        app: minio-fairscape
+    spec:
+      volumes:
+      - name: "minio-volume"
+        persistentVolumeClaim:
+          claimName: minio-pvc 
+      containers:
+      - name: minio
+        image: quay.io/minio/minio:latest
+        imagePullPolicy: Always
+        ports:
+        - name: s3
+          containerPort: 9000
+        - name: frontend
+          contianerPort: 9001
+        command: ["server", "/data", "--console-address ':9001'"]
+        volumeMounts:
+        - mountPath: "/data"
+          name: "minio-volume"
+        env:
+        - name: "MINIO_ROOT_USER"
+          value: "fairscape-minio-admin"
+        - name: "MINIO_ROOT_PASSWORD"
+          value: "5We36fdmBj!hUHgw^*^r"
+        resources:
+          requests:
+            memory: "6024Mi"
+            cpu: "250m"
+          limits:
+            memory: "8024Mi"
+            cpu: "500m"
+
