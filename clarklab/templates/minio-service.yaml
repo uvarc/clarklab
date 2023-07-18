@@ -7,7 +7,7 @@ spec:
   selector:
     app: jupyterhub
   ports:
-  - name: frontend
+  - name: frontend-tls
     protocol: TCP
-    port: 80
+    port: 443
     targetPort: 9001

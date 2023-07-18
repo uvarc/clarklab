@@ -20,9 +20,9 @@ spec:
               service:
                 name: minio-frontend-service
                 port:
-                  number: 80
+                  number: 443
 # This section is only required if TLS is to be enabled for the Ingress
   tls:
       - hosts:
-          - minio.pods.uvarc.io
-        secretName: fairscape-nginx-tls-ingress-secret
+          - minio.fairscape.pods.uvarc.io
+        secretName: minio-fairscape-nginx-tls-ingress-secret
