@@ -6,9 +6,8 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     acme.cert-manager.io/http01-edit-in-place: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.org/websocket-services: "fairscape-service"
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
-  name: fairscape-ingress
+  name: minio-ingress
   namespace: clarklab
 spec:
   rules:
