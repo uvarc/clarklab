@@ -37,6 +37,8 @@ spec:
           value: "fairscape-minio-admin"
         - name: "MINIO_ROOT_PASSWORD"
           value: "5We36fdmBj!hUHgw^*^r"
+        - name: "MINIO_BROWSER_REDIRECT_URL"
+          value: "https://minio.fairscape.pods.uvarc.io"
         resources:
           requests:
             memory: "6024Mi"
