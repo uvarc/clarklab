@@ -11,7 +11,7 @@ metadata:
   namespace: clarklab
 spec:
   rules:
-    - host: minio.pods.uvarc.io
+    - host: minio.fairscape.pods.uvarc.io
       http:
         paths:
           - pathType: Prefix
