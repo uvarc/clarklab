@@ -5,7 +5,7 @@ metadata:
   namespace: clarklab
 spec:
   accessModes:
-    - ReadWrite
+    - ReadWriteMany
   resources:
     requests:
       storage: 50Gi
