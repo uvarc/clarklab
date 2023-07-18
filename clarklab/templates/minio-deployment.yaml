@@ -28,7 +28,7 @@ spec:
           containerPort: 9000
         - name: frontend
           containerPort: 9001
-        command: ["server", "/data", "--console-address ':9001'"]
+        command: ["minio", "server", "/data", "--console-address ':9001'"]
         volumeMounts:
         - mountPath: "/data"
           name: "minio-volume"
