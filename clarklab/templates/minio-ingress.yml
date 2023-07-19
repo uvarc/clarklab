@@ -7,10 +7,10 @@ metadata:
     acme.cert-manager.io/http01-edit-in-place: "true"
     nginx.org/websocket-services: "minio-frontend-service"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-body-size: 0
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
     nginx.ingress.kubernetes.io/server-snippet:  |
-        client_max_body_size 0;
-        proxy_buffering off;
         proxy_request_buffering off;
 
   name: minio-ingress
