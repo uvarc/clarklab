@@ -8,6 +8,11 @@ metadata:
     nginx.org/websocket-services: "minio-frontend-service"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
+    nginx.ingress.kubernetes.io/server-snippet:  |
+        client_max_body_size 0;
+        proxy_buffering off;
+        proxy_request_buffering off;
+
   name: minio-ingress
   namespace: clarklab
 spec:
