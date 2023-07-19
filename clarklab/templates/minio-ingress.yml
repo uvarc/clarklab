@@ -8,9 +8,9 @@ metadata:
     nginx.org/websocket-services: "minio-frontend-service"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100000m"
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
-    nginx.ingress.kubernetes.io/server-snippet:  |
+    nginx.ingress.kubernetes.io/server-snippet: |
       proxy_request_buffering off;
 
     nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -19,14 +19,10 @@ metadata:
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-NginX-Proxy true;
-      real_ip_header X-Real-IP;
-     
-
- 
+      real_ip_header X-Real-IP; 
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-
       chunked_transfer_encoding off;
 
   name: minio-ingress
