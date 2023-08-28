@@ -36,12 +36,14 @@ spec:
           value: "10.250.124.184"
         - name: MONGO_DATABASE
           value: clarklab
-        - name: MONGO_COLLECTION
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_IDENTIFIER_COLLECTION
           value: fairscape
-        - name: MINIO_URI
-          value: minio.uvarc.io
-        - name: MINIO_BUCKET
-          value: clarklab
+        - name: MONGO_USER_COLLECTION
+          value: users
+        - name: MONGO_ROCRATE_COLLECTION
+          value: rocrate
         - name: MONGO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
@@ -52,6 +54,16 @@ spec:
             secretKeyRef:
               name: fairscape-secrets
               key: mongo-secret-key
+        - name: MINIO_URI
+          value: minio.uvarc.io
+        - name: MINIO_PORT
+          value: "9000"
+        - name: MINIO_SECURE
+          value: "True"
+        - name: MINIO_DEFAULT_BUCKET
+          value: clarklab
+        - name: MINIO_ROCRATE_BUCKET
+          value: clarklab
         - name: MINIO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
@@ -62,6 +74,14 @@ spec:
             secretKeyRef:
               name: fairscape-secrets
               key: minio-secret-key
+        - name: CASBIN_POLICY
+          value: "casbin_policy.db"
+        - name: CASBIN_MODEL
+          value: "./tests/restful_casbin.conf"
+        - name: JWT_SECRET
+          value: "jwt-secret"
+        - name: ARK_NAAN
+          value: "59852"
         resources:
           requests:
             memory: "6024Mi"
