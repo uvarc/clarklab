@@ -75,9 +75,9 @@ spec:
               name: fairscape-secrets
               key: minio-secret-key
         - name: CASBIN_POLICY
-          value: "casbin_policy.db"
+          value: "/mds/mds/bin/casbin_policy.db"
         - name: CASBIN_MODEL
-          value: "./tests/restful_casbin.conf"
+          value: "/mds/mds/bin/restful_casbin.conf"
         - name: JWT_SECRET
           value: "jwt-secret"
         - name: ARK_NAAN
