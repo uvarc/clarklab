@@ -28,6 +28,27 @@ spec:
         ports:
         - name: http
           containerPort: 8888
+        env:
+        - name: MINIO_URI
+          value: minio.pods.uvarc.io
+        - name: MINIO_PORT
+          value: "9000"
+        - name: MINIO_SECURE
+          value: "False"
+        - name: MINIO_DEFAULT_BUCKET
+          value: clarklab
+        - name: MINIO_ROCRATE_BUCKET
+          value: clarklab
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: minio-access-key
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: minio-secret-key
         resources:
           requests:
             memory: "6024Mi"
