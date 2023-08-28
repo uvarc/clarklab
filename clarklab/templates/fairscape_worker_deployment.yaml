@@ -1,73 +1,73 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: fairscape-worker
-  namespace: clarklab
-  labels:
-    app: fairscape
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: fairscape
-  template:
-    metadata:
-      labels:
-        app: fairscape
-    spec:
-      imagePullSecrets:
-      - name: ghcr-secret
-      containers:
-      - name: fairscape
-        image: ghcr.io/fairscape/mds_python:main
-        imagePullPolicy: Always
-        command: ["celery", "-A", "mds.compute", "worker", "--loglevel=INFO"]
-        ports:
-        - name: http
-          containerPort: 8080
-        #  protocol: TCP
-        #livenessProbe:
-        #  httpGet:
-        #    path: /healthz
-        #    port: 80
-        #  initialDelaySeconds: 3
-        #  periodSeconds: 3
-        env:
-        - name: MONGO_HOST
-          value: "10.250.124.184"
-        - name: MONGO_DATABASE
-          value: clarklab
-        - name: MONGO_COLLECTION
-          value: fairscape
-        - name: MINIO_URI
-          value: minio.uvarc.io
-        - name: MINIO_BUCKET
-          value: clarklab
-        - name: MONGO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-access-key
-        - name: MONGO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-secret-key
-        - name: MINIO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: minio-access-key
-        - name: MINIO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: minio-secret-key
-        resources:
-          requests:
-            memory: "6024Mi"
-            cpu: "250m"
-          limits:
-            memory: "8024Mi"
-            cpu: "500m"
-      serviceAccountName: fairscape-sa 
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: fairscape-worker
+#   namespace: clarklab
+#   labels:
+#     app: fairscape
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: fairscape
+#   template:
+#     metadata:
+#       labels:
+#         app: fairscape
+#     spec:
+#       imagePullSecrets:
+#       - name: ghcr-secret
+#       containers:
+#       - name: fairscape
+#         image: ghcr.io/fairscape/mds_python:main
+#         imagePullPolicy: Always
+#         command: ["celery", "-A", "mds.compute", "worker", "--loglevel=INFO"]
+#         ports:
+#         - name: http
+#           containerPort: 8080
+#         #  protocol: TCP
+#         #livenessProbe:
+#         #  httpGet:
+#         #    path: /healthz
+#         #    port: 80
+#         #  initialDelaySeconds: 3
+#         #  periodSeconds: 3
+#         env:
+#         - name: MONGO_HOST
+#           value: "10.250.124.184"
+#         - name: MONGO_DATABASE
+#           value: clarklab
+#         - name: MONGO_COLLECTION
+#           value: fairscape
+#         - name: MINIO_URI
+#           value: minio.uvarc.io
+#         - name: MINIO_BUCKET
+#           value: clarklab
+#         - name: MONGO_ACCESS_KEY
+#           valueFrom:
+#             secretKeyRef:
+#               name: fairscape-secrets
+#               key: mongo-access-key
+#         - name: MONGO_SECRET_KEY
+#           valueFrom:
+#             secretKeyRef:
+#               name: fairscape-secrets
+#               key: mongo-secret-key
+#         - name: MINIO_ACCESS_KEY
+#           valueFrom:
+#             secretKeyRef:
+#               name: fairscape-secrets
+#               key: minio-access-key
+#         - name: MINIO_SECRET_KEY
+#           valueFrom:
+#             secretKeyRef:
+#               name: fairscape-secrets
+#               key: minio-secret-key
+#         resources:
+#           requests:
+#             memory: "6024Mi"
+#             cpu: "250m"
+#           limits:
+#             memory: "8024Mi"
+#             cpu: "500m"
+#       serviceAccountName: fairscape-sa 
