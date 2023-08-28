@@ -59,7 +59,7 @@ spec:
         - name: MINIO_PORT
           value: "9000"
         - name: MINIO_SECURE
-          value: "True"
+          value: "False"
         - name: MINIO_DEFAULT_BUCKET
           value: clarklab
         - name: MINIO_ROCRATE_BUCKET
