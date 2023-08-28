@@ -55,7 +55,7 @@ spec:
               name: fairscape-secrets
               key: mongo-secret-key
         - name: MINIO_URI
-          value: minio.uvarc.io
+          value: minio.pods.uvarc.io
         - name: MINIO_PORT
           value: "9000"
         - name: MINIO_SECURE
