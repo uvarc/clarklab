@@ -55,15 +55,16 @@ spec:
               name: fairscape-secrets
               key: mongo-secret-key
         - name: MINIO_URI
-          value: minio.pods.uvarc.io
+        #  value: minio.pods.uvarc.io
+          value: minio-backend-service
         - name: MINIO_PORT
           value: "9000"
         - name: MINIO_SECURE
           value: "False"
         - name: MINIO_DEFAULT_BUCKET
-          value: clarklab
+          value: default
         - name: MINIO_ROCRATE_BUCKET
-          value: clarklab
+          value: rocrate
         - name: MINIO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
