@@ -22,13 +22,13 @@ spec:
         - name: db
           containerPort: 27017
         env:
-        - name: MONGO_ACCESS_KEY
+        - name: MONGO_INITDB_ROOT_USERNAME
           value: "mongotestaccess"
           #valueFrom:
           #  secretKeyRef:
           #    name: fairscape-secrets
           #    key: mongo-access-key
-        - name: MONGO_SECRET_KEY
+        - name: MONGO_INITDB_ROOT_PASSWORD
           value: "mongotestsecret"
           #valueFrom:
           #  secretKeyRef:
