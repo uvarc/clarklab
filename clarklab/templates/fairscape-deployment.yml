@@ -33,7 +33,7 @@ spec:
         #  periodSeconds: 3
         env:
         - name: MONGO_HOST
-          value: "10.250.124.184"
+          value: mongo-backend-service
         - name: MONGO_DATABASE
           value: clarklab
         - name: MONGO_PORT
