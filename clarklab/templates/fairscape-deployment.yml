@@ -45,15 +45,17 @@ spec:
         - name: MONGO_ROCRATE_COLLECTION
           value: rocrate
         - name: MONGO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-access-key
+          value: "mongotestaccess"
+          #valueFrom:
+          #  secretKeyRef:
+          #    name: fairscape-secrets
+          #    key: mongo-access-key
         - name: MONGO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-secret-key
+          value: "mongotestsecret"
+          #valueFrom:
+          #  secretKeyRef:
+          #    name: fairscape-secrets
+          #    key: mongo-secret-key
         - name: MINIO_URI
         #  value: minio.pods.uvarc.io
           value: minio-backend-service
