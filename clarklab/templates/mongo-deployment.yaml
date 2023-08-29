@@ -32,7 +32,7 @@ spec:
             secretKeyRef:
               name: fairscape-secrets
               key: mongo-secret-key
-        resoureces:
+        resources:
           requests:
             memory: "6024Mi"
             cpu: "250m"
