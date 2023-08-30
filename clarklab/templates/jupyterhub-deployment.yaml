@@ -62,7 +62,7 @@ spec:
       #  - mountPath: "/home/jovyan/project"
       #    name: nfs-project-storage
       serviceAccountName: fairscape-sa 
-      #volumes:
+      volumes:
       #- name: nfs-project-storage 
       #  nfs:
       #    server: "qumulo.rc.virginia.edu"
