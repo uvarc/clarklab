@@ -4,6 +4,7 @@ metadata:
   name: fairscape-service
   namespace: clarklab
 spec:
+  type: NodePort
   selector:
     app: fairscape
   ports:
