@@ -64,9 +64,9 @@ spec:
       serviceAccountName: fairscape-sa 
       volumes:
       - name: nfs-project-storage 
-          nfs:
-            server: "qumulo.rc.virginia.edu"
-            path: "/clarklab"
+        nfs:
+          server: "qumulo.rc.virginia.edu"
+          path: "/clarklab"
       - name: notebook-storage
         persistentVolumeClaim:
           claimName: jupyterhub-pvc
