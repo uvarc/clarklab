@@ -9,8 +9,9 @@ metadata:
     nginx.ingress.kubernetes.io/client-max-body-size: "0"
     nginx.org/websocket-services: "minio-frontend-service"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.ingress.kubernetes.io/proxy-buffering: "off"
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/client-max-body-size: "500M"
+    nginx.org/client-max-body-size: "500M"
+    client-max-body-size: "500M"
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
     #nginx.ingress.kubernetes.io/server-snippet: |
     #  proxy_request_buffering off;
