@@ -15,3 +15,7 @@ spec:
                 name: mongo-backend-service
                 port:
                   number: 27017
+  tls:
+      - hosts:
+          - mongo.fairscape.pods.uvarc.io
+        secretName: mongo-fairscape-nginx-tls-ingress-secret
