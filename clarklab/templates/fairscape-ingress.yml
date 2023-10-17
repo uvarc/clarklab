@@ -37,8 +37,21 @@ spec:
                 name: fairscape-service
                 port:
                   number: 80
+    - host: mongo.fairscape.pods.uvarc.io
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: mongo-backend-service
+                port:
+                  number: 27017
     # This section is only required if TLS is to be enabled for the Ingress
   tls:
       - hosts:
           - fairscape.pods.uvarc.io
         secretName: fairscape-nginx-tls-ingress-secret
+      - hosts:
+          - mongo.fairscape.pods.uvarc.io
+        secretName: mongo-fairscape-nginx-tls-ingress-secret
