@@ -37,19 +37,8 @@ spec:
                 name: fairscape-service
                 port:
                   number: 80
-    - host: fairscape.pods.uvarc.io
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: fairscape-service
-                port:
-                  number: 80
     # This section is only required if TLS is to be enabled for the Ingress
   tls:
       - hosts:
-          - fairscape.pods.uvarc.io
           - fairscape.net
         secretName: fairscape-nginx-tls-ingress-secret
