@@ -27,7 +27,7 @@ metadata:
   namespace: clarklab
 spec:
   rules:
-    - host: fairscape.pods.uvarc.io
+    - host: fairscape.net
       http:
         paths:
           - pathType: Prefix
@@ -37,14 +37,14 @@ spec:
                 name: fairscape-service
                 port:
                   number: 80
-    - host: mongo.fairscape.pods.uvarc.io
+    - host: fairscape.pods.uvarc.io
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: mongo-backend-service
+                name: fairscape-service
                 port:
                   number: 80
     # This section is only required if TLS is to be enabled for the Ingress
