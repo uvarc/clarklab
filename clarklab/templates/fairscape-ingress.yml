@@ -19,12 +19,9 @@ metadata:
     # turn off proxy buffering
     nginx.org/proxy-buffering: "false"
     # type of authentication
-    #nginx.ingress.kubernetes.io/auth-type: basic
-    # name of the secret that contains the user/password definitions
-    nginx.org/basic-auth-secret: fairscape-basic-auth
-    # message to display with an appropriate context why the authentication is required
-    nginx.org/basic-auth-realm: 'Authentication Required for Fairscape'
-    
+    nginx.ingress.kubernetes.io/auth-type: basic 
+    nginx.ingress.kubernetes.io/auth-secret: fairscape-basic-auth 
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication required" 
   name: fairscape-ingress
   namespace: clarklab
 spec:
