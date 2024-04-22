@@ -18,11 +18,13 @@ metadata:
     client-max-body-size: "5000M"
     # turn off proxy buffering
     nginx.org/proxy-buffering: "false"
-    acme.cert-manager.io/http01-edit-in-place: "true"
-    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
-# annotations for jupyterhub websockets
-#    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-#    nginx.org/websocket-services: "fairscape-service"
+    # type of authentication
+    nginx.ingress.kubernetes.io/auth-type: basic
+    # name of the secret that contains the user/password definitions
+    nginx.ingress.kubernetes.io/auth-secret: fairscape-basic-auth
+    # message to display with an appropriate context why the authentication is required
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required for Fairscape'
+    
   name: fairscape-ingress
   namespace: clarklab
 spec:
@@ -38,7 +40,7 @@ spec:
                 port:
                   number: 80
     # This section is only required if TLS is to be enabled for the Ingress
-  tls:
-      - hosts:
-          - fairscape.net
-        secretName: fairscape-nginx-tls-ingress-secret
+    #  tls:
+    #  - hosts:
+    #      - fairscape.net
+    #    secretName: fairscape-net-sealed-secret
