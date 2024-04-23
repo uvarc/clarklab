@@ -18,10 +18,6 @@ metadata:
     client-max-body-size: "5000M"
     # turn off proxy buffering
     nginx.org/proxy-buffering: "false"
-    # type of authentication
-    nginx.ingress.kubernetes.io/auth-type: basic 
-    nginx.ingress.kubernetes.io/auth-secret: sealed-fairscape-basic-auth 
-    nginx.ingress.kubernetes.io/auth-realm: "Authentication required" 
   name: fairscape-ingress
   namespace: clarklab
 spec:
