@@ -20,7 +20,7 @@ metadata:
     nginx.org/proxy-buffering: "false"
     # type of authentication
     nginx.ingress.kubernetes.io/auth-type: basic 
-    nginx.ingress.kubernetes.io/auth-secret: fairscape-basic-auth 
+    nginx.ingress.kubernetes.io/auth-secret: sealed-fairscape-basic-auth 
     nginx.ingress.kubernetes.io/auth-realm: "Authentication required" 
   name: fairscape-ingress
   namespace: clarklab
