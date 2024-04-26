@@ -16,9 +16,9 @@ spec:
         app: minio-fairscape
     spec:
       volumes:
-      - name: "minio-volume"
-        persistentVolumeClaim:
-          claimName: minio-pvc 
+        #- name: "minio-volume"
+        #persistentVolumeClaim:
+        #  claimName: minio-pvc 
       containers:
       - name: minio
         image: quay.io/minio/minio:latest
@@ -29,9 +29,9 @@ spec:
         - name: frontend
           containerPort: 9001
         command: ["minio", "server", "/data", "--console-address", ":9001"]
-        volumeMounts:
-        - mountPath: "/data"
-          name: "minio-volume"
+        #volumeMounts:
+        #- mountPath: "/data"
+        #  name: "minio-volume"
         env:
         - name: MINIO_ROOT_USER
           valueFrom:
