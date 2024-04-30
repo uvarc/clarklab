@@ -40,8 +40,6 @@ spec:
           value: "mongo-backend-service"
         - name: FAIRSCAPE_MONGO_DATABASE
           value: "clarklab"
-        - name: FAIRSCAPE_MONGO_PORT
-          value: "27017"
         - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
           value: "testfairscape"
         - name: FAIRSCAPE_MONGO_USER_COLLECTION
@@ -60,8 +58,6 @@ spec:
               key: mongo-secret-key
         - name: FAIRSCAPE_MINIO_URI
           value: "minio-backend-service"
-        - name: FAIRSCAPE_MINIO_PORT
-          value: "9000"
         - name: FAIRSCAPE_MINIO_SECURE
           value: "False"
         - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
