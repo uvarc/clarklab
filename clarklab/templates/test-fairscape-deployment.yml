@@ -35,13 +35,13 @@ spec:
         - name: FAIRSCAPE_HOST
           value: 'test.fairscape.net'
         - name: FAIRSCAPE_PORT
-          value: 8080
+          value: "8080"
         - name: FAIRSCAPE_MONGO_HOST
-          value: mongo-backend-service
+          value: "mongo-backend-service"
         - name: FAIRSCAPE_MONGO_DATABASE
-          value: clarklab
+          value: "clarklab"
         - name: FAIRSCAPE_MONGO_PORT
-          value: 27017
+          value: "27017"
         - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
           value: "testfairscape"
         - name: FAIRSCAPE_MONGO_USER_COLLECTION
@@ -59,15 +59,15 @@ spec:
               name: fairscape-secrets
               key: mongo-secret-key
         - name: FAIRSCAPE_MINIO_URI
-          value: minio-backend-service
+          value: "minio-backend-service"
         - name: FAIRSCAPE_MINIO_PORT
-          value: 9000
+          value: "9000"
         - name: FAIRSCAPE_MINIO_SECURE
           value: "False"
         - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
-          value: testdefault
+          value: "testdefault"
         - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
-          value: testrocrate
+          value: "testrocrate"
         - name: FAIRSCAPE_MINIO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
@@ -81,7 +81,7 @@ spec:
         - name: FAIRSCAPE_JWT_SECRET
           value: "jwt-secret"
         - name: FAIRSCAPE_NAAN
-          value: 59852
+          value: "59852"
         - name: FAIRSCAPE_PASSWORD_SALT
           value: "testsalt"
         resources:
