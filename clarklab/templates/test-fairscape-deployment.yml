@@ -22,9 +22,8 @@ spec:
         image: ghcr.io/fairscape/mds_python:RELEASE.2024-05-01
         imagePullPolicy: Always
         ports:
-        - name: http
-          containerPort: 443
-        #  protocol: TCP
+        - containerPort: 443
+          protocol: TCP
         #livenessProbe:
         #  httpGet:
         #    path: /healthz
@@ -33,7 +32,7 @@ spec:
         #  periodSeconds: 3
         env:
         - name: FAIRSCAPE_HOST
-          value: 'test.fairscape.net'
+          value: 'fairscape.net'
         - name: FAIRSCAPE_PORT
           value: "443"
         - name: FAIRSCAPE_MONGO_HOST
