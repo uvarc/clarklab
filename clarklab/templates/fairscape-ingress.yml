@@ -3,14 +3,17 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    # enable https passthrough
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /
     # set a 1hr timeout for sending proxied request to server
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.org/proxy-send-timeout: "3600"
-    proxy-send-timeout: "3600"
-    # set a 1hr timeout for reading response from server
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.org/proxy-send-timeout: "3600"
     nginx.org/proxy-read-timeout: "3600"
+    proxy-send-timeout: "3600"
     proxy-read-timeout: "3600"
     # set max body size to 5Gi
     nginx.ingress.kubernetes.io/client-max-body-size: "5000M"
@@ -41,7 +44,7 @@ spec:
               service:
                 name: test-fairscape-service
                 port:
-                  number: 80
+                  number: 443
     # This section is only required if TLS is to be enabled for the Ingress
     #  tls:
     #  - hosts:
