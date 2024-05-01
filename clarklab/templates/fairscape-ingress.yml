@@ -44,7 +44,7 @@ spec:
               service:
                 name: test-fairscape-service
                 port:
-                  number: 443
+                  number: 80
     # This section is only required if TLS is to be enabled for the Ingress
     #  tls:
     #  - hosts:
