@@ -26,7 +26,7 @@ metadata:
   namespace: clarklab
 spec:
   rules:
-    - host: test.fairscape.net
+    - host: "test.fairscape.net"
       http:
         paths:
           - pathType: Prefix
@@ -46,7 +46,7 @@ spec:
                 name: test-fairscape-service
                 port:
                   number: 80
-    - host: "*.fairscape.net"
+    - host: "www.fairscape.net"
       http:
         paths:
           - pathType: Prefix
@@ -62,4 +62,6 @@ spec:
   tls:
     - hosts:
       - "fairscape.net"
+      - "www.fairscape.net"
+      - "test.fairscape.net"
       secretName: fairscape-net-tls-secret
