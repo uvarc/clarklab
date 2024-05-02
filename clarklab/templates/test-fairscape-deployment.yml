@@ -25,9 +25,7 @@ spec:
         command: ["uvicorn"] 
         args: ["fairscape_mds.app:app", "--port", "8080", "--host", "0.0.0.0" ]
         ports:
-        - name: https
-          containerPort: 8080
-          protocol: TCP
+        - containerPort: 8080
         #livenessProbe:
         #  httpGet:
         #    path: /healthz
