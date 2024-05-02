@@ -62,5 +62,4 @@ spec:
   tls:
     - hosts:
       - "fairscape.net"
-      - "*.fairscape.net"
-      secretName: fairscape-net-tls-ingress-secret 
+      secretName: fairscape-net-tls-secret
