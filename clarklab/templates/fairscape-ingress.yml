@@ -61,7 +61,6 @@ spec:
     # This section is only required if TLS is to be enabled for the Ingress
   tls:
     - hosts:
-      - "test.fairscape.net"
       - "fairscape.net"
       - "*.fairscape.net"
       secretName: fairscape-net-tls-ingress-secret 
