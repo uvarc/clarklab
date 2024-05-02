@@ -23,7 +23,8 @@ spec:
         image: ghcr.io/fairscape/mds_python:RELEASE.2024-05-01
         imagePullPolicy: Always
         ports:
-        - containerPort: 443
+        - name: https
+          containerPort: 443
           protocol: TCP
         #livenessProbe:
         #  httpGet:
