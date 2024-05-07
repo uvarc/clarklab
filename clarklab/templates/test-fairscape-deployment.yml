@@ -48,15 +48,17 @@ spec:
         - name: FAIRSCAPE_MONGO_ROCRATE_COLLECTION
           value: "testrocrate"
         - name: FAIRSCAPE_MONGO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-access-key
+          value: "mongotestaccess"
+            #valueFrom:
+            #secretKeyRef:
+            #  name: fairscape-secrets
+            #  key: mongo-access-key
         - name: FAIRSCAPE_MONGO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-secret-key
+          value: "mongotestsecret"
+            #valueFrom:
+            #secretKeyRef:
+            #  name: fairscape-secrets
+            #  key: mongo-secret-key
         - name: FAIRSCAPE_MINIO_URI
           value: "minio-backend-service"
         - name: FAIRSCAPE_MINIO_SECURE
