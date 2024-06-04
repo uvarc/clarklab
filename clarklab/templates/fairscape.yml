@@ -22,8 +22,8 @@ spec:
       - name: fairscape
         image: {{ .Values.fairscapeImage }} 
         imagePullPolicy: Always
-        command: ["uvicorn"] 
-        args: ["fairscape_mds.app:app", "--port", "8080", "--host", "0.0.0.0" ]
+        command: ["python"] 
+        args: ["-m", "fairscape_mds" ]
         ports:
         - containerPort: 8080
         #livenessProbe:
