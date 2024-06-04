@@ -1,0 +1,2 @@
+fairscapeImage: "ghcr.io/fairscape/mds_python:RELEASE.2024-05-04"
+redisImage: "redis:7.0.15-alpine3.20"

@@ -20,7 +20,7 @@ spec:
       - name: ghcr-secret
       containers:
       - name: fairscape
-        image: ghcr.io/fairscape/mds_python:RELEASE.2024-05-01
+        image: {{ .Values.fairscapeImage }} 
         imagePullPolicy: Always
         command: ["uvicorn"] 
         args: ["fairscape_mds.app:app", "--port", "8080", "--host", "0.0.0.0" ]
@@ -91,3 +91,18 @@ spec:
             memory: "8024Mi"
             cpu: "1000m"
       serviceAccountName: fairscape-sa 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-fairscape-service
+  namespace: clarklab
+spec:
+  type: ClusterIP
+  selector:
+    app: test-fairscape
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
