@@ -38,26 +38,6 @@ spec:
             path: "/"
             backend:
               service:
-                name: minio-backend-service
-                port:
-                  number: 443
-
-    - host: minio-console.fairscape.pods.uvarc.io
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
                 name: minio-frontend-service
                 port:
-                  number: 443
-# This section is only required if TLS is to be enabled for the Ingress
-  tls:
-
-      - hosts:
-          - minio-console.fairscape.pods.uvarc.io
-        secretName: minio-console-fairscape-nginx-tls-ingress-secret
-      - hosts:
-          - minio.fairscape.pods.uvarc.io
-        secretName: minio-backend-nginx-tls-ingress-secret
+                  number: 80

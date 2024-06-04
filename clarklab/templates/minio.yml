@@ -65,7 +65,7 @@ spec:
   ports:
   - name: frontend-tls
     protocol: TCP
-    port: 443
+    port: 80
     targetPort: 9001
 ---
 apiVersion: v1
