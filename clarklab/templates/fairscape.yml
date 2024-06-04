@@ -35,6 +35,8 @@ spec:
         env:
         - name: FAIRSCAPE_HOST
           value: 'fairscape.net'
+        - name: FAIRSCAPE_PORT
+          value: '8080'
         - name: FAIRSCAPE_MONGO_HOST
           value: "mongo-backend-service"
         - name: FAIRSCAPE_MONGO_DATABASE
