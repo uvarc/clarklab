@@ -61,6 +61,8 @@ spec:
           value: "minio-backend-service"
         - name: FAIRSCAPE_MINIO_SECURE
           value: "False"
+        - name: FAIRSCAPE_MINIO_PORT
+          value: "9000"
         - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
           value: "testdefault"
         - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
@@ -174,6 +176,8 @@ spec:
             #  key: mongo-secret-key
         - name: FAIRSCAPE_MINIO_URI
           value: "minio-backend-service"
+        - name: FAIRSCAPE_MINIO_PORT
+          value: "9000"
         - name: FAIRSCAPE_MINIO_SECURE
           value: "False"
         - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
