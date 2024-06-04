@@ -114,3 +114,101 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-fairscape-worker-deployment
+  namespace: clarklab
+  labels:
+    app: prod-fairscape-worker
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: prod-fairscape
+  template:
+    metadata:
+      labels:
+        app: prod-fairscape
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: fairscape
+        image: {{ .Values.fairscapeImage }} 
+        imagePullPolicy: Always
+        command: ["python"] 
+        args: ["fairscape_mds/worker.py" ]
+        #livenessProbe:
+        #  httpGet:
+        #    path: /healthz
+        #    port: 80
+        #  initialDelaySeconds: 3
+        #  periodSeconds: 3
+        env:
+        - name: FAIRSCAPE_HOST
+          value: 'fairscape.net'
+        - name: FAIRSCAPE_MONGO_HOST
+          value: "mongo-backend-service"
+        - name: FAIRSCAPE_MONGO_DATABASE
+          value: "clarklab"
+        - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
+          value: "testfairscape"
+        - name: FAIRSCAPE_MONGO_USER_COLLECTION
+          value: "testusers"
+        - name: FAIRSCAPE_MONGO_ROCRATE_COLLECTION
+          value: "testrocrate"
+        - name: FAIRSCAPE_MONGO_ACCESS_KEY
+          value: "mongotestaccess"
+            #valueFrom:
+            #secretKeyRef:
+            #  name: fairscape-secrets
+            #  key: mongo-access-key
+        - name: FAIRSCAPE_MONGO_SECRET_KEY
+          value: "mongotestsecret"
+            #valueFrom:
+            #secretKeyRef:
+            #  name: fairscape-secrets
+            #  key: mongo-secret-key
+        - name: FAIRSCAPE_MINIO_URI
+          value: "minio-backend-service"
+        - name: FAIRSCAPE_MINIO_SECURE
+          value: "False"
+        - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
+          value: "testdefault"
+        - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
+          value: "testrocrate"
+        - name: FAIRSCAPE_MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: minio-access-key
+        - name: FAIRSCAPE_MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: minio-secret-key
+        - name: FAIRSCAPE_JWT_SECRET
+          value: "jwt-secret"
+        - name: FAIRSCAPE_NAAN
+          value: "59852"
+        - name: FAIRSCAPE_PASSWORD_SALT
+          value: "testsalt"
+        - name: FAIRSCAPE_REDIS_HOST
+          value: "prod-redis-service"
+        - name: FAIRSCAPE_REDIS_PORT
+          value: "6379"
+        - name: FAIRSCAPE_REDIS_DATABASE
+          value: "0"
+        - name: FAIRSCAPE_REDIS_RESULT_DATABASE
+          value: "1"
+        resources:
+          requests:
+            memory: "4024Mi"
+            cpu: "500m"
+          limits:
+            memory: "8024Mi"
+            cpu: "1000m"
+      serviceAccountName: fairscape-sa 
