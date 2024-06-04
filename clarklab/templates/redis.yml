@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-redis
+  namespace: clarklab
+  labels:
+    app: prod-redis
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: prod-redis
+  template:
+    metadata:
+      labels:
+        app: prod-redis
+    spec:
+      volumes:
+        - name: redis-config
+          configMap:
+            name: redis-configmap
+      containers:
+      - name: redis
+        image: {{ .Values.redisImage }}
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: redis-config
+          mountPath: "/usr/local/etc/redis/redis.conf"
+          readOnly: true  
+        command: ["redis-server"] 
+        args: ["/usr/local/etc/redis/redis.conf"]
+        resources:
+          requests:
+            memory: "2000Mi"
+            cpu: "200m"
+          limits:
+            memory: "3000Mi"
+            cpu: "300m"
+---
+apiVersion: v1
+data:
+  redis.conf: |
+    # disable snapshotting
+    save ""
+
+    # serve on port
+    port 6379
+
+    # listen on all interfaces
+    bind 127.0.0.1 -::1
+
+    # masterauth <master-password>
+    # masteruser <master-username>
+kind: ConfigMap
+metadata:
+  namespace: clarklab
+  name: redis-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-redis-service
+  namespace: clarklab
+  labels:
+    app: prod-fairscape
+spec:
+  type: ClusterIP
+  selector:
+    app: prod-redis
+  ports:
+    - name: http
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
