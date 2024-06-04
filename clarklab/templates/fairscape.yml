@@ -34,7 +34,7 @@ spec:
         #  periodSeconds: 3
         env:
         - name: FAIRSCAPE_HOST
-          value: 'fairscape.net'
+          value: '0.0.0.0'
         - name: FAIRSCAPE_PORT
           value: '8080'
         - name: FAIRSCAPE_MONGO_HOST
