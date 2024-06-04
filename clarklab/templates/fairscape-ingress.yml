@@ -26,16 +26,16 @@ metadata:
   namespace: clarklab
 spec:
   rules:
-    - host: "test.fairscape.net"
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: test-fairscape-service
-                port:
-                  number: 80
+    #- host: "test.fairscape.net"
+    #  http:
+    #    paths:
+    #      - pathType: Prefix
+    #        path: "/"
+    #        backend:
+    #          service:
+    #            name: test-fairscape-service
+    #            port:
+    #              number: 80
     - host: "fairscape.net"
       http:
         paths:
@@ -43,7 +43,7 @@ spec:
             path: "/"
             backend:
               service:
-                name: test-fairscape-service
+                name: prod-fairscape-service
                 port:
                   number: 80
     - host: "www.fairscape.net"
@@ -53,7 +53,7 @@ spec:
             path: "/"
             backend:
               service:
-                name: test-fairscape-service
+                name: prod-fairscape-service
                 port:
                   number: 80
 
