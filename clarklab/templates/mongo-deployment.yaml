@@ -22,19 +22,20 @@ spec:
         ports:
         - name: db
           containerPort: 27017
+        volumeMounts:
+        - mountPath: "/data/db"
+          name: prod-mongo-storage
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
-          value: "mongotestaccess"
-          #valueFrom:
-          #  secretKeyRef:
-          #    name: fairscape-secrets
-          #    key: mongo-access-key
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: mongo-access-key
         - name: MONGO_INITDB_ROOT_PASSWORD
-          value: "mongotestsecret"
-          #valueFrom:
-          #  secretKeyRef:
-          #    name: fairscape-secrets
-          #    key: mongo-secret-key
+          valueFrom:
+            secretKeyRef:
+              name: fairscape-secrets
+              key: mongo-secret-key
         resources:
           requests:
             memory: "6024Mi"
@@ -42,3 +43,19 @@ spec:
           limits:
             memory: "8024Mi"
             cpu: "500m"
+      volumes:
+      - name: prod-mongo-storage
+        persistentVolumeClaim:
+          claimName: prod-mongo-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prod-mongo-pvc
+  namespace: clarklab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
