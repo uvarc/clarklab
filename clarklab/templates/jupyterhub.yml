@@ -91,7 +91,7 @@ spec:
       #    path: "/clarklab"
       - name: notebook-storage
         persistentVolumeClaim:
-          claimName: jupyterhub-pvc
+          claimName: jupyterhub-notebook-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -110,7 +110,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jupyterhub-pvc
+  name: jupyterhub-notebook-pvc
   namespace: clarklab
 spec:
   accessModes:
