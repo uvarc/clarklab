@@ -15,6 +15,18 @@ spec:
       labels:
         app: jupyterhub
     spec:
+      initContainers:
+      - name: set-data-dir-ownership
+        image: alpine:3
+        # Give `jovyan` user (id 1000) permissions a mounted volume
+        command:
+        - chown
+        - -R
+        - 1000:100
+        - /home/jovyan/work
+        volumeMounts:
+          - mountPath: "/home/jovyan/work"
+            name: notebook-storage
       containers:
       - name: jupyterhub
         image: jupyter/datascience-notebook
@@ -102,7 +114,7 @@ metadata:
   namespace: clarklab
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 10Gi
