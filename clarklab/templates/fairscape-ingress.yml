@@ -36,6 +36,17 @@ spec:
     #            name: test-fairscape-service
     #            port:
     #              number: 80
+    - host: "ldap.fairscape.net"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: prod-ldap-service
+                port:
+                  number: 80
+
     - host: "fairscape.net"
       http:
         paths:

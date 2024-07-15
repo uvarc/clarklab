@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-ldap-deployment
+  namespace: clarklab
+  labels:
+    app: prod-ldap
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: prod-ldap
+  template:
+    metadata:
+      labels:
+        app: prod-ldap
+    spec:
+      containers:
+      - name: ldap
+        image: {{ .Values.ldap.image}} 
+        imagePullPolicy: Always
+        ports:
+          - containerPort: {{.Values.ldap.port}}
+        env:
+        {{- range $key, $val := .Values.ldap.env}}
+          - name: {{ $key }}
+            value: {{ $val | quote }}
+        {{- end }}
+        resources:
+          requests:
+            memory: "2024Mi"
+            cpu: "500m"
+          limits:
+            memory: "3024Mi"
+            cpu: "800m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-ldap-service
+  namespace: clarklab
+  labels:
+    app: prod-ldap
+spec:
+  type: ClusterIP
+  selector:
+    app: prod-ldap
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{.Values.ldap.port}}
+      targetPort: {{.Values.ldap.port}}
+

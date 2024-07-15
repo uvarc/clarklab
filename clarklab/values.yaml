@@ -1,2 +1,17 @@
 fairscapeImage: "ghcr.io/fairscape/mds_python:RELEASE.2024-06-18.v1"
 redisImage: "redis:7.0.15-alpine3.20"
+ldap:
+  image: "bitnami/openldap:2.6.8"
+  env:
+    LDAP_ROOT: "dc=fairscape,dc=net"
+    LDAP_ADMIN_USERNAME: "fairscapeAdmin"
+    LDAP_ADMIN_PASSWORD: "fairscapeAdminPassword"
+    LDAP_ADMIN_DN: "cn=admin,dc=fairscape,dc=net"
+    LDAP_CONFIG_ADMIN_ENABLED: "yes"
+    LDAP_CONFIG_ADMIN_USERNAME: "configAdmin"
+    LDAP_CONFIG_ADMIN_PASSWORD: "configAdminPassword"
+    LDAP_USER_DC: "users"
+    LDAP_GROUP: "admins"
+    LDAP_USERS: "fairscapeUser"
+    LDAP_PASSWORDS: "fairscapePass"
+
