@@ -15,25 +15,25 @@ spec:
       labels:
         app: jupyterhub
     spec:
-      initContainers:
-      - name: set-data-dir-ownership
-        image: alpine:3
-        # Give `jovyan` user (id 1000) permissions a mounted volume
-        command:
-        - chown
-        - -R
-        - 1000:100
-        - /home/jovyan/work
-        resources:
-          requests:
-            memory: "1024Mi"
-            cpu: "100m"
-          limits:
-            memory: "2024Mi"
-            cpu: "200m"
-        volumeMounts:
-          - mountPath: "/home/jovyan/work"
-            name: notebook-storage
+#      initContainers:
+#      - name: set-data-dir-ownership
+#        image: alpine:3
+#        # Give `jovyan` user (id 1000) permissions a mounted volume
+#        command:
+#        - chown
+#        - -R
+#        - 1000:100
+#        - /home/jovyan/work
+#        resources:
+#          requests:
+#            memory: "1024Mi"
+#            cpu: "100m"
+#          limits:
+#            memory: "2024Mi"
+#            cpu: "200m"
+#        volumeMounts:
+#          - mountPath: "/home/jovyan/work"
+#            name: notebook-storage
       containers:
       - name: jupyterhub
         image: jupyter/datascience-notebook
@@ -85,11 +85,11 @@ spec:
           limits:
             memory: "8024Mi"
             cpu: "500m"
-        volumeMounts:
-        - mountPath: "/home/jovyan/work"
-          name: notebook-storage
-      #  - mountPath: "/home/jovyan/project"
-      #    name: nfs-project-storage
+#        volumeMounts:
+#        - mountPath: "/home/jovyan/work"
+#          name: notebook-storage
+#      #  - mountPath: "/home/jovyan/project"
+#      #    name: nfs-project-storage
       serviceAccountName: fairscape-sa 
       volumes:
       #- name: nfs-project-storage 
@@ -113,18 +113,18 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8888
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: jupyterhub-storage
-  namespace: clarklab
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: jupyterhub-storage
+#  namespace: clarklab
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 10Gi
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
