@@ -24,6 +24,13 @@ spec:
         - -R
         - 1000:100
         - /home/jovyan/work
+        resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "100m"
+          limits:
+            memory: "2024Mi"
+            cpu: "200m"
         volumeMounts:
           - mountPath: "/home/jovyan/work"
             name: notebook-storage
