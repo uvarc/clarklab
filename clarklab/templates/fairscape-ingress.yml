@@ -45,7 +45,7 @@ spec:
               service:
                 name: prod-ldap-service
                 port:
-                  number: 80
+                  number: {{.Values.ldap.port}}
 
     - host: "fairscape.net"
       http:
