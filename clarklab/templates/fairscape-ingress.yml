@@ -36,22 +36,12 @@ spec:
     #            name: test-fairscape-service
     #            port:
     #              number: 80
-    - host: "ldap.fairscape.net"
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: prod-ldap-service
-                port:
-                  number: {{.Values.ldap.port}}
 
     - host: "fairscape.net"
       http:
         paths:
           - pathType: Prefix
-            path: "/"
+            path: "/api"
             backend:
               service:
                 name: prod-fairscape-service
@@ -61,7 +51,7 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: "/"
+            path: "/api"
             backend:
               service:
                 name: prod-fairscape-service
