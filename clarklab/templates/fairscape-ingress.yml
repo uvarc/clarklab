@@ -22,6 +22,8 @@ metadata:
     client-max-body-size: "5000M"
     # turn off proxy buffering
     nginx.org/proxy-buffering: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
   name: fairscape-ingress
   namespace: clarklab
 spec:
@@ -41,7 +43,7 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: "/api"
+            path: "/api(/|$)(.*)"
             backend:
               service:
                 name: prod-fairscape-service
@@ -51,7 +53,7 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: "/api"
+            path: "/api(/|$)(.*)"
             backend:
               service:
                 name: prod-fairscape-service

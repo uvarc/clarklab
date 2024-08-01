@@ -30,7 +30,7 @@ spec:
         #    port: 80
         #  initialDelaySeconds: 3
         #  periodSeconds: 3
-        command: [ "uvicorn", "fairscape_mds.app:app", "--host", "0.0.0.0", "--port", "8080", "--root-path", "/api" ]
+        #command: [ "uvicorn", "fairscape_mds.app:app", "--host", "0.0.0.0", "--port", "8080", "--root-path", "/api" ]
         env:
         - name: FAIRSCAPE_HOST
           value: '0.0.0.0'
