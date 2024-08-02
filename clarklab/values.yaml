@@ -1,4 +1,5 @@
-fairscapeImage: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-01.v1"
+fairscapeImage: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-02.v1"
+frontendImage: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2024-07-19"
 redisImage: "redis:7.0.15-alpine3.20"
 ldap:
   image: "bitnami/openldap:2.6.8"

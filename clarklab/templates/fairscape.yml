@@ -30,7 +30,7 @@ spec:
         #    port: 80
         #  initialDelaySeconds: 3
         #  periodSeconds: 3
-        command: [ "uvicorn", "fairscape_mds.app:app", "--host", "0.0.0.0", "--port", "8080", "--root-path", "/api" ]
+        #command: [ "uvicorn", "fairscape_mds.app:app", "--host", "0.0.0.0", "--port", "8080", "--root-path", "/api" ]
         env:
         - name: FAIRSCAPE_HOST
           value: '0.0.0.0'
@@ -171,7 +171,6 @@ spec:
           value: 'fairscape.net'
         - name: FAIRSCAPE_MONGO_HOST
           value: "mongo-backend-service"
-
         - name: FAIRSCAPE_MONGO_HOST
           value: "mongo-backend-service"
         - name: FAIRSCAPE_MONGO_DATABASE
@@ -252,3 +251,54 @@ spec:
             memory: "8024Mi"
             cpu: "1000m"
       serviceAccountName: fairscape-sa 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-fairscape-frontend-deployment
+  namespace: clarklab
+  labels:
+    app: prod-fairscape-frontend
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: prod-fairscape-frontend
+  template:
+    metadata:
+      labels:
+        app: prod-fairscape-frontend
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: fairscape-frontend
+        image: {{ .Values.frontendImage }} 
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "2024Mi"
+            cpu: "500m"
+          limits:
+            memory: "4024Mi"
+            cpu: "700m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-fairscape-frontend-service
+  namespace: clarklab
+  labels:
+    app: prod-fairscape-frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: prod-fairscape-frontend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
