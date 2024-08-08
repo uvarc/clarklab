@@ -55,29 +55,20 @@ spec:
           # allow jovyan to sudo
           allowPrivilegeEscalation: true
         env:
+        {{- range $envVar := .Values.fairscapeConfig.env}}
+          - name: {{ $envVar.name | quote }}
+            value: {{ $envVar.value | quote }}
+        {{- end }}
+        {{- range $secret := .Values.fairscapeConfig.secrets }}
+          - name: {{ $secret.name | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret.valueFrom.secretKeyRef.name | quote }}
+                key: {{ $secret.valueFrom.secretKeyRef.key | quote }} 
+        {{- end }}
         # allow jovyan to sudo
         - name: GRANT_SUDO
           value: "yes" 
-        - name: MINIO_URI
-          value: minio.pods.uvarc.io
-        - name: MINIO_PORT
-          value: "9000"
-        - name: MINIO_SECURE
-          value: "False"
-        - name: MINIO_DEFAULT_BUCKET
-          value: clarklab
-        - name: MINIO_ROCRATE_BUCKET
-          value: clarklab
-        - name: MINIO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: minio-access-key
-        - name: MINIO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: minio-secret-key
         resources:
           requests:
             memory: "3024Mi"

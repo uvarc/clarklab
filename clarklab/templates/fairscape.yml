@@ -32,82 +32,18 @@ spec:
         #  periodSeconds: 3
         #command: [ "uvicorn", "fairscape_mds.app:app", "--host", "0.0.0.0", "--port", "8080", "--root-path", "/api" ]
         env:
-        - name: FAIRSCAPE_HOST
-          value: '0.0.0.0'
-        - name: FAIRSCAPE_PORT
-          value: '8080'
-        - name: FAIRSCAPE_MONGO_HOST
-          value: "mongo-backend-service"
-        - name: FAIRSCAPE_MONGO_DATABASE
-          value: "clarklab"
-        - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
-          value: "fairscape"
-        - name: FAIRSCAPE_MONGO_USER_COLLECTION
-          value: "users"
-        - name: FAIRSCAPE_MONGO_ROCRATE_COLLECTION
-          value: "rocrate"
-        - name: FAIRSCAPE_MONGO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-access-key
-        - name: FAIRSCAPE_MONGO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-secret-key
-        - name: FAIRSCAPE_MINIO_URI
-          value: "minio.uvarc.io"
-        - name: FAIRSCAPE_MINIO_SECURE
-          value: "True"
-        - name: FAIRSCAPE_MINIO_CERT_CHECK
-          value: "False"
-        - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
-          value: "clarklab"
-        - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET_PATH
-          value: "default"
-        - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
-          value: "clarklab"
-        - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET_PATH
-          value: "rocrate"
-        - name: FAIRSCAPE_MINIO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: minio-access-key
-        - name: FAIRSCAPE_MINIO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fairscape-secrets
-              key: minio-secret-key
-        - name: FAIRSCAPE_JWT_SECRET
-          value: "jwt-secret"
-        - name: FAIRSCAPE_NAAN
-          value: "59852"
-        - name: FAIRSCAPE_PASSWORD_SALT
-          value: "testsalt"
-        - name: FAIRSCAPE_REDIS_HOST
-          value: "prod-redis-service"
-        - name: FAIRSCAPE_REDIS_PORT
-          value: "6379"
-        - name: FAIRSCAPE_REDIS_DATABASE
-          value: "0"
-        - name: FAIRSCAPE_REDIS_RESULT_DATABASE
-          value: "1"
-        - name: FAIRSCAPE_LDAP_HOST
-          value: "prod-ldap-service"
-        - name: FAIRSCAPE_LDAP_PORT
-          value: "1389"
-        - name: FAIRSCAPE_LDAP_BASE_DN
-          value: "dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_USERS_DN
-          value: "ou=users,dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_GROUPS_DN
-          value: "ou=groups,dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_ADMIN_DN
-          value: "cn=fairscapeAdmin,dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_ADMIN_PASSWORD
-          value: "fJU#U1M62FnJyH#B1#9P"
+
+        {{- range $envVar := .Values.fairscapeConfig.env}}
+          - name: {{ $envVar.name | quote }}
+            value: {{ $envVar.value | quote }}
+        {{- end }}
+        {{- range $secret := .Values.fairscapeConfig.secrets }}
+          - name: {{ $secret.name | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret.valueFrom.secretKeyRef.name | quote }}
+                key: {{ $secret.valueFrom.secretKeyRef.key | quote }} 
+        {{- end }}
         resources:
           requests:
             memory: "4024Mi"
