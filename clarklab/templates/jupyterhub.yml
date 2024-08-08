@@ -56,15 +56,15 @@ spec:
           allowPrivilegeEscalation: true
         env:
         {{- range $envVar := .Values.fairscapeConfig.env}}
-          - name: {{ $envVar.name | quote }}
-            value: {{ $envVar.value | quote }}
+        - name: {{ $envVar.name | quote }}
+          value: {{ $envVar.value | quote }}
         {{- end }}
         {{- range $secret := .Values.fairscapeConfig.secrets }}
-          - name: {{ $secret.name | quote }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ $secret.secretName | quote }}
-                key: {{ $secret.secretKey | quote }} 
+        - name: {{ $secret.name | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret.secretName | quote }}
+              key: {{ $secret.secretKey | quote }} 
         {{- end }}
         # allow jovyan to sudo
         - name: GRANT_SUDO
@@ -120,6 +120,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: jupyterhub-fairscape-ingress
+  namespace: clarklab
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -128,8 +130,6 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.org/websocket-services: "jupyterhub-service"
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
-  name: jupyterhub-fairscape-ingress
-  namespace: clarklab
 spec:
   rules:
     - host: jupyterhub.fairscape.pods.uvarc.io
