@@ -6,7 +6,7 @@ fairscapeConfig:
     - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
       secretName: fairscape-secrets
       secretKey: mongo-access-key
-    - name: "FAIRSCAPE_MONGO_SECRET_KEY:"
+    - name: "FAIRSCAPE_MONGO_SECRET_KEY"
       secretName: fairscape-secrets
       secretKey: mongo-secret-key
     - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
