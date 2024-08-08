@@ -4,25 +4,17 @@ redisImage: "redis:7.0.15-alpine3.20"
 fairscapeConfig:
   secrets:
     - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
-      valueFrom:
-        secretKeyRef:
-          name: fairscape-secrets
-          key: mongo-access-key
+      secretName: fairscape-secrets
+      secretKey: mongo-access-key
     - name: "FAIRSCAPE_MONGO_SECRET_KEY:"
-      valueFrom:
-        secretKeyRef:
-          name: fairscape-secrets
-          key: mongo-secret-key
-    - name: FAIRSCAPE_MINIO_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: fairscape-secrets
-          key: minio-access-key
-    - name: FAIRSCAPE_MINIO_SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: fairscape-secrets
-          key: minio-secret-key
+      secretName: fairscape-secrets
+      secretKey: mongo-secret-key
+    - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
+      secretName: fairscape-secrets
+      secretKey: minio-access-key
+    - name: "FAIRSCAPE_MINIO_SECRET_KEY"
+      secretName: fairscape-secrets
+      secretKey: minio-secret-key
   env:
     - name: FAIRSCAPE_HOST
       value: 'fairscape.net'

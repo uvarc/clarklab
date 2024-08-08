@@ -63,8 +63,8 @@ spec:
           - name: {{ $secret.name | quote }}
             valueFrom:
               secretKeyRef:
-                name: {{ $secret.valueFrom.secretKeyRef.name | quote }}
-                key: {{ $secret.valueFrom.secretKeyRef.key | quote }} 
+                name: {{ $secret.secretName | quote }}
+                key: {{ $secret.secretKey | quote }} 
         {{- end }}
         # allow jovyan to sudo
         - name: GRANT_SUDO
