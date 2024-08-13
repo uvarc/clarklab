@@ -22,7 +22,8 @@ spec:
         imagePullPolicy: Always
         ports:
         - name: db
-          containerPort: {{.Values.ldap.servicePort}}
+          containerPort: {{ .Values.ldap.servicePort }}
+        env:
         {{- range $key, $val := .Values.ldap.env}}
         - name: {{ $key | quote }}
           value: {{ $val | quote }}
