@@ -7,12 +7,13 @@ jupyterhub:
   serviceTargetPort: 8080
   deploymentName: "dev-jupyterhub-deployment"
   appName: "dev-jupyterhub"
-  requests:
-    memory: "3024Mi"
-    cpu: "100m"
-  limits:
-    memory: "5024Mi"
-    cpu: "300m"
+  resources:
+    requests:
+      memory: "3024Mi"
+      cpu: "100m"
+    limits:
+      memory: "5024Mi"
+      cpu: "300m"
 
 fairscape:
   backend: 
@@ -20,12 +21,13 @@ fairscape:
     appName: "prod-fairscape-backend"
     servicePort: 8080
     serviceTargetPort: 8080
-    requests:
-      memory: "4024Mi"
-      cpu: "500m"
-    limits:
-      memory: "8024Mi"
-      cpu: "1000m"
+    resources:
+      requests:
+        memory: "4024Mi"
+        cpu: "500m"
+      limits:
+        memory: "8024Mi"
+        cpu: "1000m"
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2024-07-19"
     appName: "prod-fairscape-frontend"
@@ -40,12 +42,13 @@ fairscape:
   worker:
     image: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-02.v2"
     appName: "prod-fairscape-worker"
-    requests:
-      memory: "4024Mi"
-      cpu: "500m"
-    limits:
-      memory: "6024Mi"
-      cpu: "800m"
+    resources:
+      requests:
+        memory: "4024Mi"
+        cpu: "500m"
+      limits:
+        memory: "6024Mi"
+        cpu: "800m"
 
 redis:
   image: "redis:7.0.15-alpine3.20"
@@ -54,7 +57,19 @@ redis:
   jobDatabase: "0"
   resultDatabase: "1"
 
-ldap:
+    - name: FAIRSCAPE_REDIS_DATABASE
+      value: "0"
+    - name: FAIRSCAPE_REDIS_RESULT_DATABASE
+      value: "1"
+
+ldap:  
+  appName: "prod-ldap"
+  requests:
+    memory: "2024Mi"
+    cpu: "500m"
+  limits:
+    memory: "3024Mi"
+    cpu: "800m"
   image: "bitnami/openldap:2.6.8"
   serviceName: "prod-ldap-service"
   servicePort: 1389
@@ -79,7 +94,6 @@ mongo:
   serviceName: "mongo-prod-service"
   servicePort: 27017
   pvc:
-    enabled: true
     name: "mongo-prod-pvc"
     requests:
       storage: 10Gi

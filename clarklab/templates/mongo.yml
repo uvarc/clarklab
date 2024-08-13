@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.mongo.deploymentName | quote }}
+  name: {{ .Values.mongo.appName}}-deployment
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.mongo.appName | quote }}
@@ -10,17 +10,18 @@ spec:
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: {{ .Values.mongo.appName | quote }}
+      app: {{ .Values.mongo.appName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.mongo.appName | quote }}
+        app: {{ .Values.mongo.appName }}
     spec:
       containers:
       - name: mongo
-        image: {{ .Values.mongo.image | quote }}
+        image: {{ .Values.mongo.image }}
         ports:
         - name: db
+          containerPort: {{ .Values.mongo.servicePort }}
         volumeMounts: 
         - mountPath: "/data/db"
           name: prod-mongo-storage

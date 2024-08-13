@@ -1,54 +1,54 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prod-ldap-deployment
+  name: {{ .Values.ldap.appName }}-deployment
   namespace: clarklab
   labels:
-    app: prod-ldap
+    app: {{ .Values.ldap.appName }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: prod-ldap
+      app: {{ .Values.ldap.appName }}
   template:
     metadata:
       labels:
-        app: prod-ldap
+        app: {{ .Values.ldap.appName }}
     spec:
       containers:
       - name: ldap
         image: {{ .Values.ldap.image}} 
         imagePullPolicy: Always
         ports:
-          - containerPort: {{.Values.ldap.port}}
-        env:
+        - name: db
+          containerPort: {{.Values.ldap.servicePort}}
         {{- range $key, $val := .Values.ldap.env}}
           - name: {{ $key | quote }}
             value: {{ $val | quote }}
         {{- end }}
         resources:
           requests:
-            memory: "2024Mi"
-            cpu: "500m"
+            memory: {{ .Values.ldap.requests.memory | quote }}
+            cpu: {{ .Values.ldap.requests.cpu | quote }}
           limits:
-            memory: "3024Mi"
-            cpu: "800m"
+            memory: {{ .Values.ldap.limits.memory | quote }}
+            cpu: {{ .Values.ldap.limits.cpu | quote }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: prod-ldap-service
+  name: {{ .Values.ldap.appName}}-service
   namespace: clarklab
   labels:
-    app: prod-ldap
+    app: {{ .Values.ldap.appName }}
 spec:
   type: ClusterIP
   selector:
-    app: prod-ldap
+    app: {{ .Values.ldap.appName }}
   ports:
     - name: http
       protocol: TCP
-      port: {{.Values.ldap.port}}
-      targetPort: {{.Values.ldap.port}}
+      port: {{.Values.ldap.servicePort}}
+      targetPort: {{.Values.ldap.servicePort}}
 
