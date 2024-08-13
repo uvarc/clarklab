@@ -119,36 +119,32 @@ minio:
 
 fairscapeConfig:
   env:
-    - name: FAIRSCAPE_MONGO_DATABASE 
+    - name: "FAIRSCAPE_MONGO_DATABASE"
       value: "clarklab"
-    - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
+    - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
       value: "fairscape"
-    - name: FAIRSCAPE_MONGO_USER_COLLECTION
+    - name: "FAIRSCAPE_MONGO_USER_COLLECTION"
       value: "users"
-    - name: FAIRSCAPE_MONGO_ROCRATE_COLLECTION
+    - name: "FAIRSCAPE_MONGO_ROCRATE_COLLECTION"
       value: "rocrate"
-    - name: FAIRSCAPE_MINIO_SECURE
+    - name: "FAIRSCAPE_MINIO_SECURE"
       value: "True"
-    - name: FAIRSCAPE_MINIO_CERT_CHECK
+    - name: "FAIRSCAPE_MINIO_CERT_CHECK"
       value: "False"
-    - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
+    - name: "FAIRSCAPE_MINIO_DEFAULT_BUCKET"
       value: "clarklab"
-    - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET_PATH
+    - name: "FAIRSCAPE_MINIO_DEFAULT_BUCKET_PATH"
       value: "default"
-    - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
+    - name: "FAIRSCAPE_MINIO_ROCRATE_BUCKET"
       value: "clarklab"
-    - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET_PATH
+    - name: "FAIRSCAPE_MINIO_ROCRATE_BUCKET_PATH"
       value: "rocrate"
-    - name: FAIRSCAPE_NAAN
+    - name: "FAIRSCAPE_NAAN"
       value: "59852"
-    - name: FAIRSCAPE_REDIS_HOST
-      value: "prod-redis-service"
-    - name: FAIRSCAPE_REDIS_PORT
-      value: "6379"
-    - name: FAIRSCAPE_LDAP_BASE_DN
+    - name: "FAIRSCAPE_LDAP_BASE_DN"
       value: "dc=fairscape,dc=net"
-    - name: FAIRSCAPE_LDAP_USERS_DN
+    - name: "FAIRSCAPE_LDAP_USERS_DN"
       value: "ou=users,dc=fairscape,dc=net"
-    - name: FAIRSCAPE_LDAP_GROUPS_DN
+    - name: "FAIRSCAPE_LDAP_GROUPS_DN"
       value: "ou=groups,dc=fairscape,dc=net"
 
