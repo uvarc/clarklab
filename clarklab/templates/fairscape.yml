@@ -55,9 +55,9 @@ spec:
         - name: "FAIRSCAPE_REDIS_PORT"
           value: {{ .Values.redis.servicePort}}
         - name: "FAIRSCAPE_REDIS_DATABASE"
-          value: {{ .Values.redis.jobDatabase }}
+          value: {{ .Values.redis.jobDatabase | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
-          value: {{ .Values.redis.resultDatabase }}
+          value: {{ .Values.redis.resultDatabase | quote }}
         - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
           valueFrom:
             secretKeyRef:
@@ -155,9 +155,9 @@ spec:
         - name: "FAIRSCAPE_REDIS_PORT"
           value: {{ .Values.redis.servicePort}}
         - name: "FAIRSCAPE_REDIS_DATABASE"
-          value: {{ .Values.redis.jobDatabase }}
+          value: {{ .Values.redis.jobDatabase | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
-          value: {{ .Values.redis.resultDatabase }}
+          value: {{ .Values.redis.resultDatabase | quote }}
         - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
           valueFrom:
             secretKeyRef:
