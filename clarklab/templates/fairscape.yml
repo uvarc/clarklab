@@ -69,7 +69,6 @@ spec:
           limits:
             memory: {{ .Values.fairscape.backend.limits.memory | quote }}
             cpu: {{ .Values.fairscape.backend.limits.cpu | quote }}
-      serviceAccountName: fairscape-sa 
 ---
 apiVersion: v1
 kind: Service
