@@ -59,8 +59,8 @@ spec:
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.resultDatabase }}
         {{- range $envVar := .Values.fairscapeConfig.env}}
-        - name: {{ $envVar.name | quote }}
-          value: {{ $envVar.value | quote }}
+        - name: {{ $envVar.name }}
+          value: {{ $envVar.value }}
         {{- end }}
         resources:
           requests:
