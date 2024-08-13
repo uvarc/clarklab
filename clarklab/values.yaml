@@ -1,80 +1,63 @@
-fairscapeImage: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-02.v2"
-frontendImage: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2024-07-19"
-redisImage: "redis:7.0.15-alpine3.20"
-fairscapeConfig:
-  secrets:
-    - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
-      secretName: fairscape-secrets
-      secretKey: mongo-access-key
-    - name: "FAIRSCAPE_MONGO_SECRET_KEY"
-      secretName: fairscape-secrets
-      secretKey: mongo-secret-key
-    - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
-      secretName: fairscape-secrets
-      secretKey: minio-access-key
-    - name: "FAIRSCAPE_MINIO_SECRET_KEY"
-      secretName: fairscape-secrets
-      secretKey: minio-secret-key
-  env:
-    - name: FAIRSCAPE_HOST
-      value: 'fairscape.net'
-    - name: FAIRSCAPE_PORT
-      value: '8080'
-    - name: FAIRSCAPE_MONGO_HOST
-      value: "mongo-backend-service"
-    - name: FAIRSCAPE_MONGO_DATABASE 
-      value: "clarklab"
-    - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
-      value: "fairscape"
-    - name: FAIRSCAPE_MONGO_USER_COLLECTION
-      value: "users"
-    - name: FAIRSCAPE_MONGO_ROCRATE_COLLECTION
-      value: "rocrate"
-    - name: FAIRSCAPE_MINIO_URI
-      value: "minio.uvarc.io"
-    - name: FAIRSCAPE_MINIO_SECURE
-      value: "True"
-    - name: FAIRSCAPE_MINIO_CERT_CHECK
-      value: "False"
-    - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
-      value: "clarklab"
-    - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET_PATH
-      value: "default"
-    - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
-      value: "clarklab"
-    - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET_PATH
-      value: "rocrate"
-    - name: FAIRSCAPE_JWT_SECRET
-      value: "jwt-secret"
-    - name: FAIRSCAPE_NAAN
-      value: "59852"
-    - name: FAIRSCAPE_PASSWORD_SALT
-      value: "testsalt"
-    - name: FAIRSCAPE_REDIS_HOST
-      value: "prod-redis-service"
-    - name: FAIRSCAPE_REDIS_PORT
-      value: "6379"
-    - name: FAIRSCAPE_REDIS_DATABASE
-      value: "0"
-    - name: FAIRSCAPE_REDIS_RESULT_DATABASE
-      value: "1"
-    - name: FAIRSCAPE_LDAP_HOST
-      value: "prod-ldap-service"
-    - name: FAIRSCAPE_LDAP_PORT
-      value: "1389"
-    - name: FAIRSCAPE_LDAP_BASE_DN
-      value: "dc=fairscape,dc=net"
-    - name: FAIRSCAPE_LDAP_USERS_DN
-      value: "ou=users,dc=fairscape,dc=net"
-    - name: FAIRSCAPE_LDAP_GROUPS_DN
-      value: "ou=groups,dc=fairscape,dc=net"
-    - name: FAIRSCAPE_LDAP_ADMIN_DN
-      value: "cn=fairscapeAdmin,dc=fairscape,dc=net"
-    - name: FAIRSCAPE_LDAP_ADMIN_PASSWORD
-      value: "fJU#U1M62FnJyH#B1#9P"
+namespace: "clarklab"
+
+jupyterhub:
+  image: "jupyter/datascience-notebook:latest"
+  serviceName: "dev-jupyterhub"
+  servicePort: 8080
+  serviceTargetPort: 8080
+  deploymentName: "dev-jupyterhub-deployment"
+  appName: "dev-jupyterhub"
+  requests:
+    memory: "3024Mi"
+    cpu: "100m"
+  limits:
+    memory: "5024Mi"
+    cpu: "300m"
+
+fairscape:
+  backend: 
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-02.v2"
+    appName: "prod-fairscape-backend"
+    servicePort: 8080
+    serviceTargetPort: 8080
+    requests:
+      memory: "4024Mi"
+      cpu: "500m"
+    limits:
+      memory: "8024Mi"
+      cpu: "1000m"
+  frontend:
+    image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2024-07-19"
+    appName: "prod-fairscape-frontend"
+    servicePort: 80
+    serviceTargetPort: 80
+    requests:
+      memory: "2024Mi"
+      cpu: "500m"
+    limits:
+      memory: "4024Mi"
+      cpu: "700m"
+  worker:
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-02.v2"
+    appName: "prod-fairscape-worker"
+    requests:
+      memory: "4024Mi"
+      cpu: "500m"
+    limits:
+      memory: "6024Mi"
+      cpu: "800m"
+
+redis:
+  image: "redis:7.0.15-alpine3.20"
+  serviceName: "prod-redis-service"
+  servicePort: 6379
+  jobDatabase: "0"
+  resultDatabase: "1"
+
 ldap:
   image: "bitnami/openldap:2.6.8"
-  port: 1389
+  serviceName: "prod-ldap-service"
+  servicePort: 1389
   env:
     LDAP_ROOT: "dc=fairscape,dc=net"
     LDAP_ADMIN_USERNAME: "fairscapeAdmin"
@@ -87,4 +70,73 @@ ldap:
     LDAP_GROUP: "admins"
     LDAP_USERS: "fairscapeUser"
     LDAP_PASSWORDS: "fairscapePass"
+
+
+mongo:
+  image: "mongo:latest"
+  appName: "prod-mongo"
+  deploymentName: "prod-mongo-deployment"
+  serviceName: "mongo-prod-service"
+  servicePort: 27017
+  pvc:
+    enabled: true
+    name: "mongo-prod-pvc"
+    requests:
+      storage: 10Gi
+  requests:
+    memory: "4024Mi"
+    cpu: "250m"
+  limits:
+    memory: "6024Mi"
+    cpu: "500m"
+  accessKey:
+    secretName: "fairscape-secrets"
+    secretKey: mongo-access-key
+  secretKey:
+    secretName: "fairscape-secrets"
+    secretKey: mongo-secret-key
+
+minio:  
+  serviceName: "minio.uvarc.io"
+  accessKey:
+    secretName: fairscape-secrets
+    secretKey: minio-access-key
+  secretKey:
+    secretName: fairscape-secrets
+    secretKey: minio-secret-key
+
+fairscapeConfig:
+  env:
+    - name: FAIRSCAPE_MONGO_DATABASE 
+      value: "clarklab"
+    - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
+      value: "fairscape"
+    - name: FAIRSCAPE_MONGO_USER_COLLECTION
+      value: "users"
+    - name: FAIRSCAPE_MONGO_ROCRATE_COLLECTION
+      value: "rocrate"
+    - name: FAIRSCAPE_MINIO_SECURE
+      value: "True"
+    - name: FAIRSCAPE_MINIO_CERT_CHECK
+      value: "False"
+    - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
+      value: "clarklab"
+    - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET_PATH
+      value: "default"
+    - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
+      value: "clarklab"
+    - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET_PATH
+      value: "rocrate"
+    - name: FAIRSCAPE_NAAN
+      value: "59852"
+    - name: FAIRSCAPE_REDIS_HOST
+      value: "prod-redis-service"
+    - name: FAIRSCAPE_REDIS_PORT
+      value: "6379"
+    - name: FAIRSCAPE_LDAP_BASE_DN
+      value: "dc=fairscape,dc=net"
+    - name: FAIRSCAPE_LDAP_USERS_DN
+      value: "ou=users,dc=fairscape,dc=net"
+    - name: FAIRSCAPE_LDAP_GROUPS_DN
+      value: "ou=groups,dc=fairscape,dc=net"
 

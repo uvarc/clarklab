@@ -15,28 +15,9 @@ spec:
       labels:
         app: jupyterhub
     spec:
-#      initContainers:
-#      - name: set-data-dir-ownership
-#        image: alpine:3
-#        # Give `jovyan` user (id 1000) permissions a mounted volume
-#        command:
-#        - chown
-#        - -R
-#        - 1000:100
-#        - /home/jovyan/work
-#        resources:
-#          requests:
-#            memory: "1024Mi"
-#            cpu: "100m"
-#          limits:
-#            memory: "2024Mi"
-#            cpu: "200m"
-#        volumeMounts:
-#          - mountPath: "/home/jovyan/work"
-#            name: notebook-storage
       containers:
       - name: jupyterhub
-        image: jupyter/datascience-notebook
+        image: {{ .Values.jupyterhub.image }}
         command: 
         - "start-notebook.sh"
         - "--ServerApp.ip='*'"
@@ -55,67 +36,57 @@ spec:
           # allow jovyan to sudo
           allowPrivilegeEscalation: true
         env:
+        - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.accessKey.secretName | quote }}
+              key: {{ .Values.mongo.accessKey.secretKey | quote }}
+        - name: "FAIRSCPAE_MONGO_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.secretKey.secretName | quote }}
+              key: {{ .Values.mongo.secretKey.secretKey | quote }}
+        - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.accessKey.secretName | quote }}
+              key: {{ .Values.minio.accessKey.secretKey | quote }}
+        - name: "FAIRSCPAE_MINIO_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.secretKey.secretName | quote }}
+              key: {{ .Values.minio.secretKey.secretKey | quote }}
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name | quote }}
           value: {{ $envVar.value | quote }}
-        {{- end }}
-        {{- range $secret := .Values.fairscapeConfig.secrets }}
-        - name: {{ $secret.name | quote }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $secret.secretName | quote }}
-              key: {{ $secret.secretKey | quote }} 
         {{- end }}
         # allow jovyan to sudo
         - name: GRANT_SUDO
           value: "yes" 
         resources:
           requests:
-            memory: "3024Mi"
-            cpu: "100m"
+            memory: {{ .Values.jupyterhub.requests.memory | quote }}
+            cpu: {{ .Values.jupyterhub.requests.cpu | quote }}
           limits:
-            memory: "5024Mi"
-            cpu: "300m"
-#        volumeMounts:
-#        - mountPath: "/home/jovyan/work"
-#          name: notebook-storage
-#      #  - mountPath: "/home/jovyan/project"
-#      #    name: nfs-project-storage
+            memory: {{ .Values.jupyterhub.limits.memory | quote }}
+            cpu: {{ .Values.jupyterhub.limits.cpu | quote }}
       serviceAccountName: fairscape-sa 
-#      volumes:
-#      #- name: nfs-project-storage 
-#      #  nfs:
-#      #    server: "qumulo.rc.virginia.edu"
-#      #    path: "/clarklab"
-#      - name: notebook-storage
-#        persistentVolumeClaim:
-#          claimName: jupyterhub-storage
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: jupyterhub-service
-  namespace: clarklab
+  name: {{ .Values.jupyterhub.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.jupyterhub.appName }}
 spec:
   selector:
-    app: jupyterhub
+    app: {{ .Values.jupyterhub.appName }}
   ports:
     - name: http
       protocol: TCP
       port: 80
       targetPort: 8888
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  name: jupyterhub-storage
-#  namespace: clarklab
-#spec:
-#  accessModes:
-#    - ReadWriteOnce
-#  resources:
-#    requests:
-#      storage: 10Gi
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

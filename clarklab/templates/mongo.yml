@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.mongo.deploymentName | quote }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.mongo.appName | quote }}
+spec:
+  replicas: {{ .Values.mongo.replicas }}
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.mongo.appName | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mongo.appName | quote }}
+    spec:
+      containers:
+      - name: mongo
+        image: {{ .Values.mongo.image | quote }}
+        ports:
+        - name: db
+        volumeMounts: 
+        - mountPath: "/data/db"
+          name: prod-mongo-storage
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.accessKey.secretName | quote }}
+              key: {{ .Values.mongo.accessKey.secretKey | quote }}
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.secretKey.secretName | quote }}
+              key: {{ .Values.mongo.secretKey.secretKey | quote }}
+        resources:
+          requests:
+            memory: {{ .Values.mongo.requests.memory | quote }}
+            cpu: {{ .Values.mongo.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.mongo.limits.memory | quote }}
+            cpu: {{ .Values.mongo.limits.cpu | quote }}
+      volumes:
+      - name: prod-mongo-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.mongo.pvc.name }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.mongo.pvc.name | quote }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.mongo.appName }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mongo.serviceName}}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.mongo.appName }}
+spec:
+  selector:
+    app: {{ .Values.mongo.appName }}
+  ports:
+  - name: mongodb
+    protocol: TCP
+    port: {{ .Values.mongo.servicePort }}
+    targetPort: {{ .Values.mongo.servicePort }}
