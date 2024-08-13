@@ -57,11 +57,6 @@ redis:
   jobDatabase: "0"
   resultDatabase: "1"
 
-    - name: FAIRSCAPE_REDIS_DATABASE
-      value: "0"
-    - name: FAIRSCAPE_REDIS_RESULT_DATABASE
-      value: "1"
-
 ldap:  
   appName: "prod-ldap"
   requests:
