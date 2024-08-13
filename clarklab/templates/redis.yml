@@ -22,7 +22,7 @@ spec:
             name: redis-configmap
       containers:
       - name: redis
-        image: {{ .Values.redisImage }}
+        image: {{ .Values.redis.image }}
         ports:
         - containerPort: 6379
         volumeMounts:
@@ -33,11 +33,11 @@ spec:
         args: ["/usr/local/etc/redis/redis.conf"]
         resources:
           requests:
-            memory: "2000Mi"
-            cpu: "200m"
+            memory: {{ .Values.redis.requests.memory | quote }}
+            cpu: {{ .Values.redis.requests.cpu | quote }}
           limits:
-            memory: "3000Mi"
-            cpu: "300m"
+            memory: {{ .Values.redis.limits.memory | quote }}
+            cpu: {{ .Values.redis.limits.cpu | quote }}
 ---
 apiVersion: v1
 data:

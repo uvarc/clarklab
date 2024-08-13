@@ -53,6 +53,12 @@ redis:
   servicePort: 6379
   jobDatabase: "0"
   resultDatabase: "1"
+  requests:
+    memory: "2000Mi"
+    cpu: "200m"
+  limits:
+    memory: "3000Mi"
+    cpu: "300m"
 
 ldap:  
   appName: "prod-ldap"
