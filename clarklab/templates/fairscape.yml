@@ -65,7 +65,7 @@ spec:
               key: {{ .Values.minio.secretKey.secretKey | quote }} 
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
-          value: {{ $envVar.value }}
+          value: {{ $envVar.value | quote }}
         {{- end }}
         resources:
           requests:
@@ -165,7 +165,7 @@ spec:
               key: {{ .Values.minio.secretKey.secretKey | quote }} 
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
-          value: {{ $envVar.value }}
+          value: {{ $envVar.value | quote}}
         {{- end }}
         resources:
           requests:
