@@ -24,8 +24,8 @@ spec:
         - name: db
           containerPort: {{.Values.ldap.servicePort}}
         {{- range $key, $val := .Values.ldap.env}}
-          - name: {{ $key | quote }}
-            value: {{ $val | quote }}
+        - name: {{ $key | quote }}
+          value: {{ $val | quote }}
         {{- end }}
         resources:
           requests:

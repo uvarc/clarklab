@@ -7,13 +7,12 @@ jupyterhub:
   serviceTargetPort: 8080
   deploymentName: "dev-jupyterhub-deployment"
   appName: "dev-jupyterhub"
-  resources:
-    requests:
-      memory: "3024Mi"
-      cpu: "100m"
-    limits:
-      memory: "5024Mi"
-      cpu: "300m"
+  requests:
+    memory: "3024Mi"
+    cpu: "100m"
+  limits:
+    memory: "5024Mi"
+    cpu: "300m"
 
 fairscape:
   backend: 
@@ -21,13 +20,12 @@ fairscape:
     appName: "prod-fairscape-backend"
     servicePort: 8080
     serviceTargetPort: 8080
-    resources:
-      requests:
-        memory: "4024Mi"
-        cpu: "500m"
-      limits:
-        memory: "8024Mi"
-        cpu: "1000m"
+    requests:
+      memory: "4024Mi"
+      cpu: "500m"
+    limits:
+      memory: "8024Mi"
+      cpu: "1000m"
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2024-07-19"
     appName: "prod-fairscape-frontend"
@@ -42,13 +40,12 @@ fairscape:
   worker:
     image: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-02.v2"
     appName: "prod-fairscape-worker"
-    resources:
-      requests:
-        memory: "4024Mi"
-        cpu: "500m"
-      limits:
-        memory: "6024Mi"
-        cpu: "800m"
+    requests:
+      memory: "4024Mi"
+      cpu: "500m"
+    limits:
+      memory: "6024Mi"
+      cpu: "800m"
 
 redis:
   image: "redis:7.0.15-alpine3.20"
