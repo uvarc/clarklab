@@ -4,16 +4,16 @@ metadata:
   name: jupyterhub-deployment
   namespace: clarklab
   labels:
-    app: jupyterhub
+    app: {{ .Values.jupyterhub.appName }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jupyterhub
+      app: {{ .Values.jupyterhub.appName }}
   template:
     metadata:
       labels:
-        app: jupyterhub
+        app: {{ .Values.jupyterhub.appName }}
     spec:
       containers:
       - name: jupyterhub
