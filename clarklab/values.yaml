@@ -74,7 +74,7 @@ ldap:
   env:
     LDAP_ROOT: "dc=fairscape,dc=net"
     LDAP_ADMIN_USERNAME: "fairscapeAdmin"
-    LDAP_ADMIN_PASSWORD: "fairscapeAdminPassword"
+    #LDAP_ADMIN_PASSWORD: "fairscapeAdminPassword"
     LDAP_ADMIN_DN: "cn=admin,dc=fairscape,dc=net"
     LDAP_CONFIG_ADMIN_ENABLED: "yes"
     LDAP_CONFIG_ADMIN_USERNAME: "configAdmin"
@@ -119,6 +119,8 @@ minio:
 
 fairscapeConfig:
   env:
+    - name: "FAIRSCAPE_HOST"
+      value: "fairscape.net"
     - name: "FAIRSCAPE_MONGO_DATABASE"
       value: "clarklab"
     - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"

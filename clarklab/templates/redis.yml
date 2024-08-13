@@ -25,7 +25,7 @@ spec:
       #image: {{ .Values.redis.image }}
         image: "redis:7.0.15-alpine3.20"
         ports:
-        - containerPort: 6379
+        - containerPort: {{ .Values.redis.servicePort }}
         volumeMounts:
         - name: redis-config
           mountPath: "/usr/local/etc/redis/redis.conf"
@@ -62,7 +62,7 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: prod-redis-service
+  name: {{ .Values.redis.serviceName }}
   namespace: clarklab
   labels:
     app: prod-fairscape
@@ -73,5 +73,5 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 6379
-      targetPort: 6379
+      port: {{ .Values.redis.servicePort }}
+      targetPort: {{ .Values.redis.servicePort }}

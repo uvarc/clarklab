@@ -58,6 +58,11 @@ spec:
           value: {{ .Values.redis.jobDatabase }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.resultDatabase }}
+        - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.secretKey.secretName | quote }}
+              key: {{ .Values.minio.secretKey.secretKey | quote }} 
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value }}
@@ -120,82 +125,48 @@ spec:
         #  initialDelaySeconds: 3
         #  periodSeconds: 3
         env:
-        - name: FAIRSCAPE_HOST
-          value: 'fairscape.net'
-        - name: FAIRSCAPE_MONGO_HOST
-          value: "mongo-backend-service"
-        - name: FAIRSCAPE_MONGO_HOST
-          value: "mongo-backend-service"
-        - name: FAIRSCAPE_MONGO_DATABASE
-          value: "clarklab"
-        - name: FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION
-          value: "fairscape"
-        - name: FAIRSCAPE_MONGO_USER_COLLECTION
-          value: "users"
-        - name: FAIRSCAPE_MONGO_ROCRATE_COLLECTION
-          value: "rocrate"
-        - name: FAIRSCAPE_MONGO_ACCESS_KEY
+        {{- /*
+        generate env variables from values configuration
+        */}}
+        - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-access-key
-        - name: FAIRSCAPE_MONGO_SECRET_KEY
+              name: {{ .Values.mongo.accessKey.secretName | quote }}
+              key: {{ .Values.mongo.accessKey.secretKey | quote }} 
+        - name: "FAIRSCAPE_MONGO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
-              name: fairscape-secrets
-              key: mongo-secret-key
-        - name: FAIRSCAPE_MINIO_URI
-          value: "minio.uvarc.io"
-        - name: FAIRSCAPE_MINIO_SECURE
-          value: "True"
-        - name: FAIRSCAPE_MINIO_CERT_CHECK
-          value: "False"
-        - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET
-          value: "clarklab"
-        - name: FAIRSCAPE_MINIO_DEFAULT_BUCKET_PATH
-          value: "fairscape"
-        - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET
-          value: "clarklab"
-        - name: FAIRSCAPE_MINIO_ROCRATE_BUCKET_PATH
-          value: "fairscape"
-        - name: FAIRSCAPE_MINIO_ACCESS_KEY
+              name: {{ .Values.mongo.secretKey.secretName | quote }}
+              key: {{ .Values.mongo.secretKey.secretKey | quote }} 
+        - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
-              name: fairscape-secrets
-              key: minio-access-key
-        - name: FAIRSCAPE_MINIO_SECRET_KEY
+              name: {{ .Values.minio.accessKey.secretName | quote }}
+              key: {{ .Values.minio.accessKey.secretKey | quote }} 
+        - name: "FAIRSCAPE_MINIO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
-              name: fairscape-secrets
-              key: minio-secret-key
-        - name: FAIRSCAPE_JWT_SECRET
-          value: "jwt-secret"
-        - name: FAIRSCAPE_NAAN
-          value: "59852"
-        - name: FAIRSCAPE_PASSWORD_SALT
-          value: "testsalt"
-        - name: FAIRSCAPE_REDIS_HOST
-          value: "prod-redis-service"
-        - name: FAIRSCAPE_REDIS_PORT
-          value: "6379"
-        - name: FAIRSCAPE_REDIS_DATABASE
-          value: "0"
-        - name: FAIRSCAPE_REDIS_RESULT_DATABASE
-          value: "1"
-        - name: FAIRSCAPE_LDAP_HOST
-          value: "prod-ldap-service"
-        - name: FAIRSCAPE_LDAP_PORT
-          value: "1389"
-        - name: FAIRSCAPE_LDAP_BASE_DN
-          value: "dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_USERS_DN
-          value: "ou=users,dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_GROUPS_DN
-          value: "ou=groups,dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_ADMIN_DN
-          value: "cn=fairscapeAdmin,dc=fairscape,dc=net"
-        - name: FAIRSCAPE_LDAP_ADMIN_PASSWORD
-          value: "fJU#U1M62FnJyH#B1#9P"
+              name: {{ .Values.minio.secretKey.secretName | quote }}
+              key: {{ .Values.minio.secretKey.secretKey | quote }} 
+        - name: "FAIRSCAPE_MINIO_URI"
+          value: {{ .Values.minio.serviceName }}
+        - name: "FAIRSCAPE_REDIS_HOST"
+          value: {{ .Values.redis.serviceName }}
+        - name: "FAIRSCAPE_REDIS_PORT"
+          value: {{ .Values.redis.servicePort}}
+        - name: "FAIRSCAPE_REDIS_DATABASE"
+          value: {{ .Values.redis.jobDatabase }}
+        - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
+          value: {{ .Values.redis.resultDatabase }}
+        - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.secretKey.secretName | quote }}
+              key: {{ .Values.minio.secretKey.secretKey | quote }} 
+        {{- range $envVar := .Values.fairscapeConfig.env}}
+        - name: {{ $envVar.name }}
+          value: {{ $envVar.value }}
+        {{- end }}
         resources:
           requests:
             memory: {{ .Values.fairscape.worker.requests.memory | quote }}
