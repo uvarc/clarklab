@@ -86,7 +86,7 @@ ldap:
 
 
 mongo:
-  image: "mongo:latest"
+  image: "mongo:7.0.13-rc1"
   appName: "prod-mongo"
   deploymentName: "prod-mongo-deployment"
   serviceName: "mongo-prod-service"
