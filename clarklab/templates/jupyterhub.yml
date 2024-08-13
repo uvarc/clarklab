@@ -99,7 +99,7 @@ metadata:
     acme.cert-manager.io/http01-edit-in-place: "true"
 # annotations for jupyterhub websockets
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.org/websocket-services: "jupyterhub-service"
+    nginx.org/websocket-services: {{ .Values.jupyterhub.serviceName }}
     cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
 spec:
   rules:
