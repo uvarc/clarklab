@@ -44,33 +44,32 @@ spec:
             path: "/api"
             backend:
               service:
-                name: {{ .Values.backend.serviceName }}
+                name: {{ .Values.fairscape.backend.serviceName }}
                 port:
-                  number: {{ .Values.backend.servicePort }}
+                  number: {{ .Values.fairscape.backend.servicePort }}
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: {{ .Values.frontend.serviceName }}
+                name: {{ .Values.fairscape.frontend.serviceName }}
                 port:
-                  number: {{ .Values.frontend.servicePort }}
+                  number: {{ .Values.fairscape.frontend.servicePort }}
     - host: "www.fairscape.net"
       http:
         paths:
           - pathType: Prefix
             path: "/api"
-            backend:
               service:
-                name: prod-fairscape-service
+                name: {{ .Values.fairscape.backend.serviceName }}
                 port:
-                  number: 80
+                  number: {{ .Values.fairscape.backend.servicePort }}
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: prod-fairscape-frontend-service
+                name: {{ .Values.fairscape.frontend.serviceName }}
                 port:
-                  number: 80
+                  number: {{ .Values.fairscape.frontend.servicePort }}
 
 
     # This section is only required if TLS is to be enabled for the Ingress

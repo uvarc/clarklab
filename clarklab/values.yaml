@@ -30,7 +30,7 @@ fairscape:
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2024-07-19"
     appName: "prod-fairscape-frontend-app"
-    serviceName: "prod-frontent-service"
+    serviceName: "prod-frontend-service"
     servicePort: 80
     serviceTargetPort: 80
     requests:
