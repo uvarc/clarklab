@@ -40,36 +40,37 @@ spec:
     - host: "fairscape.net"
       http:
         paths:
-          - pathType: Prefix
-            path: "/api"
-            backend:
-              service:
-                name: {{ .Values.fairscape.backend.serviceName }}
-                port:
-                  number: {{ .Values.fairscape.backend.servicePort }}
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: {{ .Values.fairscape.frontend.serviceName }}
-                port:
-                  number: {{ .Values.fairscape.frontend.servicePort }}
+        - pathType: Prefix
+          path: "/api"
+          backend:
+            service:
+              name: {{ .Values.fairscape.backend.serviceName }}
+              port:
+                number: {{ .Values.fairscape.backend.servicePort }}
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: {{ .Values.fairscape.frontend.serviceName }}
+              port:
+                number: {{ .Values.fairscape.frontend.servicePort }}
     - host: "www.fairscape.net"
       http:
         paths:
-          - pathType: Prefix
-            path: "/api"
-              service:
-                name: {{ .Values.fairscape.backend.serviceName }}
-                port:
-                  number: {{ .Values.fairscape.backend.servicePort }}
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: {{ .Values.fairscape.frontend.serviceName }}
-                port:
-                  number: {{ .Values.fairscape.frontend.servicePort }}
+        - pathType: Prefix
+          path: "/api"
+          backend:
+            service:
+              name: {{ .Values.fairscape.backend.serviceName }}
+              port:
+                number: {{ .Values.fairscape.backend.servicePort }}
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: {{ .Values.fairscape.frontend.serviceName }}
+              port:
+                number: {{ .Values.fairscape.frontend.servicePort }}
 
 
     # This section is only required if TLS is to be enabled for the Ingress
