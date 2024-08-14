@@ -3,18 +3,16 @@ kind: Deployment
 metadata:
   name: {{ .Values.fairscape.backend.appName }}-deployment
   namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.fairscape.backend.appName}}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: prod-fairscape
+      app: {{ .Values.fairscape.backend.appName }}
   template:
     metadata:
       labels:
-        app: prod-fairscape
+        app: {{ .Values.fairscape.backend.appName }}
     spec:
       imagePullSecrets:
       - name: ghcr-secret
