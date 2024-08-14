@@ -58,11 +58,6 @@ spec:
           value: {{ .Values.redis.jobDatabase | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.resultDatabase | quote }}
-        - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.minio.secretKey.secretName | quote }}
-              key: {{ .Values.minio.secretKey.secretKey | quote }} 
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value | quote }}
@@ -158,11 +153,6 @@ spec:
           value: {{ .Values.redis.jobDatabase | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.resultDatabase | quote }}
-        - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.minio.secretKey.secretName | quote }}
-              key: {{ .Values.minio.secretKey.secretKey | quote }} 
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value | quote}}
