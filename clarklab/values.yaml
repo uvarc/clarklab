@@ -119,6 +119,10 @@ minio:
 
 fairscapeConfig:
   env:
+    - name: "FAIRSCAPE_LDAP_ADMIN_DN"
+      value: "cn=admin,dc=fairscape,dc=net"
+    - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
+      value: "fJU#U1M62FnJyH#B1#9P"
     - name: "FAIRSCAPE_HOST"
       value: "fairscape.net"
     - name: "FAIRSCAPE_PORT"
