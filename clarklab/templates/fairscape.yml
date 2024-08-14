@@ -73,8 +73,6 @@ kind: Service
 metadata:
   name: {{ .Values.fairscape.backend.appName }}-service 
   namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.fairscape.appName }}
 spec:
   type: ClusterIP
   selector:
@@ -97,11 +95,11 @@ spec:
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: prod-fairscape
+      app: {{ .Values.fairscape.worker.appName | quote }}
   template:
     metadata:
       labels:
-        app: prod-fairscape
+        app: {{ .Values.fairscape.worker.appName | quote }}
     spec:
       imagePullSecrets:
       - name: ghcr-secret
