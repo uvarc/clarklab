@@ -17,7 +17,8 @@ jupyterhub:
 fairscape:
   backend: 
     image: "ghcr.io/fairscape/mds_python:RELEASE.2024-08-02.v2"
-    appName: "prod-fairscape-backend-app"
+    appName: "prod-backend-app"
+    serviceName: "prod-backend-service"
     servicePort: 8080
     serviceTargetPort: 8080
     requests:
@@ -29,6 +30,7 @@ fairscape:
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2024-07-19"
     appName: "prod-fairscape-frontend-app"
+    serviceName: "prod-frontent-service"
     servicePort: 80
     serviceTargetPort: 80
     requests:

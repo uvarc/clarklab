@@ -44,16 +44,16 @@ spec:
             path: "/api"
             backend:
               service:
-                name: prod-fairscape-service
+                name: {{ .Values.backend.serviceName }}
                 port:
-                  number: 80
+                  number: {{ .Values.backend.servicePort }}
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: prod-fairscape-frontend-service
+                name: {{ .Values.frontend.serviceName }}
                 port:
-                  number: 80
+                  number: {{ .Values.frontend.servicePort }}
     - host: "www.fairscape.net"
       http:
         paths:
