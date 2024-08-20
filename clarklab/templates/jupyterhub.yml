@@ -41,7 +41,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.mongo.accessKey.secretName | quote }}
               key: {{ .Values.mongo.accessKey.secretKey | quote }}
-        - name: "FAIRSCPAE_MONGO_SECRET_KEY"
+        - name: "FAIRSCAPE_MONGO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
               name: {{ .Values.mongo.secretKey.secretName | quote }}
