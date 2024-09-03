@@ -164,6 +164,6 @@ fairscapeConfig:
     - name: "FAIRSCAPE_LDAP_GROUPS_DN"
       value: "ou=groups,dc=fairscape,dc=net"
     - name: "FAIRSCAPE_LDAP_ADMIN_PASSWORD"
-      value: "fJU#U1M62FnJyH#B1#9P"
+      value: "Pbh%1SNmf2Ubzj4$xfa"
     - name: "FAIRSCAPE_URL"
       value: "https://fairscape.net"
