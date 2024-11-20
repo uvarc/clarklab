@@ -160,7 +160,7 @@ spec:
           limits:
             memory: {{ .Values.fairscape.worker.limits.memory | quote }}
             cpu: {{ .Values.fairscape.worker.limits.cpu | quote }}
-      serviceAccountName: fairscape-sa 
+      #serviceAccountName: fairscape-sa 
 ---
 apiVersion: apps/v1
 kind: Deployment
