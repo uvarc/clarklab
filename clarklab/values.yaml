@@ -130,7 +130,7 @@ fairscapeConfig:
     - name: "FAIRSCAPE_LDAP_PORT"
       value: "1389"
     - name: "FAIRSCAPE_LDAP_ADMIN_DN"
-      value: "cn=admin,dc=fairscape,dc=net"
+      value: "cn=fairscapeAdmin,dc=fairscape,dc=net"
     - name: "FAIRSCAPE_MONGO_HOST"
       value: "mongo-prod-service" 
     - name: "FAIRSCAPE_MONGO_PORT"
