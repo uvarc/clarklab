@@ -24,11 +24,6 @@ spec:
         - name: db
           containerPort: {{ .Values.ldap.servicePort }}
         env:
-        - name: "LDAP_ADMIN_PASSWORD"
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.minio.secretKey.secretName | quote }}
-              key: {{ .Values.minio.secretKey.secretKey | quote }} 
         {{- range $key, $val := .Values.ldap.env}}
         - name: {{ $key | quote }}
           value: {{ $val | quote }}
