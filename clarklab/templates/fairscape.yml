@@ -14,8 +14,8 @@ spec:
       labels:
         app: {{ .Values.fairscape.backend.appName }}
     spec:
-      #imagePullSecrets:
-      #- name: ghcr-secret
+      imagePullSecrets:
+      - name: ghcr-secret
       containers:
       - name: fairscape
         image: {{ .Values.fairscape.backend.image }} 
