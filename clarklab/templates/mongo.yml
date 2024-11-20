@@ -22,9 +22,9 @@ spec:
         ports:
         - name: db
           containerPort: {{ .Values.mongo.servicePort }}
-        volumeMounts: 
-        - mountPath: "/data/db"
-          name: prod-mongo-storage
+#        volumeMounts: 
+#        - mountPath: "/data/db"
+#          name: prod-mongo-storage
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
@@ -43,24 +43,24 @@ spec:
           limits:
             memory: {{ .Values.mongo.limits.memory | quote }}
             cpu: {{ .Values.mongo.limits.cpu | quote }}
-          volumes:
-            - name: prod-mongo-storage
-              persistentVolumeClaim:
-                claimName: {{ .Values.mongo.pvc.name }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.mongo.pvc.name | quote }}
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.mongo.appName }}
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
+#          volumes:
+#            - name: prod-mongo-storage
+#              persistentVolumeClaim:
+#                claimName: {{ .Values.mongo.pvc.name }}
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: {{ .Values.mongo.pvc.name | quote }}
+#  namespace: {{ .Values.namespace }}
+#  labels:
+#    app: {{ .Values.mongo.appName }}
+#spec:
+#  accessModes:
+#    - ReadWriteMany
+#  resources:
+#    requests:
+#      storage: 10Gi
 ---
 apiVersion: v1
 kind: Service
