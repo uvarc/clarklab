@@ -157,7 +157,7 @@ fairscapeConfig:
       value: "rocrate"
     - name: "FAIRSCAPE_NAAN"
       value: "59852"
-    - name: LDAP_ADMIN_PASSWORD
+    - name: FAIRSCAPE_LDAP_ADMIN_PASSWORD
       value: "fairscapeAdminPassword"
     - name: "FAIRSCAPE_LDAP_BASE_DN"
       value: "dc=fairscape,dc=net"
