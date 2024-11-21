@@ -16,7 +16,7 @@ jupyterhub:
 
 fairscape:
   backend: 
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2024-11-20.v2"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2024-11-21.v1"
     appName: "prod-backend-app"
     serviceName: "prod-backend-service"
     servicePort: 8080
@@ -40,7 +40,7 @@ fairscape:
       memory: "4024Mi"
       cpu: "700m"
   worker:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2024-11-20.v2"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2024-11-21.v1"
     appName: "prod-fairscape-worker-app"
     requests:
       memory: "4024Mi"
