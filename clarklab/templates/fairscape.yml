@@ -83,6 +83,20 @@ spec:
       port: {{ .Values.fairscape.backend.servicePort }}
       targetPort: {{ .Values.fairscape.backend.serviceTargetPort }} 
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.worker.volume.pvcName | quote }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.worker.appName }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.worker.volume.storage }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -103,18 +117,18 @@ spec:
     spec:
       imagePullSecrets:
       - name: ghcr-secret
+      volumes:
+      - name: {{ .Values.worker.volume.name }}
+        claimName: {{ .Values.worker.volume.pvcName }}
       containers:
       - name: fairscape
         image: {{ .Values.fairscape.worker.image }} 
         imagePullPolicy: Always
         command: ["python"] 
         args: ["fairscape_mds/worker.py" ]
-        #livenessProbe:
-        #  httpGet:
-        #    path: /healthz
-        #    port: 80
-        #  initialDelaySeconds: 3
-        #  periodSeconds: 3
+        volumeMounts:
+        - mountPath: "/tmp"
+          name: {{ .Values.worker.volume.name }}
         env:
         {{- /*
         generate env variables from values configuration
