@@ -119,7 +119,8 @@ spec:
       - name: ghcr-secret
       volumes:
       - name: {{ .Values.fairscape.worker.volume.name }}
-        claimName: {{ .Values.fairscape.worker.volume.pvcName }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.fairscape.worker.volume.pvcName }}
       containers:
       - name: fairscape
         image: {{ .Values.fairscape.worker.image }} 
