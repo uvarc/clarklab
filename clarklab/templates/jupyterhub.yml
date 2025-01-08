@@ -2,16 +2,16 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.jupyter.volume.pvcName | quote }}
+  name: {{ .Values.jupyterhub.volume.pvcName | quote }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.jupyter.appName }}
+    app: {{ .Values.jupyterhub.appName }}
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.jupyter.volume.storage }}
+      storage: {{ .Values.jupyterhub.volume.storage }}
 ---
 apiVersion: apps/v1
 kind: Deployment
