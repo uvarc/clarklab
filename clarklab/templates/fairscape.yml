@@ -86,16 +86,16 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.worker.volume.pvcName | quote }}
+  name: {{ .Values.fairscape.worker.volume.pvcName | quote }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.worker.appName }}
+    app: {{ .Values.fairscape.worker.appName }}
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.worker.volume.storage }}
+      storage: {{ .Values.fairscape.worker.volume.storage }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -118,8 +118,8 @@ spec:
       imagePullSecrets:
       - name: ghcr-secret
       volumes:
-      - name: {{ .Values.worker.volume.name }}
-        claimName: {{ .Values.worker.volume.pvcName }}
+      - name: {{ .Values.fairscape.worker.volume.name }}
+        claimName: {{ .Values.fairscape.worker.volume.pvcName }}
       containers:
       - name: fairscape
         image: {{ .Values.fairscape.worker.image }} 
@@ -128,7 +128,7 @@ spec:
         args: ["fairscape_mds/worker.py" ]
         volumeMounts:
         - mountPath: "/tmp"
-          name: {{ .Values.worker.volume.name }}
+          name: {{ .Values.fairscape.worker.volume.name }}
         env:
         {{- /*
         generate env variables from values configuration
