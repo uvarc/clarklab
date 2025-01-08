@@ -49,8 +49,8 @@ fairscape:
       memory: "6024Mi"
       cpu: "800m"
     volume:
-      name: "prod-fairscape-worker-pvc-volume"
-      pvcName: "prod-fairscape-worker-pvc"
+      name: "prod-fairscape-worker-scratch-volume"
+      pvcName: "workerScratchSpace"
       storage: "10gi"
 
 redis:
