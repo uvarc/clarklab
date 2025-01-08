@@ -13,6 +13,10 @@ jupyterhub:
   limits:
     memory: "5024Mi"
     cpu: "300m"
+  volume:
+    pvcName: "dev-jupyterhub-pvc"
+    name: "dev-jupyterhub-notebook-storage"
+    storage: "10Gi"
 
 fairscape:
   backend: 
