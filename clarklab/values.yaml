@@ -51,7 +51,7 @@ fairscape:
     volume:
       name: "prod-fairscape-worker-scratch-volume"
       pvcName: "workerScratchSpace"
-      storage: "10gi"
+      storage: "10Gi"
 
 redis:
   image: "redis:7.0.15-alpine3.20"
