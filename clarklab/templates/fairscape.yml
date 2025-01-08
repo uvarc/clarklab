@@ -121,6 +121,10 @@ spec:
       - name: {{ .Values.fairscape.worker.volume.name }}
         persistentVolumeClaim:
           claimName: {{ .Values.fairscape.worker.volume.pvcName }}
+      securityContext:
+        runAsUser: 1099
+        runAsGroup: 1099
+        fsGroup: 1099
       containers:
       - name: fairscape
         image: {{ .Values.fairscape.worker.image }} 
