@@ -34,6 +34,7 @@ spec:
           # jovyan gid 100
           runAsGroup: 100
           # allow jovyan to sudo
+          fsGroup: 100
           allowPrivilegeEscalation: true
         env:
         - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
