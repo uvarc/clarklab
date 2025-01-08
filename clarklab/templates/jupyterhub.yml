@@ -34,7 +34,7 @@ spec:
         runAsUser: 1000 
         runAsGroup: 100
         fsGroup: 100
-        allowPrivilegeEscalation: true
+        #allowPrivilegeEscalation: true
       volumes:
       - name: {{ .Values.jupyterhub.volume.name }}
         persistentVolumeClaim:
