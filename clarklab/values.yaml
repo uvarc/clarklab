@@ -20,7 +20,7 @@ jupyterhub:
 
 fairscape:
   backend: 
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-01-13.v3"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-01-13.v4"
     appName: "prod-backend-app"
     serviceName: "prod-backend-service"
     servicePort: 8080
@@ -44,7 +44,7 @@ fairscape:
       memory: "4024Mi"
       cpu: "700m"
   worker:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-01-13.v3"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-01-13.v4"
     appName: "prod-fairscape-worker-app"
     requests:
       memory: "4024Mi"
@@ -55,7 +55,7 @@ fairscape:
     volume:
       name: "prod-fairscape-worker-scratch-volume"
       pvcName: "prod-fairscape-worker-scratch-pvc"
-      storage: "10Gi"
+      storage: "30Gi"
 
 redis:
   image: "redis:7.0.15-alpine3.20"
