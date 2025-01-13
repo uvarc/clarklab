@@ -32,7 +32,7 @@ fairscape:
       memory: "8024Mi"
       cpu: "1000m"
   frontend:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-01-13.v1"
+    image: "ghcr.io/fairscape/fairscapefrontend:release.2024-11-15"
     appName: "prod-fairscape-frontend-app"
     serviceName: "prod-frontend-service"
     servicePort: 80
@@ -44,7 +44,7 @@ fairscape:
       memory: "4024Mi"
       cpu: "700m"
   worker:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2024-12-12.v4"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-01-13.v1"
     appName: "prod-fairscape-worker-app"
     requests:
       memory: "4024Mi"
