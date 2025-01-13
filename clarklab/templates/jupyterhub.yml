@@ -71,7 +71,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.minio.accessKey.secretName | quote }}
               key: {{ .Values.minio.accessKey.secretKey | quote }}
-        - name: "FAIRSCPAE_MINIO_SECRET_KEY"
+        - name: "FAIRSCAPE_MINIO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
               name: {{ .Values.minio.secretKey.secretName | quote }}
