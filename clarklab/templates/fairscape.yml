@@ -83,20 +83,20 @@ spec:
       port: {{ .Values.fairscape.backend.servicePort }}
       targetPort: {{ .Values.fairscape.backend.serviceTargetPort }} 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.fairscape.worker.volume.pvcName | quote }}
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.fairscape.worker.appName }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.fairscape.worker.volume.storage }}
----
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: {{ .Values.fairscape.worker.volume.pvcName | quote }}
+#  namespace: {{ .Values.namespace }}
+#  labels:
+#    app: {{ .Values.fairscape.worker.appName }}
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: {{ .Values.fairscape.worker.volume.storage }}
+#---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
