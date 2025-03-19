@@ -113,9 +113,6 @@ spec:
         imagePullPolicy: Always
         command: ["python"] 
         args: ["fairscape_mds/worker.py" ]
-        volumeMounts:
-        - mountPath: "/tmp"
-          name: {{ .Values.fairscape.worker.volume.name }}
         env:
         {{- /*
         generate env variables from values configuration
