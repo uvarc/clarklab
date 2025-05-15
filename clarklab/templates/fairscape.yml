@@ -47,7 +47,7 @@ spec:
               name: {{ .Values.minio.secretKey.secretName | quote }}
               key: {{ .Values.minio.secretKey.secretKey | quote }} 
         - name: "FAIRSCAPE_MINIO_URI"
-          value: {{ .Values.minio.serviceName }}
+          value: "https://minio.uvarc.io:9000"
         - name: "FAIRSCAPE_REDIS_HOST"
           value: {{ .Values.redis.serviceName }}
         - name: "FAIRSCAPE_REDIS_PORT"
