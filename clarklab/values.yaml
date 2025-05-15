@@ -152,7 +152,7 @@ fairscapeConfig:
     - name: "FAIRSCAPE_MONGO_ROCRATE_COLLECTION"
       value: "rocrate"
     - name: "FAIRSCAPE_MINIO_URI"
-      value: "http://minio.uvarc.io:9000"
+      value: "https://minio.uvarc.io:9000"
     - name: "FAIRSCAPE_MINIO_SECURE"
       value: "True"
     - name: "FAIRSCAPE_MINIO_CERT_CHECK"
