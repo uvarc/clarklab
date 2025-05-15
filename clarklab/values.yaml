@@ -20,7 +20,7 @@ jupyterhub:
 
 fairscape:
   backend: 
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-03-24.v2"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-05-15.v3"
     appName: "prod-backend-app"
     serviceName: "prod-backend-service"
     servicePort: 8080
@@ -44,7 +44,7 @@ fairscape:
       memory: "4024Mi"
       cpu: "700m"
   worker:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-03-24.v2"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-05-15.v3"
     appName: "prod-fairscape-worker-app"
     requests:
       memory: "4024Mi"
@@ -152,9 +152,7 @@ fairscapeConfig:
     - name: "FAIRSCAPE_MONGO_ROCRATE_COLLECTION"
       value: "rocrate"
     - name: "FAIRSCAPE_MINIO_URI"
-      value: "minio.uvarc.io"
-    - name: "FAIRSCAPE_MINIO_PORT"
-      value: "9000"
+      value: "http://minio.uvarc.io:9000"
     - name: "FAIRSCAPE_MINIO_SECURE"
       value: "True"
     - name: "FAIRSCAPE_MINIO_CERT_CHECK"
