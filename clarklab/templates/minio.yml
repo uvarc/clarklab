@@ -22,6 +22,13 @@ spec:
         command: ["server", "/data", "--console-address", ":9001"]
         ports:
         - containerPort: {{ .Values.fairscape.minio.serviceTargetPort }}
+        resources:
+          requests:
+            memory: {{ .Values.fairscape.minio.requests.memory | quote }}
+            cpu: {{ .Values.fairscape.minio.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.fairscape.minio.limits.memory | quote }}
+            cpu: {{ .Values.fairscape.minio.limits.cpu | quote }}
         env:
         - name: "MINIO_ROOT_USER"
           valueFrom:
