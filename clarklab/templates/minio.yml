@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fairscape.minio.appName}}-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels: 
+      app: {{ .Values.fairscape.minio.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fairscape.minio.appName }}
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: minio
+        image: {{ .Values.fairscape.minio.image }}
+        command: ["server", "/data", "--console-address", ":9001"]
+        ports:
+        - containerPort: {{ .Values.fairscape.minio.targetPort }}
+        env:
+        - name: "MINIO_ROOT_USER"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.accessKey.secretName | quote }}
+              key: {{ .Values.minio.accessKey.secretKey | quote }} 
+        - name: "MINIO_ROOT_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.secretKey.secretName | quote }}
+              key: {{ .Values.minio.secretKey.secretKey | quote }} 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.fairscape.minio.serviceName}}
+  namespace {{ .Values.namespace}}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.fairscape.minio.serviceName }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.fairscape.minio.servicePort }}
+      targetPort: {{ .Values.fairscape.minio.targetPort }}

@@ -19,6 +19,19 @@ jupyterhub:
     storage: "10Gi"
 
 fairscape:
+  minio:
+    image: minio/minio:latest
+    appName: minio-app
+    serviceName: incluster-minio
+    servicePort: 9000
+    serviceTargetPort: 9000
+    requests:
+      memory: "4024Mi"
+      cpu: "500m"
+    limits:
+      memory: "8024Mi"
+      cpu: "1000m"
+
   backend: 
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-05-18.v2"
     appName: "prod-backend-app"
@@ -152,7 +165,8 @@ fairscapeConfig:
     - name: "FAIRSCAPE_MONGO_ROCRATE_COLLECTION"
       value: "rocrate"
     - name: "FAIRSCAPE_MINIO_URI"
-      value: "https://minio.uvarc.io:9000"
+      value: http://incluster-minio:9000
+      #value: "https://minio.uvarc.io:9000"
     - name: "FAIRSCAPE_MINIO_SECURE"
       value: "True"
     - name: "FAIRSCAPE_MINIO_CERT_CHECK"
