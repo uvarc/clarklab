@@ -20,7 +20,7 @@ jupyterhub:
 
 fairscape:
   minio:
-    image: minio/minio:latest
+    image:  quay.io/minio/minio:latest
     appName: minio-app
     serviceName: incluster-minio
     servicePort: 9000
