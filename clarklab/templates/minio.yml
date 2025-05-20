@@ -19,7 +19,7 @@ spec:
       containers:
       - name: minio
         image: {{ .Values.fairscape.minio.image }}
-        command: ["server", "/data", "--console-address", ":9001"]
+        command: ["minio", "server", "/data", "--console-address", ":9001"]
         ports:
         - containerPort: {{ .Values.fairscape.minio.serviceTargetPort }}
         resources:
