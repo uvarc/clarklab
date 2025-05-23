@@ -16,6 +16,10 @@ spec:
       labels:
         app: {{ .Values.mongo.appName }}
     spec:
+      volumes:
+      - name: prod-mongo-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.mongo.pvc.name }}
       containers:
       - name: mongo
         image: {{ .Values.mongo.image }}
@@ -43,10 +47,6 @@ spec:
           limits:
             memory: {{ .Values.mongo.limits.memory | quote }}
             cpu: {{ .Values.mongo.limits.cpu | quote }}
-        volumes:
-            - name: prod-mongo-storage
-              persistentVolumeClaim:
-                claimName: {{ .Values.mongo.pvc.name }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
