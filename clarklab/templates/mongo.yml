@@ -43,7 +43,7 @@ spec:
           limits:
             memory: {{ .Values.mongo.limits.memory | quote }}
             cpu: {{ .Values.mongo.limits.cpu | quote }}
-          volumes:
+        volumes:
             - name: prod-mongo-storage
               persistentVolumeClaim:
                 claimName: {{ .Values.mongo.pvc.name }}
