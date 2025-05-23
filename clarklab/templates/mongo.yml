@@ -57,7 +57,7 @@ metadata:
     app: {{ .Values.mongo.appName }}
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
