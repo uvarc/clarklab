@@ -1,0 +1,219 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "test-{{ .Values.fairscape.backend.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "test-{{ .Values.fairscape.backend.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "test-{{ .Values.fairscape.backend.appName }}"
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: fairscape
+        image: {{ .Values.fairscape.backend.image }} 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        {{- /*
+        generate env variables from values configuration
+        */}}
+        - name: "FAIRSCAPE_MONGO_DATABASE"
+          value: {{ .Values.mongo.test.db }}
+        - name: "FAIRSCAPE_MONGO_HOST"
+          value: {{ .Values.mongo.hostURI | quote }}
+        - name: "FAIRSCAPE_MONGO_PORT"
+          value: {{ .Values.mongo.port | quote}}
+        - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.username.secretName | quote }}
+              key: {{ .Values.mongo.test.username.secretKey | quote }} 
+        - name: "FAIRSCAPE_MONGO_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.password.secretName | quote }}
+              key: {{ .Values.mongo.test.password.secretKey | quote }} 
+        - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.accessKey.secretName | quote }}
+              key: {{ .Values.minio.accessKey.secretKey | quote }} 
+        - name: "FAIRSCAPE_MINIO_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.secretKey.secretName | quote }}
+              key: {{ .Values.minio.secretKey.secretKey | quote }} 
+        - name: "FAIRSCAPE_MINIO_URI"
+          value: "http://incluster-minio:9000"
+        - name: "FAIRSCAPE_REDIS_HOST"
+          value: {{ .Values.redis.serviceName }}
+        - name: "FAIRSCAPE_REDIS_PORT"
+          value: {{ .Values.redis.servicePort | quote}}
+        - name: "FAIRSCAPE_REDIS_DATABASE"
+          value: {{ .Values.redis.jobDatabase | quote }}
+        - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
+          value: {{ .Values.redis.resultDatabase | quote }}
+        {{- range $envVar := .Values.fairscapeConfig.env}}
+        - name: {{ $envVar.name }}
+          value: {{ $envVar.value | quote }}
+        {{- end }}
+        resources:
+          requests:
+            memory: {{ .Values.fairscape.backend.requests.memory | quote }}
+            cpu: {{ .Values.fairscape.backend.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.fairscape.backend.limits.memory | quote }}
+            cpu: {{ .Values.fairscape.backend.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "test-{{ .Values.fairscape.backend.serviceName}}"
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: "test-{{ .Values.fairscape.backend.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.fairscape.backend.servicePort }}
+      targetPort: {{ .Values.fairscape.backend.serviceTargetPort }} 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "test-{{ .Values.fairscape.worker.appName}}-deployment"
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.fairscape.worker.appName }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "test-{{ .Values.fairscape.worker.appName}}"
+  template:
+    metadata:
+      labels:
+        app: "test-{{ .Values.fairscape.worker.appName}}"
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      securityContext:
+        runAsUser: 1099
+        runAsGroup: 1099
+        fsGroup: 1099
+      containers:
+      - name: fairscape
+        image: {{ .Values.fairscape.worker.image }} 
+        imagePullPolicy: Always
+        command: ["python"] 
+        args: ["fairscape_mds/worker.py" ]
+        env:
+        {{- /*
+        generate env variables from values configuration
+        */}}
+        - name: "FAIRSCAPE_MONGO_DATABASE"
+          value: {{ .Values.mongo.test.db }}
+        - name: "FAIRSCAPE_MONGO_HOST"
+          value: {{ .Values.mongo.hostURI | quote }}
+        - name: "FAIRSCAPE_MONGO_PORT"
+          value: {{ .Values.mongo.port | quote}}
+        - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.username.secretName | quote }}
+              key: {{ .Values.mongo.test.username.secretKey | quote }} 
+        - name: "FAIRSCAPE_MONGO_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.password.secretName | quote }}
+              key: {{ .Values.mongo.test.password.secretKey | quote }} 
+
+        - name: "FAIRSCAPE_MINIO_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.secretKey.secretName | quote }}
+              key: {{ .Values.minio.secretKey.secretKey | quote }} 
+        - name: "FAIRSCAPE_MINIO_URI"
+          value: "http://incluster-minio:9000"
+        - name: "FAIRSCAPE_REDIS_HOST"
+          value: {{ .Values.redis.serviceName }}
+        - name: "FAIRSCAPE_REDIS_PORT"
+          value: {{ .Values.redis.servicePort | quote}}
+        - name: "FAIRSCAPE_REDIS_DATABASE"
+          value: {{ .Values.redis.jobDatabase | quote }}
+        - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
+          value: {{ .Values.redis.resultDatabase | quote }}
+        {{- range $envVar := .Values.fairscapeConfig.env}}
+        - name: {{ $envVar.name }}
+          value: {{ $envVar.value | quote}}
+        {{- end }}
+        resources:
+          requests:
+            memory: {{ .Values.fairscape.worker.requests.memory | quote }}
+            cpu: {{ .Values.fairscape.worker.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.fairscape.worker.limits.memory | quote }}
+            cpu: {{ .Values.fairscape.worker.limits.cpu | quote }}
+      serviceAccountName: fairscape-sa 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "test-{{ .Values.fairscape.frontend.appName }}-deployment"
+  namespace: clarklab
+  labels:
+    app: "test-{{ .Values.fairscape.frontend.appName }}"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "test-{{ .Values.fairscape.frontend.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "test-{{ .Values.fairscape.frontend.appName }}"
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: fairscape-frontend
+        image: {{ .Values.fairscape.frontend.image }} 
+        ports:
+        - containerPort: {{ .Values.fairscape.frontend.serviceTargetPort }}
+        resources:
+          requests:
+            memory: {{ .Values.fairscape.frontend.requests.memory | quote }}
+            cpu: {{ .Values.fairscape.frontend.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.fairscape.frontend.limits.memory | quote }}
+            cpu: {{ .Values.fairscape.frontend.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.fairscape.frontend.serviceName }}
+  namespace: clarklab
+  labels:
+    app: "test-{{ .Values.fairscape.frontend.appName }}"
+spec:
+  type: ClusterIP
+  selector:
+    app: "test-{{ .Values.fairscape.frontend.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.fairscape.frontend.servicePort }}
+      targetPort: {{ .Values.fairscape.frontend.serviceTargetPort }}
