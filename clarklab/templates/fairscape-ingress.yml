@@ -44,7 +44,8 @@ spec:
           path: "/api"
           backend:
             service:
-              name: {{ .Values.fairscape.backend.serviceName }}
+              name: "prod-{{ .Values.fairscape.backend.serviceName }}"
+
               port:
                 number: {{ .Values.fairscape.backend.servicePort }}
         - pathType: Prefix
@@ -61,7 +62,7 @@ spec:
           path: "/api"
           backend:
             service:
-              name: {{ .Values.fairscape.backend.serviceName }}
+              name: "prod-{{ .Values.fairscape.backend.serviceName }}"
               port:
                 number: {{ .Values.fairscape.backend.servicePort }}
         - pathType: Prefix
