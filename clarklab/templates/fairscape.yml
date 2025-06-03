@@ -27,7 +27,7 @@ spec:
         generate env variables from values configuration
         */}}
         - name: "FAIRSCAPE_MONGO_DATABASE"
-          value: {{ .Values.prod.test.db }}
+          value: {{ .Values.mongo.prod.db }}
         - name: "FAIRSCAPE_MONGO_HOST"
           value: {{ .Values.mongo.hostURI | quote }}
         - name: "FAIRSCAPE_MONGO_PORT"
@@ -124,7 +124,7 @@ spec:
         generate env variables from values configuration
         */}}
         - name: "FAIRSCAPE_MONGO_DATABASE"
-          value: {{ .Values.prod.test.db }}
+          value: {{ .Values.mongo.prod.db }}
         - name: "FAIRSCAPE_MONGO_HOST"
           value: {{ .Values.mongo.hostURI | quote }}
         - name: "FAIRSCAPE_MONGO_PORT"
