@@ -1,0 +1,17 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: mongo-test-secret
+  namespace: clarklab
+spec:
+  encryptedData:
+    password: AgCe6c6PjwmIc9N8/r6oJzZnjGc7tP3a/v89ZkgU3EL8/AvGECv1Q/qw58Xc6BfmASTbe+YrWMLx2V3V1w3UNf6AGdJVf4QRp0wbzq7UFyJZr3at0uknSEVLqHyTRaehFQsINlRwiWUpUe0BPtljhCnxSN6eVfMeZmSnnNbNPAlfO8gcWXlDD3IFsRIgv0N/rjm6stqn2goEtERO7vql1a4WTuZLAWZXctVQl+/xLMzIygAW+Y3wJhW/rR+zPzsnWdHy9IylqZfziVHjCanIZqKonE4NrhRVM0aE7v05D0ksYd6s6tK5xZ58kv3/JKDBoboeLVZN7LYbeMFXlMtJgI2DE7+i9VrZ85mRb+X+VOOc1wAbY+afV8SEUgu8DuGn3I0ayQiSyhy3tPiLqO3vOo35Z2g+B58qkAz+/CpebsVkCCthzo+TfhM/LTc0qOwe86Vtji762wb3ovaGWRwMD1yMWauxAbvpEkxJv9Kz3n0ak4qCnwqh+ZMOoMHagdCcNmg5gLshXxIy9shVbZ7DyM5PeyAIspclXCgxXIPqbNFGWjDf0bUxfKOoHgGKD/VVEIhqFb7Bmgd8MFTdGrIMI4gV8kEPKwtxLfZ72/euz0vGkuU7+E7z3GUo0UPFn4UMPYvpasQESRVkAHg3NT0y76Q9hz6TR8udDYC22do3afxvXfOW2VEa7UXJMmdZqLYsltnUX0ATrvvNuaKF8swcDLim48w=
+    username: AgBK/KHdWBuWByYvWfqEcGV6PbAo3dJpX0/LA3snqtG6+0HVuYSCcot4gwOl2T4l7i867Z33WQmPJGdsMKatIPusAIMqXCNhpMPGtN+42vybIgFGLXwzPYkeoZu2woXZuMz+gMhVviSN2J2woEtj9FN2Ut+XedjsaZaqE7Xl37eO7mnzZg1LKamAcXFKgs2SQotS1+9q9qlzY+P8MqlPWLCXhN0byEpX+fh2WBPmwJPDWUuhjFQM+2aWFYF1nZweLHRWSbFf6w9hXN7h+dBhJ3DviSvwtVNZYhuhlv0lBuoSl5D2q7wECombqVEfbI+W6PYog+baRdW2xJSF+7bRXDg5tb1JRqS09cO59RQNhSpUdFy7fdc/uNvkl/hu7ZRSQAbo/uiEhHgy2am7nXZ2SGngwln9+iEZiZbv32BtwfEzv6m3F9yIwhEjYJsaTEltM7srHIY9jIQpcDw9AX6gjOMhxisG37EyBe4N4UoCKBTtwkcswoSW8PqQkQEE142XilMqJoKFiA9lMFSGVruWOwz3kj1VlVHrPu6CVPVWWY3zsdQFKCndXqV05jgpQHWr9pjv+rPnbOYSyL9RzQqbUiBgd+aZO2IWlEH5h15WfZ9RGapqSQYhyU7EFsBqQ8GOndDuQEiQxY+9+g4rGyeeTVXiUGG/+ZUZ+1rY9Pj+g+ECS7itE0hAbiJxnT+HQf+i2/1tZJ8klihH
+  template:
+    metadata:
+      creationTimestamp: null
+      name: mongo-test-secret
+      namespace: clarklab
+    type: kubernetes.io/basic-auth
