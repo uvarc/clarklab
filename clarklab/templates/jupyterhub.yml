@@ -56,16 +56,26 @@ spec:
         - name: http
           containerPort: 8888
         env:
-        - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+        - name: "FAIRSCAPE_MONGO_PROD_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.mongo.accessKey.secretName | quote }}
-              key: {{ .Values.mongo.accessKey.secretKey | quote }}
-        - name: "FAIRSCAPE_MONGO_SECRET_KEY"
+              name: {{ .Values.mongo.prod.username.secretName | quote }}
+              key: {{ .Values.mongo.prod.username.secretKey | quote }}
+        - name: "FAIRSCAPE_MONGO_PROD_SECRET_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.mongo.secretKey.secretName | quote }}
-              key: {{ .Values.mongo.secretKey.secretKey | quote }}
+              name: {{ .Values.mongo.prod.password.secretName | quote }}
+              key: {{ .Values.mongo.prod.password.secretKey | quote }}
+        - name: "FAIRSCAPE_MONGO_TEST_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.username.secretName | quote }}
+              key: {{ .Values.mongo.test.username.secretKey | quote }}
+        - name: "FAIRSCAPE_MONGO_TEST_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.password.secretName | quote }}
+              key: {{ .Values.mongo.test.password.secretKey | quote }}
         - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
