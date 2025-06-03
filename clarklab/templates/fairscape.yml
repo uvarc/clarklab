@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.fairscape.backend.appName }}-deployment
+  name: "prod-{{ .Values.fairscape.backend.appName }}-deployment"
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: {{ .Values.fairscape.backend.appName }}
+      app: "prod-{{ .Values.fairscape.backend.appName }}"
   template:
     metadata:
       labels:
-        app: {{ .Values.fairscape.backend.appName }}
+        app: "prod-{{ .Values.fairscape.backend.appName }}"
     spec:
       imagePullSecrets:
       - name: ghcr-secret
@@ -26,16 +26,22 @@ spec:
         {{- /*
         generate env variables from values configuration
         */}}
+        - name: "FAIRSCAPE_MONGO_DATABASE"
+          value: {{ .Values.prod.test.db }}
+        - name: "FAIRSCAPE_MONGO_HOST"
+          value: {{ .Values.mongo.hostURI | quote }}
+        - name: "FAIRSCAPE_MONGO_PORT"
+          value: {{ .Values.mongo.port | quote}}
         - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.mongo.accessKey.secretName | quote }}
-              key: {{ .Values.mongo.accessKey.secretKey | quote }} 
+              name: {{ .Values.mongo.prod.username.secretName | quote }}
+              key: {{ .Values.mongo.prod.username.secretKey | quote }} 
         - name: "FAIRSCAPE_MONGO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.mongo.secretKey.secretName | quote }}
-              key: {{ .Values.mongo.secretKey.secretKey | quote }} 
+              name: {{ .Values.mongo.prod.password.secretName | quote }}
+              key: {{ .Values.mongo.prod.password.secretKey | quote }} 
         - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
@@ -71,12 +77,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.fairscape.backend.serviceName}} 
+  name: "prod-{{ .Values.fairscape.backend.serviceName}}"
   namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   selector:
-    app: {{ .Values.fairscape.backend.appName }}
+    app: "prod-{{ .Values.fairscape.backend.appName }}"
   ports:
     - name: http
       protocol: TCP
@@ -86,7 +92,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.fairscape.worker.appName}}-deployment
+  name: "prod-{{ .Values.fairscape.worker.appName}}-deployment"
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.fairscape.worker.appName }}
@@ -95,11 +101,11 @@ spec:
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: {{ .Values.fairscape.worker.appName | quote }}
+      app: "prod-{{ .Values.fairscape.worker.appName}}"
   template:
     metadata:
       labels:
-        app: {{ .Values.fairscape.worker.appName | quote }}
+        app: "prod-{{ .Values.fairscape.worker.appName}}"
     spec:
       imagePullSecrets:
       - name: ghcr-secret
@@ -117,21 +123,23 @@ spec:
         {{- /*
         generate env variables from values configuration
         */}}
+        - name: "FAIRSCAPE_MONGO_DATABASE"
+          value: {{ .Values.prod.test.db }}
+        - name: "FAIRSCAPE_MONGO_HOST"
+          value: {{ .Values.mongo.hostURI | quote }}
+        - name: "FAIRSCAPE_MONGO_PORT"
+          value: {{ .Values.mongo.port | quote}}
         - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.mongo.accessKey.secretName | quote }}
-              key: {{ .Values.mongo.accessKey.secretKey | quote }} 
+              name: {{ .Values.mongo.prod.username.secretName | quote }}
+              key: {{ .Values.mongo.prod.username.secretKey | quote }} 
         - name: "FAIRSCAPE_MONGO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.mongo.secretKey.secretName | quote }}
-              key: {{ .Values.mongo.secretKey.secretKey | quote }} 
-        - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.minio.accessKey.secretName | quote }}
-              key: {{ .Values.minio.accessKey.secretKey | quote }} 
+              name: {{ .Values.mongo.prod.password.secretName | quote }}
+              key: {{ .Values.mongo.prod.password.secretKey | quote }} 
+
         - name: "FAIRSCAPE_MINIO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
@@ -163,20 +171,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.fairscape.frontend.appName }}-deployment
+  name: "prod-{{ .Values.fairscape.frontend.appName }}-deployment"
   namespace: clarklab
   labels:
-    app: {{ .Values.fairscape.frontend.appName }}
+    app: "prod-{{ .Values.fairscape.frontend.appName }}"
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: {{ .Values.fairscape.frontend.appName }}
+      app: "prod-{{ .Values.fairscape.frontend.appName }}"
   template:
     metadata:
       labels:
-        app: {{ .Values.fairscape.frontend.appName }}
+        app: "prod-{{ .Values.fairscape.frontend.appName }}"
     spec:
       imagePullSecrets:
       - name: ghcr-secret
@@ -199,11 +207,11 @@ metadata:
   name: {{ .Values.fairscape.frontend.serviceName }}
   namespace: clarklab
   labels:
-    app: {{ .Values.fairscape.frontend.appName }}
+    app: "prod-{{ .Values.fairscape.frontend.appName }}"
 spec:
   type: ClusterIP
   selector:
-    app: {{ .Values.fairscape.frontend.appName }}
+    app: "prod-{{ .Values.fairscape.frontend.appName }}"
   ports:
     - name: http
       protocol: TCP

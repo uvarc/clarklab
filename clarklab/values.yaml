@@ -34,8 +34,8 @@ fairscape:
 
   backend: 
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-05-21.v1"
-    appName: "prod-backend-app"
-    serviceName: "prod-backend-service"
+    appName: "backend-app"
+    serviceName: "backend-service"
     servicePort: 8080
     serviceTargetPort: 8080
     requests:
@@ -46,8 +46,8 @@ fairscape:
       cpu: "1000m"
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-02-12"
-    appName: "prod-fairscape-frontend-app"
-    serviceName: "prod-frontend-service"
+    appName: "fairscape-frontend-app"
+    serviceName: "frontend-service"
     servicePort: 80
     serviceTargetPort: 80
     requests:
@@ -58,17 +58,13 @@ fairscape:
       cpu: "700m"
   worker:
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-05-21.v1"
-    appName: "prod-fairscape-worker-app"
+    appName: "fairscape-worker-app"
     requests:
       memory: "4024Mi"
       cpu: "500m"
     limits:
       memory: "6024Mi"
       cpu: "800m"
-    volume:
-      name: "prod-fairscape-worker-scratch-volume"
-      pvcName: "prod-fairscape-worker-scratch-pvc"
-      storage: "30Gi"
 
 redis:
   image: "redis:7.0.15-alpine3.20"
@@ -83,53 +79,25 @@ redis:
     memory: "3000Mi"
     cpu: "300m"
 
-ldap:  
-  appName: "prod-ldap"
-  requests:
-    memory: "2024Mi"
-    cpu: "500m"
-  limits:
-    memory: "3024Mi"
-    cpu: "800m"
-  image: "bitnami/openldap:2.6.8"
-  serviceName: "prod-ldap-service"
-  servicePort: 1389
-  env:
-    LDAP_ROOT: "dc=fairscape,dc=net"
-    LDAP_ADMIN_USERNAME: "fairscapeAdmin"
-    LDAP_ADMIN_PASSWORD: "fairscapeAdminPassword"
-    LDAP_ADMIN_DN: "cn=admin,dc=fairscape,dc=net"
-    LDAP_CONFIG_ADMIN_ENABLED: "yes"
-    LDAP_CONFIG_ADMIN_USERNAME: "configAdmin"
-    LDAP_CONFIG_ADMIN_PASSWORD: "configAdminPassword"
-    LDAP_USER_DC: "users"
-    LDAP_GROUP: "admins"
-    LDAP_USERS: "fairscapeUser"
-    LDAP_PASSWORDS: "fairscapePass"
-
-
 mongo:
-  image: "docker.io/mongo:7.0.13-rc1"
-  appName: "prod-mongo"
-  deploymentName: "prod-mongo-deployment"
-  serviceName: "mongo-prod-service"
-  servicePort: 27017
-  pvc:
-    name: "mongo-prod-pvc"
-    requests:
-      storage: 10Gi
-  requests:
-    memory: "4024Mi"
-    cpu: "250m"
-  limits:
-    memory: "6024Mi"
-    cpu: "500m"
-  accessKey:
-    secretName: "fairscape-secrets"
-    secretKey: mongo-access-key
-  secretKey:
-    secretName: "fairscape-secrets"
-    secretKey: mongo-secret-key
+  hostURI: "prod-mongo-psmdb-db-rs0.clarklab.svc.cluster.local"
+  port: "27017"
+  test:
+    db: "test"
+    username:
+      secretName: "mongo-test-secret"
+      secretKey: "username"
+    password:
+      secretName: "mongo-test-secret"
+      secretKey: "password"
+  prod:
+    db: "clarklab"
+    username:
+      secretName: "mongo-prod-secret"
+      secretKey: "username"
+    password:
+      secretName: "mongo-prod-secret"
+      secretKey: "password"
 
 minio:  
   serviceName: "minio.uvarc.io"
@@ -152,12 +120,8 @@ fairscapeConfig:
       value: "1389"
     - name: "FAIRSCAPE_LDAP_ADMIN_DN"
       value: "cn=fairscapeAdmin,dc=fairscape,dc=net"
-    - name: "FAIRSCAPE_MONGO_HOST"
-      value: "mongo-prod-service" 
     - name: "FAIRSCAPE_MONGO_PORT"
       value: "27017"
-    - name: "FAIRSCAPE_MONGO_DATABASE"
-      value: "clarklab"
     - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
       value: "fairscape"
     - name: "FAIRSCAPE_MONGO_USER_COLLECTION"
