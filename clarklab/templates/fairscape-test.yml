@@ -204,7 +204,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.fairscape.frontend.serviceName }}
+  name: "test-{{ .Values.fairscape.frontend.serviceName }}"
   namespace: clarklab
   labels:
     app: "test-{{ .Values.fairscape.frontend.appName }}"
