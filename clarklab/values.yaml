@@ -16,7 +16,7 @@ jupyterhub:
   volume:
     pvcName: "dev-jupyterhub-pvc"
     name: "dev-jupyterhub-notebook-storage"
-    storage: "10Gi"
+    storage: "50Gi"
 
 fairscape:
   minio:
