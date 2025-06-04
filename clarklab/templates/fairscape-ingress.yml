@@ -80,4 +80,5 @@ spec:
       - "fairscape.net"
       - "www.fairscape.net"
       - "test.fairscape.net"
-      secretName: fairscape-net-tls-secret
+      secretName: star-fairscape-tls
+      # fairscape-net-tls-secret
