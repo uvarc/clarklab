@@ -20,6 +20,13 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8081
+        resources:
+          requests:
+            memory: {{ .Values.mongo_express.requests.memory | quote }}
+            cpu: {{ .Values.mongo_express.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.mongo_express.limits.memory | quote }}
+            cpu: {{ .Values.mongo_express.limits.cpu | quote }}
         env:
         - name: "ME_CONFIG_BASICAUTH_USERNAME"
           valueFrom:
