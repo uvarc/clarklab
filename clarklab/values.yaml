@@ -91,7 +91,7 @@ mongo_express:
   limits:
     memory: "3000Mi"
     cpu: "2000m"
-  secretName: "me-secrets"
+  secretName: "me-secret"
 
 mongo:
   hostURI: "prod-mongo-psmdb-db-rs0.clarklab.svc.cluster.local"
