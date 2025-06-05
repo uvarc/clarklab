@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.mongo_express.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.mongo_express.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mongo_express.appName }}
+    spec:
+      containers:
+      - name: mongo-express 
+        image: {{ .Values.mongo_express.image }} 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        env:
+        {{- /*
+        generate env variables from values configuration
+        */}}
+        - name: "ME_CONFIG_BASICAUTH_USERNAME"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo_express.secretName | quote }}
+              key: "username" 
+        - name: "ME_CONFIG_BASICAUTH_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo_express.secretName | quote }}
+              key: "username" 
+        - name: "ME_CONFIG_MONGODB_URL"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo_express.secretName | quote }}
+              key: "connectionURI" 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.mongo_express.serviceName}}
+  namespace: clarklab
+  labels:
+    app: {{ .Values.mogno_express.appName}}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.mogno_express.appName}}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.mongo_express.servicePort }}
+      targetPort: {{ .Values.mongo_express.serviceTargetPort }}

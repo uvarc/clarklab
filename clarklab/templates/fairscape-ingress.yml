@@ -26,6 +26,17 @@ metadata:
   namespace: clarklab
 spec:
   rules:
+
+    - host: "me.fairscape.net"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: {{ .Values.mongo_express.serviceName}}
+              port:
+                number: {{ .Values.mongo_express.servicePort}}
     - host: "test.fairscape.net"
       http:
         paths:

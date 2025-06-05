@@ -79,6 +79,19 @@ redis:
     memory: "3000Mi"
     cpu: "300m"
 
+mongo_express:
+  serviceName: "mongo-express-service"
+  appName: "mongo-express"
+  servicePort: 8081
+  serviceTargetPort: 8081
+  requests:
+    memory: "2000Mi"
+    cpu: "1000m"
+  limits:
+    memory: "3000Mi"
+    cpu: "2000m"
+  secretName: "me-secrets"
+
 mongo:
   hostURI: "prod-mongo-psmdb-db-rs0.clarklab.svc.cluster.local"
   port: "27017"
