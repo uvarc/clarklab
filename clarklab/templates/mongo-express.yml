@@ -30,6 +30,11 @@ spec:
         env:
         - name: "ME_CONFIG_MONGODB_SERVER"
           value: "prod-mongo-psmdb-db-rs0"
+        - name: "ME_CONFIG_MONGODB_URL"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo_express.secretName | quote }}
+              key: "connectionURI" 
         - name: "ME_CONFIG_BASICAUTH_USERNAME"
           valueFrom:
             secretKeyRef:
