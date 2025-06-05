@@ -30,6 +30,8 @@ spec:
         env:
         #- name: "ME_CONFIG_MONGODB_SERVER"
         #  value: {{ .Values.mongo.hostURI}}
+        - name: "ME_CONFIG_SITE_BASEURL"
+          value: "mongoexpress.fairscape.net/"
         - name: "ME_CONFIG_MONGODB_URL"
           valueFrom:
             secretKeyRef:
