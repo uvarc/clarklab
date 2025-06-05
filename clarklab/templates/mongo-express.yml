@@ -21,9 +21,6 @@ spec:
         ports:
         - containerPort: 8081
         env:
-        {{- /*
-        generate env variables from values configuration
-        */}}
         - name: "ME_CONFIG_BASICAUTH_USERNAME"
           valueFrom:
             secretKeyRef:
@@ -34,11 +31,20 @@ spec:
             secretKeyRef:
               name: {{ .Values.mongo_express.secretName | quote }}
               key: "username" 
-        - name: "ME_CONFIG_MONGODB_URL"
+        - name: "ME_CONFIG_MONGODB_ENABLE_ADMIN"
+          value: "false"
+        - name: "ME_CONFIG_MONGODB_AUTH_DATABASE"
+          value: {{ .Values.mongo.prod.db}}
+        - name: "ME_CONFIG_MONGODB_AUTH_USERNAME"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.mongo_express.secretName | quote }}
-              key: "connectionURI" 
+              name: {{ .Values.mongo.prod.username.secretName}}
+              key: {{ .Values.mongo.prod.username.secretKey}}
+        - name: "ME_CONFIG_MONGODB_AUTH_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.prod.password.secretName}}
+              key: {{ .Values.mongo.prod.password.secretKey}}
 ---
 apiVersion: v1
 kind: Service

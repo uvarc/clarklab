@@ -27,7 +27,7 @@ metadata:
 spec:
   rules:
 
-    - host: "me.fairscape.net"
+    - host: "mongoexpress.fairscape.net"
       http:
         paths:
         - pathType: Prefix
@@ -99,5 +99,6 @@ spec:
       - "fairscape.net"
       - "www.fairscape.net"
       - "test.fairscape.net"
+      - "mongoexpress.fairscape.net"
       secretName: star-fairscape-tls
       # fairscape-net-tls-secret

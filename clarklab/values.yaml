@@ -80,6 +80,7 @@ redis:
     cpu: "300m"
 
 mongo_express:
+  image: "mongo-express"
   serviceName: "mongo-express-service"
   appName: "mongo-express"
   servicePort: 8081
