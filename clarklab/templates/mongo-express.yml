@@ -29,7 +29,7 @@ spec:
             cpu: {{ .Values.mongo_express.limits.cpu | quote }}
         env:
         - name: "ME_CONFIG_MONGODB_SERVER"
-          value: {{ .Values.mongo.hostURI}}
+          value: "prod-mongo-psmdb-db-rs0"
         - name: "ME_CONFIG_BASICAUTH_USERNAME"
           valueFrom:
             secretKeyRef:
