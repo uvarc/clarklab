@@ -139,7 +139,11 @@ spec:
             secretKeyRef:
               name: {{ .Values.mongo.prod.password.secretName | quote }}
               key: {{ .Values.mongo.prod.password.secretKey | quote }} 
-
+        - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minio.accessKey.secretName | quote }}
+              key: {{ .Values.minio.accessKey.secretKey | quote }} 
         - name: "FAIRSCAPE_MINIO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
