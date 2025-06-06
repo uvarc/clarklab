@@ -17,9 +17,10 @@ metadata:
     proxy-send-timeout: "3600"
     proxy-read-timeout: "3600"
     # set max body size to 5Gi
-    nginx.ingress.kubernetes.io/client-max-body-size: "5000M"
-    nginx.org/client-max-body-size: "5000M"
-    client-max-body-size: "5000M"
+    nginx.ingress.kubernetes.io/client-max-body-size: "30000M"
+    nginx.org/client-max-body-size: "30000M"
+    client-max-body-size: "30000M"
+    nginx.org/websocket-services: "{{ .Values.fairscape.minio.serviceName}}-console"
     # turn off proxy buffering
     nginx.org/proxy-buffering: "false"
   name: fairscape-ingress
