@@ -26,6 +26,16 @@ metadata:
   namespace: clarklab
 spec:
   rules:
+    - host: "minio.fairscape.net"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: "{{ .Values.fairscape.minio.serviceName}}-console"
+              port:
+                number: 9001
 
     - host: "mongoexpress.fairscape.net"
       http:
@@ -100,5 +110,6 @@ spec:
       - "www.fairscape.net"
       - "test.fairscape.net"
       - "mongoexpress.fairscape.net"
+      - "minio.fairscape.net"
       secretName: star-fairscape-tls
       # fairscape-net-tls-secret

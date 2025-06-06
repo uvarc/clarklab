@@ -55,3 +55,18 @@ spec:
       protocol: TCP
       port: {{ .Values.fairscape.minio.servicePort }}
       targetPort: {{ .Values.fairscape.minio.targetPort }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.fairscape.minio.serviceName}}-console"
+  namespace: {{ .Values.namespace}}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.fairscape.minio.appName }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9001 
+      targetPort: 9001
