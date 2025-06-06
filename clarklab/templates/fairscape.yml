@@ -195,6 +195,9 @@ spec:
       containers:
       - name: fairscape-frontend
         image: {{ .Values.fairscape.frontend.image }} 
+        env:
+        - name: VITE_FAIRSCAPE_API_URL
+          value: 'https://test.fairscape.net/api'
         ports:
         - containerPort: {{ .Values.fairscape.frontend.serviceTargetPort }}
         resources:
