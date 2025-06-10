@@ -2,45 +2,45 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "{{ .Values.chromadb.appName }}-deployment"
-  namespace: { { .Values.namespace } }
+  namespace: "{{ .Values.namespace }}"
   labels:
-    app: { { .Values.chromadb.appName } }
+    app: "{{ .Values.chromadb.appName }}"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: { { .Values.chromadb.appName } }
+      app: "{{ .Values.chromadb.appName }}"
   template:
     metadata:
       labels:
-        app: { { .Values.chromadb.appName } }
+        app: "{{ .Values.chromadb.appName }}"
     spec:
       containers:
         - name: chromadb
-          image: { { .Values.chromadb.image } }
+          image: "{{ .Values.chromadb.image }}"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: { { .Values.chromadb.containerPort } }
               name: http
           resources:
             requests:
-              memory: { { .Values.chromadb.requests.memory } }
-              cpu: { { .Values.chromadb.requests.cpu } }
+              memory: "{{ .Values.chromadb.requests.memory }}"
+              cpu: "{{ .Values.chromadb.requests.cpu }}"
             limits:
-              memory: { { .Values.chromadb.limits.memory } }
-              cpu: { { .Values.chromadb.limits.cpu } }
+              memory: "{{ .Values.chromadb.limits.memory }}"
+              cpu: "{{ .Values.chromadb.limits.cpu }}"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: { { .Values.chromadb.serviceName } }
-  namespace: { { .Values.namespace } }
+  name: "{{ .Values.chromadb.serviceName }}"
+  namespace: "{{ .Values.namespace }}"
   labels:
-    app: { { .Values.chromadb.appName } }
+    app: "{{ .Values.chromadb.appName }}"
 spec:
   type: ClusterIP
   selector:
-    app: { { .Values.chromadb.appName } }
+    app: "{{ .Values.chromadb.appName }}"
   ports:
     - port: { { .Values.chromadb.servicePort } }
       targetPort: http
