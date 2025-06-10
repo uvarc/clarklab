@@ -1,3 +1,20 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.fairscape.minio.volume.pvcName | quote }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.fairscape.minio.appName }}
+spec:
+  storageClassName: clarklab-nfs-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.fairscape.minio.volume.storage }}
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,7 +36,7 @@ spec:
       volumes:
       - name: project-volume
         persistentVolumeClaim:
-          claimName: "clarklab-nfs-pv"
+          claimName: {{ .Values.fairscape.minio.volume.pvcName | quote}}
       containers:
       - name: minio
         image: {{ .Values.fairscape.minio.image }}

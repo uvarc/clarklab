@@ -31,6 +31,9 @@ fairscape:
     limits:
       memory: "8024Mi"
       cpu: "1000m"
+    volume:
+      pvcName: "minio-research-project-pvc"
+      storage: "500Gi"
 
   backend: 
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-06-06.v4"
