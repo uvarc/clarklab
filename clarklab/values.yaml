@@ -147,7 +147,6 @@ fairscapeConfig:
       value: "rocrate"
     - name: "FAIRSCAPE_MINIO_URI"
       value: http://incluster-minio:9000
-      #value: "https://minio.uvarc.io:9000"
     - name: "FAIRSCAPE_MINIO_SECURE"
       value: "True"
     - name: "FAIRSCAPE_MINIO_CERT_CHECK"
