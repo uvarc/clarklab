@@ -116,11 +116,11 @@ mongo:
 minio:  
   serviceName: "minio.uvarc.io"
   accessKey:
-    secretName: fairscape-secrets
-    secretKey: minio-access-key
+    secretName: minio-secret
+    secretKey: username
   secretKey:
-    secretName: fairscape-secrets
-    secretKey: minio-secret-key
+    secretName: minio-secret 
+    secretKey: password
 
 fairscapeConfig:
   env:
