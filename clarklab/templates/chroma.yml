@@ -1,50 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.test_search_service.chromadb.appName }}-deployment"
+  name: "{{ .Values.chromadb.appName }}-deployment"
   namespace: { { .Values.namespace } }
   labels:
-    app: { { .Values.test_search_service.chromadb.appName } }
+    app: { { .Values.chromadb.appName } }
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: { { .Values.test_search_service.chromadb.appName } }
+      app: { { .Values.chromadb.appName } }
   template:
     metadata:
       labels:
-        app: { { .Values.test_search_service.chromadb.appName } }
+        app: { { .Values.chromadb.appName } }
     spec:
       containers:
         - name: chromadb
-          image: { { .Values.test_search_service.chromadb.image } }
+          image: { { .Values.chromadb.image } }
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort:
-                { { .Values.test_search_service.chromadb.containerPort } }
+            - containerPort: { { .Values.chromadb.containerPort } }
               name: http
           resources:
             requests:
-              memory:
-                { { .Values.test_search_service.chromadb.requests.memory } }
-              cpu: { { .Values.test_search_service.chromadb.requests.cpu } }
+              memory: { { .Values.chromadb.requests.memory } }
+              cpu: { { .Values.chromadb.requests.cpu } }
             limits:
-              memory: { { .Values.test_search_service.chromadb.limits.memory } }
-              cpu: { { .Values.test_search_service.chromadb.limits.cpu } }
+              memory: { { .Values.chromadb.limits.memory } }
+              cpu: { { .Values.chromadb.limits.cpu } }
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: { { .Values.test_search_service.chromadb.serviceName } }
+  name: { { .Values.chromadb.serviceName } }
   namespace: { { .Values.namespace } }
   labels:
-    app: { { .Values.test_search_service.chromadb.appName } }
+    app: { { .Values.chromadb.appName } }
 spec:
   type: ClusterIP
   selector:
-    app: { { .Values.test_search_service.chromadb.appName } }
+    app: { { .Values.chromadb.appName } }
   ports:
-    - port: { { .Values.test_search_service.chromadb.servicePort } }
+    - port: { { .Values.chromadb.servicePort } }
       targetPort: http
       protocol: TCP
       name: http
