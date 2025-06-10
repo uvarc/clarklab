@@ -20,7 +20,7 @@ jupyterhub:
 
 fairscape:
   minio:
-    image:  quay.io/minio/minio:latest
+    image: quay.io/minio/minio:latest
     appName: minio-app
     serviceName: incluster-minio
     servicePort: 9000
@@ -35,7 +35,7 @@ fairscape:
       pvcName: "minio-research-project-pvc"
       storage: "300Gi"
 
-  backend: 
+  backend:
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-06-06.v4"
     appName: "backend-app"
     serviceName: "backend-service"
@@ -116,13 +116,13 @@ mongo:
       secretName: "mongo-prod-secret"
       secretKey: "password"
 
-minio:  
+minio:
   serviceName: "minio.uvarc.io"
   accessKey:
     secretName: minio-secret
     secretKey: username
   secretKey:
-    secretName: minio-secret 
+    secretName: minio-secret
     secretKey: password
 
 fairscapeConfig:
@@ -172,16 +172,16 @@ fairscapeConfig:
     - name: "FAIRSCAPE_URL"
       value: "https://fairscape.net"
 
- test_search_service:
-   chromadb:
-     image: "chromadb/chroma:0.5.0"
-     appName: "test-chromadb"
-     serviceName: "test-chromadb-service"
-     servicePort: 8000
-     containerPort: 8000
-     requests:
-       memory: "1Gi"
-       cpu: "200m"
-     limits:
-       memory: "2Gi"
-       cpu: "500m"
+test_search_service:
+  chromadb:
+    image: "chromadb/chroma:0.5.0"
+    appName: "test-chromadb"
+    serviceName: "test-chromadb-service"
+    servicePort: 8000
+    containerPort: 8000
+    requests:
+      memory: "1Gi"
+      cpu: "200m"
+    limits:
+      memory: "2Gi"
+      cpu: "500m"
