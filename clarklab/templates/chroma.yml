@@ -1,49 +1,50 @@
- apiVersion: apps/v1
- kind: Deployment
- metadata:
-   name: "{{ .Values.test_search_service.chromadb.appName }}-deployment"
-   namespace: {{ .Values.namespace }}
-   labels:
-     app: {{ .Values.test_search_service.chromadb.appName }}
- spec:
-   replicas: 1
-   selector:
-     matchLabels:
-       app: {{ .Values.test_search_service.chromadb.appName }}
-   template:
-     metadata:
-       labels:
-         app: {{ .Values.test_search_service.chromadb.appName }}
-     spec:
-       containers:
-       - name: chromadb
-         image: {{ .Values.test_search_service.chromadb.image }}
-         imagePullPolicy: IfNotPresent
-         ports:
-         - containerPort: {{ .Values.test_search_service.chromadb.containerPort }}
-           name: http 
-         resources:
-           requests:
-             memory: {{ .Values.test_search_service.chromadb.requests.memory }}
-             cpu: {{ .Values.test_search_service.chromadb.requests.cpu }}
-           limits:
-             memory: {{ .Values.test_search_service.chromadb.limits.memory }}
-             cpu: {{ .Values.test_search_service.chromadb.limits.cpu }}
- ---
- # --- ChromaDB Service ---
- apiVersion: v1
- kind: Service
- metadata:
-   name: {{ .Values.test_search_service.chromadb.serviceName }}
-   namespace: {{ .Values.namespace }}
-   labels:
-     app: {{ .Values.test_search_service.chromadb.appName }}
- spec:
-   type: ClusterIP 
-   selector:
-     app: {{ .Values.test_search_service.chromadb.appName }}
-   ports:
-     - port: {{ .Values.test_search_service.chromadb.servicePort }}
-       targetPort: http
-       protocol: TCP
-       name: http 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.test_search_service.chromadb.appName }}-deployment"
+  namespace: { { .Values.namespace } }
+  labels:
+    app: { { .Values.test_search_service.chromadb.appName } }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: { { .Values.test_search_service.chromadb.appName } }
+  template:
+    metadata:
+      labels:
+        app: { { .Values.test_search_service.chromadb.appName } }
+    spec:
+      containers:
+        - name: chromadb
+          image: { { .Values.test_search_service.chromadb.image } }
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort:
+                { { .Values.test_search_service.chromadb.containerPort } }
+              name: http
+          resources:
+            requests:
+              memory:
+                { { .Values.test_search_service.chromadb.requests.memory } }
+              cpu: { { .Values.test_search_service.chromadb.requests.cpu } }
+            limits:
+              memory: { { .Values.test_search_service.chromadb.limits.memory } }
+              cpu: { { .Values.test_search_service.chromadb.limits.cpu } }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: { { .Values.test_search_service.chromadb.serviceName } }
+  namespace: { { .Values.namespace } }
+  labels:
+    app: { { .Values.test_search_service.chromadb.appName } }
+spec:
+  type: ClusterIP
+  selector:
+    app: { { .Values.test_search_service.chromadb.appName } }
+  ports:
+    - port: { { .Values.test_search_service.chromadb.servicePort } }
+      targetPort: http
+      protocol: TCP
+      name: http
