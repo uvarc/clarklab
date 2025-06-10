@@ -33,7 +33,7 @@ fairscape:
       cpu: "1000m"
     volume:
       pvcName: "minio-research-project-pvc"
-      storage: "400Gi"
+      storage: "300Gi"
 
   backend: 
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-06-06.v4"
