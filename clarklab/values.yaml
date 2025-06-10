@@ -125,6 +125,19 @@ minio:
     secretName: minio-secret
     secretKey: password
 
+chromadb:
+  image: "chromadb/chroma:0.5.0"
+  appName: "test-chromadb"
+  serviceName: "test-chromadb-service"
+  servicePort: 8000
+  containerPort: 8000
+  requests:
+    memory: "1Gi"
+    cpu: "200m"
+  limits:
+    memory: "2Gi"
+    cpu: "500m"
+
 fairscapeConfig:
   env:
     - name: "FAIRSCAPE_HOST"
@@ -171,17 +184,3 @@ fairscapeConfig:
       value: "ou=groups,dc=fairscape,dc=net"
     - name: "FAIRSCAPE_URL"
       value: "https://fairscape.net"
-
-test_search_service:
-  chromadb:
-    image: "chromadb/chroma:0.5.0"
-    appName: "test-chromadb"
-    serviceName: "test-chromadb-service"
-    servicePort: 8000
-    containerPort: 8000
-    requests:
-      memory: "1Gi"
-      cpu: "200m"
-    limits:
-      memory: "2Gi"
-      cpu: "500m"
