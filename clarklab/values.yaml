@@ -32,8 +32,9 @@ fairscape:
       memory: "8024Mi"
       cpu: "1000m"
     volume:
+      storageClassName: "longhorn-ii"
       pvcName: "minio-research-project-pvc"
-      storage: "300Gi"
+      storage: "1000Gi"
 
   backend:
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-06-06.v4"
