@@ -7,7 +7,7 @@ metadata:
   labels:
     app: {{ .Values.fairscape.minio.appName }}
 spec:
-  storageClassName: "longhorn-ll"
+  storageClassName: ""
   volumeName: clarklab-nfs-pv
   accessModes:
     - ReadWriteOnce
