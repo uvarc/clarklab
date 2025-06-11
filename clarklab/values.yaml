@@ -32,7 +32,7 @@ fairscape:
       memory: "8024Mi"
       cpu: "1000m"
     volume:
-      storageClassName: "longhorn-ii"
+      storageClassName: "longhorn-ll"
       pvcName: "minio-research-project-pvc"
       storage: "300Gi"
 
