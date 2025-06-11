@@ -126,7 +126,7 @@ minio:
     secretKey: password
 
 chromadb:
-  image: "chromadb/chroma:0.5.0"
+  image: "chromadb/chroma:1.0.12"
   appName: "test-chromadb"
   serviceName: "test-chromadb-service"
   servicePort: 8000
