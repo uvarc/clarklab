@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "test-fairscape-search-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "test-fairscape-search"
+  template:
+    metadata:
+      labels:
+        app: "test-fairscape-search"
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: fairscape-search
+        image: {{ .Values.fairscape.search.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5050
+        env:
+        - name: "FAIRSCAPE_MONGO_DATABASE"
+          value: {{ .Values.mongo.test.db }}
+        - name: "FAIRSCAPE_MONGO_HOST"
+          value: {{ .Values.mongo.hostURI | quote }}
+        - name: "FAIRSCAPE_MONGO_PORT"
+          value: {{ .Values.mongo.port | quote }}
+        - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.username.secretName | quote }}
+              key: {{ .Values.mongo.test.username.secretKey | quote }}
+        - name: "FAIRSCAPE_MONGO_SECRET_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.test.password.secretName | quote }}
+              key: {{ .Values.mongo.test.password.secretKey | quote }}
+        - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
+          value: "fairscape"
+        - name: "FAIRSCAPE_CHROMA_HOST"
+          value: "test-chromadb-service"
+        - name: "FAIRSCAPE_CHROMA_PORT"
+          value: "8000"
+        - name: "FAIRSCAPE_CHROMA_COLLECTION"
+          value: "fairscape_vectors"
+        resources:
+          requests:
+            memory: {{ .Values.fairscape.search.requests.memory | quote }}
+            cpu: {{ .Values.fairscape.search.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.fairscape.search.limits.memory | quote }}
+            cpu: {{ .Values.fairscape.search.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "test-fairscape-search-service"
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: "test-fairscape-search"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.fairscape.search.servicePort }}
+      targetPort: {{ .Values.fairscape.search.serviceTargetPort }}

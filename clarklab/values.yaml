@@ -125,6 +125,17 @@ minio:
     secretName: minio-secret
     secretKey: password
 
+search:
+  image: "ghcr.io/fairscape/semantic_search:RELEASE.2025-06-11.v1"
+  servicePort: 5050
+  serviceTargetPort: 5050
+  requests:
+    memory: "2Gi"
+    cpu: "500m"
+  limits:
+    memory: "4Gi"
+    cpu: "1000m"
+
 chromadb:
   image: "chromadb/chroma:1.0.12"
   appName: "test-chromadb"
