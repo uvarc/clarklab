@@ -70,7 +70,7 @@ fairscape:
       memory: "6024Mi"
       cpu: "800m"
   search:
-    image: "ghcr.io/fairscape/semantic_search:RELEASE.2025-06-12.v5"
+    image: "ghcr.io/fairscape/semantic_search:RELEASE.2025-06-12.v6"
     servicePort: 5050
     serviceTargetPort: 5050
     requests:
