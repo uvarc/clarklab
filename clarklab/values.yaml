@@ -32,8 +32,9 @@ fairscape:
       memory: "8024Mi"
       cpu: "1000m"
     volume:
-      storageClassName: "longhorn-ll"
-      pvcName: "minio-research-project-pvc"
+      storageClassName: "clarklab-sc"
+      volumeName: "clarklab-nfs-pv"
+      pvcName: "minio-prod-research-project-pvc"
       storage: "300Gi"
 
   backend:

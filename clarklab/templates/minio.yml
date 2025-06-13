@@ -8,7 +8,7 @@ metadata:
     app: {{ .Values.fairscape.minio.appName }}
 spec:
   storageClassName: {{ .Values.fairscape.minio.volume.storageClassName }}
-  #volumeName: clarklab-nfs-pv
+  volumeName: {{ .Values.fairscape.minio.volume.volumeName }}
   accessModes:
     - ReadWriteOnce
   resources:
