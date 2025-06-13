@@ -36,6 +36,7 @@ spec:
       - name: ghcr-secret
       volumes:
       - name: project-volume
+        mountPath: "/Fairscape"
         persistentVolumeClaim:
           claimName: {{ .Values.fairscape.minio.volume.pvcName | quote}}
       containers:
