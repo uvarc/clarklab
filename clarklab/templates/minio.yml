@@ -36,13 +36,12 @@ spec:
       - name: ghcr-secret
       volumes:
       - name: project-volume
-        mountPath: "/Fairscape"
         persistentVolumeClaim:
           claimName: {{ .Values.fairscape.minio.volume.pvcName | quote}}
       containers:
       - name: minio
         image: {{ .Values.fairscape.minio.image }}
-        command: ["minio", "server", "/data", "--console-address", ":9001"]
+        command: ["minio", "server", "/data/Fairscape", "--console-address", ":9001"]
         ports:
         - containerPort: {{ .Values.fairscape.minio.serviceTargetPort }}
         resources:
