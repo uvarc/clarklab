@@ -10,7 +10,7 @@ spec:
   storageClassName: {{ .Values.fairscape.minio.volume.storageClassName }}
   volumeName: {{ .Values.fairscape.minio.volume.volumeName }}
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.fairscape.minio.volume.storage }}
