@@ -49,7 +49,7 @@ fairscape:
       memory: "8024Mi"
       cpu: "1000m"
   frontend:
-    image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-06-03.v3"
+    image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-06-10.v4"
     appName: "fairscape-frontend-app"
     serviceName: "frontend-service"
     servicePort: 80
