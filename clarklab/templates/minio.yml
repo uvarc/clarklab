@@ -8,9 +8,9 @@ metadata:
     app: {{ .Values.fairscape.minio.appName }}
 spec:
   storageClassName: {{ .Values.fairscape.minio.volume.storageClassName }}
-  #volumeName: clarklab-nfs-pv
+  volumeName: {{ .Values.fairscape.minio.volume.volumeName }}
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.fairscape.minio.volume.storage }}
@@ -41,7 +41,7 @@ spec:
       containers:
       - name: minio
         image: {{ .Values.fairscape.minio.image }}
-        command: ["minio", "server", "/data", "--console-address", ":9001"]
+        command: ["minio", "server", "/data/Fairscape", "--console-address", ":9001"]
         ports:
         - containerPort: {{ .Values.fairscape.minio.serviceTargetPort }}
         resources:
