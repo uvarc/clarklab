@@ -190,7 +190,7 @@ spec:
       - name: ghcr-secret
       containers:
       - name: fairscape-frontend
-        image: {{ .Values.fairscape.frontend.image }} 
+        image: 'ghcr.io/fairscape/fairscapefrontend:release.2025-06-12.v3'
         env:
         - name: VITE_FAIRSCAPE_API_URL
           value: 'https://test.fairscape.net/api'
