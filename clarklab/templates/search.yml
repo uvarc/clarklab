@@ -66,6 +66,8 @@ spec:
               value: "8000"
             - name: "FAIRSCAPE_CHROMA_COLLECTION"
               value: "fairscape_qa_minilm"
+            - name: "FORCE_REINSTALL_PACKAGES"
+              value: "true"
           volumeMounts:
             - name: pip-packages-volume
               mountPath: /mnt/pip_packages
