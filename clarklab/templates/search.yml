@@ -65,9 +65,7 @@ spec:
             - name: "FAIRSCAPE_CHROMA_PORT"
               value: "8000"
             - name: "FAIRSCAPE_CHROMA_COLLECTION"
-              value: "fairscape_vectors"
-            - name: "FORCE_REINSTALL_PACKAGES"
-              value: "true"
+              value: "fairscape_qa_minilm"
           volumeMounts:
             - name: pip-packages-volume
               mountPath: /mnt/pip_packages
