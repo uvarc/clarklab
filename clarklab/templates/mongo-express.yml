@@ -35,6 +35,8 @@ spec:
             secretKeyRef:
               name: {{ .Values.mongo_express.secretName | quote }}
               key: "connectionURI" 
+        - name: "ME_CONFIG_BASICAUTH_ENABLED"
+          value: "false"
         #- name: "ME_CONFIG_BASICAUTH_USERNAME"
         #  valueFrom:
         #    secretKeyRef:
