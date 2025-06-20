@@ -26,6 +26,12 @@ fairscape:
     serviceName: incluster-minio
     servicePort: 9000
     serviceTargetPort: 9000
+    prod:
+      secretName: "minio-prod-user"
+      bucketName: "clarklab"
+    test:
+      bucketName: "test"
+      secretName: "minio-test-user" 
     requests:
       memory: "4024Mi"
       cpu: "500m"
@@ -157,12 +163,8 @@ fairscapeConfig:
       value: "fairscape.net"
     - name: "FAIRSCAPE_PORT"
       value: "8080"
-    - name: "FAIRSCAPE_LDAP_HOST"
-      value: "prod-ldap-service"
     - name: "FAIRSCAPE_LDAP_PORT"
       value: "1389"
-    - name: "FAIRSCAPE_LDAP_ADMIN_DN"
-      value: "cn=fairscapeAdmin,dc=fairscape,dc=net"
     - name: "FAIRSCAPE_MONGO_PORT"
       value: "27017"
     - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
@@ -177,23 +179,11 @@ fairscapeConfig:
       value: "True"
     - name: "FAIRSCAPE_MINIO_CERT_CHECK"
       value: "False"
-    - name: "FAIRSCAPE_MINIO_DEFAULT_BUCKET"
-      value: "clarklab"
     - name: "FAIRSCAPE_MINIO_DEFAULT_BUCKET_PATH"
       value: "default"
-    - name: "FAIRSCAPE_MINIO_ROCRATE_BUCKET"
-      value: "clarklab"
     - name: "FAIRSCAPE_MINIO_ROCRATE_BUCKET_PATH"
       value: "rocrate"
     - name: "FAIRSCAPE_NAAN"
       value: "59852"
-    - name: FAIRSCAPE_LDAP_ADMIN_PASSWORD
-      value: "fairscapeAdminPassword"
-    - name: "FAIRSCAPE_LDAP_BASE_DN"
-      value: "dc=fairscape,dc=net"
-    - name: "FAIRSCAPE_LDAP_USERS_DN"
-      value: "ou=users,dc=fairscape,dc=net"
-    - name: "FAIRSCAPE_LDAP_GROUPS_DN"
-      value: "ou=groups,dc=fairscape,dc=net"
     - name: "FAIRSCAPE_URL"
       value: "https://fairscape.net"

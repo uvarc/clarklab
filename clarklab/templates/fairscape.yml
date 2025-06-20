@@ -45,15 +45,17 @@ spec:
         - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.minio.accessKey.secretName | quote }}
-              key: {{ .Values.minio.accessKey.secretKey | quote }} 
+              name: {{ .Values.fairscape.minio.prod.secretName | quote }}
+              key: "username"
         - name: "FAIRSCAPE_MINIO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.minio.secretKey.secretName | quote }}
-              key: {{ .Values.minio.secretKey.secretKey | quote }} 
+              name: {{ .Values.fairscape.minio.prod.secretName | quote }}
+              key: "password"
         - name: "FAIRSCAPE_MINIO_URI"
           value: "http://incluster-minio:9000"
+        - name: "FAIRSCAPE_MINIO_DEFAULT_BUCKET"
+          value: {{ .Values.fairscape.minio.prod.bucketName }}
         - name: "FAIRSCAPE_REDIS_HOST"
           value: {{ .Values.redis.serviceName }}
         - name: "FAIRSCAPE_REDIS_PORT"
@@ -142,13 +144,17 @@ spec:
         - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.minio.accessKey.secretName | quote }}
-              key: {{ .Values.minio.accessKey.secretKey | quote }} 
+              name: {{ .Values.fairscape.minio.prod.secretName | quote }}
+              key: "username"
         - name: "FAIRSCAPE_MINIO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.minio.secretKey.secretName | quote }}
-              key: {{ .Values.minio.secretKey.secretKey | quote }} 
+              name: {{ .Values.fairscape.minio.prod.secretName | quote }}
+              key: "password"
+        - name: "FAIRSCAPE_MINIO_URI"
+          value: "http://incluster-minio:9000"
+        - name: "FAIRSCAPE_MINIO_DEFAULT_BUCKET"
+          value: {{ .Values.fairscape.minio.prod.bucketName }}
         - name: "FAIRSCAPE_MINIO_URI"
           value: "http://incluster-minio:9000"
         - name: "FAIRSCAPE_REDIS_HOST"
