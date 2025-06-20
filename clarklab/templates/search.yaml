@@ -28,7 +28,7 @@ spec:
         app: "test-fairscape-search"
     spec:
       imagePullSecrets:
-        - name: ghcr-secret
+        - name: {{ .Values.fairscape.pullSecretName }}
       volumes:
         - name: pip-packages-volume
           persistentVolumeClaim:
