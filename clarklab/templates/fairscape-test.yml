@@ -15,7 +15,7 @@ spec:
         app: "test-{{ .Values.fairscape.backend.appName }}"
     spec:
       imagePullSecrets:
-      - name: ghcr-secret
+      - name: {{ .Values.fairscape.pullSecretName }}
       containers:
       - name: fairscape
         image: {{ .Values.fairscape.backend.image }} 
@@ -108,7 +108,7 @@ spec:
         app: "test-{{ .Values.fairscape.worker.appName}}"
     spec:
       imagePullSecrets:
-      - name: ghcr-secret
+      - name: {{ .Values.fairscape.pullSecretName }}
       securityContext:
         runAsUser: 1099
         runAsGroup: 1099
@@ -187,7 +187,7 @@ spec:
         app: "test-{{ .Values.fairscape.frontend.appName }}"
     spec:
       imagePullSecrets:
-      - name: ghcr-secret
+      - name: {{ .Values.fairscape.pullSecretName }}
       containers:
       - name: fairscape-frontend
         image: 'ghcr.io/fairscape/fairscapefrontend:release.2025-06-12.v3'

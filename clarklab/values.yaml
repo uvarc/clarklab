@@ -19,6 +19,7 @@ jupyterhub:
     storage: "50Gi"
 
 fairscape:
+  pullSecretName: "ghcrPullSecret"
   minio:
     image: quay.io/minio/minio:latest
     appName: minio-app
