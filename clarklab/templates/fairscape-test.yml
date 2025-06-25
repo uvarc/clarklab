@@ -18,7 +18,7 @@ spec:
       - name: {{ .Values.fairscape.pullSecretName }}
       containers:
       - name: fairscape
-        image: {{ .Values.fairscape.backend.image }}
+        image: {{ .Values.fairscape.backend.testImage }}
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -117,7 +117,7 @@ spec:
         fsGroup: 1099
       containers:
       - name: fairscape
-        image: {{ .Values.fairscape.worker.image }}
+        image: {{ .Values.fairscape.worker.testImage }}
         imagePullPolicy: Always
         command: ["python"]
         args: ["fairscape_mds/worker.py" ]
