@@ -31,7 +31,7 @@ fairscape:
       bucketName: "clarklab"
     test:
       bucketName: "test"
-      secretName: "minio-test-user" 
+      secretName: "minio-test-user"
     requests:
       memory: "4024Mi"
       cpu: "500m"
@@ -57,7 +57,7 @@ fairscape:
       memory: "8024Mi"
       cpu: "1000m"
   frontend:
-    image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-06-10.v4"
+    image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-06-25.v3"
     appName: "fairscape-frontend-app"
     serviceName: "frontend-service"
     servicePort: 80

@@ -18,7 +18,7 @@ spec:
       - name: {{ .Values.fairscape.pullSecretName }}
       containers:
       - name: fairscape
-        image: {{ .Values.fairscape.backend.image }} 
+        image: {{ .Values.fairscape.backend.image }}
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -36,12 +36,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.mongo.test.username.secretName | quote }}
-              key: {{ .Values.mongo.test.username.secretKey | quote }} 
+              key: {{ .Values.mongo.test.username.secretKey | quote }}
         - name: "FAIRSCAPE_MONGO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
               name: {{ .Values.mongo.test.password.secretName | quote }}
-              key: {{ .Values.mongo.test.password.secretKey | quote }} 
+              key: {{ .Values.mongo.test.password.secretKey | quote }}
         - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
@@ -89,7 +89,7 @@ spec:
     - name: http
       protocol: TCP
       port: {{ .Values.fairscape.backend.servicePort }}
-      targetPort: {{ .Values.fairscape.backend.serviceTargetPort }} 
+      targetPort: {{ .Values.fairscape.backend.serviceTargetPort }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -117,9 +117,9 @@ spec:
         fsGroup: 1099
       containers:
       - name: fairscape
-        image: {{ .Values.fairscape.worker.image }} 
+        image: {{ .Values.fairscape.worker.image }}
         imagePullPolicy: Always
-        command: ["python"] 
+        command: ["python"]
         args: ["fairscape_mds/worker.py" ]
         env:
         {{- /*
@@ -135,14 +135,14 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.mongo.test.username.secretName | quote }}
-              key: {{ .Values.mongo.test.username.secretKey | quote }} 
+              key: {{ .Values.mongo.test.username.secretKey | quote }}
         - name: "FAIRSCAPE_MINIO_URI"
           value: "http://incluster-minio:9000"
         - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
               name: {{ .Values.fairscape.minio.test.secretName | quote }}
-              key: "username" 
+              key: "username"
         - name: "FAIRSCAPE_MINIO_SECRET_KEY"
           valueFrom:
             secretKeyRef:
@@ -169,7 +169,7 @@ spec:
           limits:
             memory: {{ .Values.fairscape.worker.limits.memory | quote }}
             cpu: {{ .Values.fairscape.worker.limits.cpu | quote }}
-      serviceAccountName: fairscape-sa 
+      serviceAccountName: fairscape-sa
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -193,10 +193,12 @@ spec:
       - name: {{ .Values.fairscape.pullSecretName }}
       containers:
       - name: fairscape-frontend
-        image: 'ghcr.io/fairscape/fairscapefrontend:release.2025-06-12.v3'
+        image: {{ .Values.fairscape.frontend.image }}
         env:
         - name: VITE_FAIRSCAPE_API_URL
           value: 'https://test.fairscape.net/api'
+        - name: SEMANTIC_SEARCH_ENABLED
+          value: 'true'
         ports:
         - containerPort: {{ .Values.fairscape.frontend.serviceTargetPort }}
         resources:
