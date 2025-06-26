@@ -59,6 +59,7 @@ fairscape:
       cpu: "1000m"
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-06-25.v3"
+    testImage: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-06-26.v1"
     appName: "fairscape-frontend-app"
     serviceName: "frontend-service"
     servicePort: 80

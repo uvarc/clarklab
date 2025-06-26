@@ -193,7 +193,7 @@ spec:
       - name: {{ .Values.fairscape.pullSecretName }}
       containers:
       - name: fairscape-frontend
-        image: {{ .Values.fairscape.frontend.image }}
+        image: {{ .Values.fairscape.frontend.testImage }}
         env:
         - name: VITE_FAIRSCAPE_API_URL
           value: 'https://test.fairscape.net/api'
