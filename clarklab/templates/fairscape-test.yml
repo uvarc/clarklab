@@ -60,10 +60,10 @@ spec:
           value: {{ .Values.redis.serviceName }}
         - name: "FAIRSCAPE_REDIS_PORT"
           value: {{ .Values.redis.servicePort | quote}}
-        - name: "FAIRSCAPE_REDIS_DATABASE"
-          value: {{ .Values.redis.jobDatabase | quote }}
+        - name: "FAIRSCAPE_REDIS_JOB_DATABASE"
+          value: {{ .Values.redis.test.jobDatabase | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
-          value: {{ .Values.redis.resultDatabase | quote }}
+          value: {{ .Values.redis.test.resultDatabase | quote }}
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value | quote }}
@@ -153,9 +153,9 @@ spec:
         - name: "FAIRSCAPE_REDIS_HOST"
           value: {{ .Values.redis.serviceName }}
         - name: "FAIRSCAPE_REDIS_PORT"
-          value: {{ .Values.redis.servicePort | quote}}
+          value: {{ .Values.redis.test.servicePort | quote}}
         - name: "FAIRSCAPE_REDIS_DATABASE"
-          value: {{ .Values.redis.jobDatabase | quote }}
+          value: {{ .Values.redis.test.jobDatabase | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.resultDatabase | quote }}
         {{- range $envVar := .Values.fairscapeConfig.env}}
