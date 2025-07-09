@@ -153,11 +153,11 @@ spec:
         - name: "FAIRSCAPE_REDIS_HOST"
           value: {{ .Values.redis.serviceName }}
         - name: "FAIRSCAPE_REDIS_PORT"
-          value: {{ .Values.redis.test.servicePort | quote}}
-        - name: "FAIRSCAPE_REDIS_DATABASE"
+          value: {{ .Values.redis.servicePort | quote}}
+        - name: "FAIRSCAPE_REDIS_JOB_DATABASE"
           value: {{ .Values.redis.test.jobDB | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
-          value: {{ .Values.redis.resultDB | quote }}
+          value: {{ .Values.redis.test.resultDB | quote }}
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value | quote}}
