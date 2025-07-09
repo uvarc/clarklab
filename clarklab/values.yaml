@@ -27,10 +27,10 @@ fairscape:
     servicePort: 9000
     serviceTargetPort: 9000
     prod:
-      secretName: "minio-prod-user"
+      secretName: "prod-minio-secret"
       bucketName: "clarklab"
     test:
-      bucketName: "test"
+      bucketName: "test-minio-secret"
       secretName: "minio-test-user"
     requests:
       memory: "4024Mi"
