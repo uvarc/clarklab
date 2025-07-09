@@ -30,7 +30,7 @@ fairscape:
       secretName: "prod-minio-secret"
       bucketName: "clarklab"
     test:
-      secretName: "test-minio-user"
+      secretName: "test-minio-secret"
       bucketName: "test"
     requests:
       memory: "4024Mi"
