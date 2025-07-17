@@ -165,6 +165,8 @@ spec:
           value: {{ .Values.redis.test.jobDB | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.test.resultDB | quote }}
+        - name: "FAIRSCAPE_BASE_URL"
+          value: "https://test.fairscape.net/api"
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value | quote}}
