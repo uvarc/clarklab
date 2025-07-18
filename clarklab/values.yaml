@@ -45,7 +45,7 @@ fairscape:
       storage: "300Gi"
 
   backend:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-06-12.v2"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-07-17.v3"
     testImage: "ghcr.io/fairscape/mds_python:release.2025-07-17.v3"
     appName: "backend-app"
     serviceName: "backend-service"
@@ -71,7 +71,7 @@ fairscape:
       memory: "4024Mi"
       cpu: "700m"
   worker:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-06-12.v2"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-07-17.v3"
     testImage: "ghcr.io/fairscape/mds_python:release.2025-07-17.v3"
     appName: "fairscape-worker-app"
     requests:
