@@ -26,6 +26,10 @@ spec:
         {{- /*
         generate env variables from values configuration
         */}}
+        - name: "FAIRSCAPE_JWT_SECRET"
+          value: "testjwtsecret"
+        - name: "FAIRSCAPE_ADMIN_GROUP"
+          value: "admin"
         - name: "FAIRSCAPE_MONGO_DATABASE"
           value: {{ .Values.mongo.test.db }}
         - name: "FAIRSCAPE_MONGO_HOST"
