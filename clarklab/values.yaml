@@ -75,11 +75,11 @@ fairscape:
     testImage: "ghcr.io/fairscape/mds_python:release.2025-09-09.v1"
     appName: "fairscape-worker-app"
     requests:
-      memory: "4024Mi"
-      cpu: "500m"
+      memory: "8024Mi"
+      cpu: "2000m"
     limits:
-      memory: "6024Mi"
-      cpu: "800m"
+      memory: "12024Mi"
+      cpu: "4000m"
   search:
     image: "ghcr.io/fairscape/semantic_search:RELEASE.2025-06-20.v2"
     servicePort: 5050
