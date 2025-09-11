@@ -52,10 +52,10 @@ fairscape:
     servicePort: 8080
     serviceTargetPort: 8080
     requests:
-      memory: "8024Mi"
+      memory: "6024Mi"
       cpu: "2000m"
     limits:
-      memory: "12024Mi"
+      memory: "8024Mi"
       cpu: "4000m"
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-07-08.v4"
@@ -75,10 +75,10 @@ fairscape:
     testImage: "ghcr.io/fairscape/mds_python:release.2025-09-09.v1"
     appName: "fairscape-worker-app"
     requests:
-      memory: "8024Mi"
+      memory: "4024Mi"
       cpu: "2000m"
     limits:
-      memory: "12024Mi"
+      memory: "6024Mi"
       cpu: "4000m"
   search:
     image: "ghcr.io/fairscape/semantic_search:RELEASE.2025-06-20.v2"
