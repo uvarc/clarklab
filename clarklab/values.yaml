@@ -92,7 +92,7 @@ fairscape:
       cpu: "1000m"
 
 redis:
-  image: "redis:7.0.15-alpine3.20"
+  image: "public.ecr.aws/docker/library/redis:latest"
   serviceName: "prod-redis-service"
   servicePort: 6379
   prod:

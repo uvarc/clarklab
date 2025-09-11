@@ -22,8 +22,7 @@ spec:
             name: redis-configmap
       containers:
       - name: redis
-      #image: {{ .Values.redis.image }}
-        image: "redis:7.0.15-alpine3.20"
+        image: {{ .Values.redis.image }}
         ports:
         - containerPort: {{ .Values.redis.servicePort }}
         volumeMounts:
