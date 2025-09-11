@@ -26,6 +26,12 @@ spec:
         {{- /*
         generate env variables from values configuration
         */}}
+        - name: "FAIRSCAPE_JWT_SECRET"
+          value: "testjwtsecret"
+        - name: "FAIRSCAPE_ADMIN_GROUP"
+          value: "admin"
+        - name: "FAIRSCAPE_BASE_URL"
+          value: "https://fairscape.net/api"
         - name: "FAIRSCAPE_MONGO_DATABASE"
           value: {{ .Values.mongo.prod.db }}
         - name: "FAIRSCAPE_MONGO_HOST"
@@ -125,6 +131,12 @@ spec:
         {{- /*
         generate env variables from values configuration
         */}}
+        - name: "FAIRSCAPE_JWT_SECRET"
+          value: "testjwtsecret"
+        - name: "FAIRSCAPE_ADMIN_GROUP"
+          value: "admin"
+        - name: "FAIRSCAPE_BASE_URL"
+          value: "https://fairscape.net/api"
         - name: "FAIRSCAPE_MONGO_DATABASE"
           value: {{ .Values.mongo.prod.db }}
         - name: "FAIRSCAPE_MONGO_HOST"
