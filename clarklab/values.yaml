@@ -136,7 +136,7 @@ mongo_test:
     memory: "4Gb"
   limits:
     cpu: "4000m"
-    membory: "8Gb"
+    memory: "8Gb"
   
 
 mongo:
