@@ -130,6 +130,7 @@ mongo_test:
   serviceName: "mongo-test"
   servicePort: 27017
   serviceTargetPort: 27017
+  image: "mongo:latest"
   requests:
     cpu: "2000m"
     memory: "4Gb"
