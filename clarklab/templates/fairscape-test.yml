@@ -33,9 +33,11 @@ spec:
         - name: "FAIRSCAPE_MONGO_DATABASE"
           value: {{ .Values.mongo.test.db }}
         - name: "FAIRSCAPE_MONGO_HOST"
-          value: {{ .Values.mongo.hostURI | quote }}
+          value: {{ .Values.mongo_test.hostURI | quote }}
+          #value: {{ .Values.mongo.hostURI | quote }}
         - name: "FAIRSCAPE_MONGO_PORT"
-          value: {{ .Values.mongo.port | quote}}
+          #value: {{ .Values.mongo.port | quote}}
+          value: {{ .Values.mongo_test.port | quote}}
         - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
           valueFrom:
             secretKeyRef:
@@ -138,7 +140,8 @@ spec:
         - name: "FAIRSCAPE_MONGO_DATABASE"
           value: {{ .Values.mongo.test.db }}
         - name: "FAIRSCAPE_MONGO_HOST"
-          value: {{ .Values.mongo.hostURI | quote }}
+          #value: {{ .Values.mongo.hostURI | quote }}
+          value: {{ .Values.mongo_test.hostURI | quote }}
         - name: "FAIRSCAPE_MONGO_PORT"
           value: {{ .Values.mongo.port | quote}}
         - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
