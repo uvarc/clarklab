@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "prod-{{ .Values.mongo_test.appName }}-deployment"
+  name: "{{ .Values.mongo_test.appName }}-deployment"
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
@@ -15,7 +15,7 @@ spec:
         app: {{ .Values.mongo_test.appName }}
     spec:
       containers:
-      - name: mongo-express 
+      - name: mongo 
         image: {{ .Values.mongo_test.image }} 
         imagePullPolicy: Always
         ports:

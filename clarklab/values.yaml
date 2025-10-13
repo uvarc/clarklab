@@ -133,10 +133,10 @@ mongo_test:
   image: "mongo:latest"
   requests:
     cpu: "2000m"
-    memory: "4Gb"
+    memory: "4024Mi"
   limits:
     cpu: "4000m"
-    memory: "8Gb"
+    memory: "8048Mi"
   
 
 mongo:
