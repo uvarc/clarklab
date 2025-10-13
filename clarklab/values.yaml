@@ -125,6 +125,7 @@ mongo_express:
   secretName: "me-secret"
 
 mongo_test:
+  pullSecretName: "dockerhub-pull-secret"
   appName: "mongo-test"
   hostURI: "mongo-test"
   serviceName: "mongo-test"
