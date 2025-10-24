@@ -156,6 +156,11 @@ spec:
             secretKeyRef:
               name: {{ .Values.mongo.test.password.secretName | quote }}
               key: {{ .Values.mongo.test.password.secretKey | quote }}
+        - name: "GEMINI_API_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: "gemini-secret"
+              key: "api-token"
         - name: "FAIRSCAPE_MINIO_URI"
           value: "http://incluster-minio:9000"
         - name: "FAIRSCAPE_MINIO_ACCESS_KEY"
