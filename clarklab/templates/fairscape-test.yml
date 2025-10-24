@@ -56,6 +56,11 @@ spec:
             secretKeyRef:
               name: {{ .Values.fairscape.minio.test.secretName | quote }}
               key: "password"
+        - name: "GEMINI_API_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: "gemini-secret"
+              key: "api-token"
         - name: "FAIRSCAPE_MINIO_DEFAULT_BUCKET"
           value: {{ .Values.fairscape.minio.test.bucketName }}
         - name: "FAIRSCAPE_MINIO_URI"
