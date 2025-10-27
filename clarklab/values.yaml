@@ -46,7 +46,7 @@ fairscape:
 
   backend:
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-09-17.v1"
-    testImage: "ghcr.io/fairscape/mds_python:release.2025-10-27.v1"
+    testImage: "ghcr.io/fairscape/mds_python:release.2025-10-24.v1"
     appName: "backend-app"
     serviceName: "backend-service"
     servicePort: 8080
