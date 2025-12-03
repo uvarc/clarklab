@@ -69,7 +69,15 @@ spec:
         - name: "FAIRSCAPE_REDIS_JOB_DATABASE"
           value: {{ .Values.redis.prod.jobDB | quote }}
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
-          value: {{ .Values.redis.prod.resultDB | quote }}
+          value: {{ .Values.redis.prod.resultDB | quote }} 
+        - name: "FAIRSCAPE_LOGFIRE_ENV"
+          value: {{ .Values.fairscape.backend.logfire.prod.env}}
+        - name: "FAIRSCAPE_LOGFIRE_TOKEN"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.fairscape.backend.logfire.secretName | quote }}
+              key: {{ .Values.fairscape.backend.logfire.prod.key | quote }}
+        
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value | quote }}

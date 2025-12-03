@@ -74,7 +74,14 @@ spec:
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.test.resultDB | quote }}
         - name: "FAIRSCAPE_BASE_URL"
-          value: "https://test.fairscape.net/api"
+          value: "https://test.fairscape.net/api" 
+        - name: "FAIRSCAPE_LOGFIRE_ENV"
+          value: {{ .Values.fairscape.backend.logfire.test.env}}
+        - name: "FAIRSCAPE_LOGFIRE_TOKEN"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.fairscape.backend.logfire.secretName | quote }}
+              key: {{ .Values.fairscape.backend.logfire.test.key | quote }}
         {{- range $envVar := .Values.fairscapeConfig.env}}
         - name: {{ $envVar.name }}
           value: {{ $envVar.value | quote }}

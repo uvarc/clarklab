@@ -45,6 +45,14 @@ fairscape:
       storage: "300Gi"
 
   backend:
+    logfire:
+      secretName: "logfire-secrets"
+      prod:
+        key: "prod"
+        env: "prod"
+      test:
+        key: "test"
+        env: "test" 
     image: "ghcr.io/fairscape/mds_python:RELEASE.2025-10-27.v3"
     testImage: "ghcr.io/fairscape/mds_python:release.2025-11-19.v1"
     appName: "backend-app"
