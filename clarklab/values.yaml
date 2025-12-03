@@ -53,17 +53,17 @@ fairscape:
       test:
         key: "test"
         env: "test" 
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-10-27.v3"
-    testImage: "ghcr.io/fairscape/mds_python:release.2025-11-19.v1"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2025-12-03.v1"
+    testImage: "ghcr.io/fairscape/mds_python:release.2025-12-03.v1"
     appName: "backend-app"
     serviceName: "backend-service"
     servicePort: 8080
     serviceTargetPort: 8080
     requests:
-      memory: "6024Mi"
+      memory: "4024Mi"
       cpu: "2000m"
     limits:
-      memory: "8024Mi"
+      memory: "6024Mi"
       cpu: "4000m"
   frontend:
     image: "ghcr.io/fairscape/fairscapefrontend:RELEASE.2025-10-29.v1"
@@ -96,7 +96,7 @@ fairscape:
       memory: "2Gi"
       cpu: "500m"
     limits:
-      memory: "7Gi"
+      memory: "4Gi"
       cpu: "1000m"
 
 redis:
@@ -117,20 +117,6 @@ redis:
   limits:
     memory: "3000Mi"
     cpu: "300m"
-
-mongo_express:
-  image: "mongo-express"
-  serviceName: "mongo-express-service"
-  appName: "mongo-express"
-  servicePort: 8081
-  serviceTargetPort: 8081
-  requests:
-    memory: "2000Mi"
-    cpu: "1000m"
-  limits:
-    memory: "3000Mi"
-    cpu: "2000m"
-  secretName: "me-secret" 
 
 mongo:
   hostURI: "prod-mongo-psmdb-db-rs0.clarklab.svc.cluster.local"
