@@ -83,10 +83,10 @@ fairscape:
     testImage: "ghcr.io/fairscape/mds_python:RELEASE.2026-02-02.v1"
     appName: "fairscape-worker-app"
     requests:
-      memory: "7024Mi"
+      memory: "1Gi"
       cpu: "2000m"
     limits:
-      memory: "8024Mi"
+      memory: "2Gi"
       cpu: "4000m"
   search:
     image: "ghcr.io/fairscape/semantic_search:RELEASE.2025-06-20.v2"
