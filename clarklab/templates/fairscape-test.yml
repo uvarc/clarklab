@@ -163,6 +163,13 @@ spec:
             secretKeyRef:
               name: {{ .Values.mongo.test.password.secretName | quote }}
               key: {{ .Values.mongo.test.password.secretKey | quote }}
+        - name: "FAIRSCAPE_LOGFIRE_ENV"
+          value: {{ .Values.fairscape.backend.logfire.test.env}}
+        - name: "FAIRSCAPE_LOGFIRE_TOKEN"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.fairscape.backend.logfire.secretName | quote }}
+              key: {{ .Values.fairscape.backend.logfire.test.key | quote }}
         - name: "GEMINI_API_KEY"
           valueFrom:
             secretKeyRef:
