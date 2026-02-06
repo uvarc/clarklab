@@ -137,8 +137,8 @@ spec:
       - name: fairscape
         image: {{ .Values.fairscape.worker.testImage }}
         imagePullPolicy: Always
-        command: ["python"]
-        args: ["fairscape_mds/worker.py" ]
+        command: ["celery"]
+        args: ["-A", "fairscape_mds.worker", "worker", "--loglevel=info", "--concurrency=4"]
         env:
         {{- /*
         generate env variables from values configuration
