@@ -41,7 +41,7 @@ spec:
         image: {{ .Values.fairscape.mongo.image }}
         ports:
         - name: db
-          containerPort: {{ .Values.mongo.servicePort }}
+          containerPort: {{ .Values.mongo.port }}
         volumeMounts: 
         - mountPath: "/data/db"
           name: {{ .Values.fairscape.mongo.volume.pvcName | quote }}
