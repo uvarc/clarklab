@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.fairscape.mongo.volume.pvcName | quote }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.fairscape.mongo.appName }}
+spec:
+  storageClassName: {{ .Values.fairscape.mongo.volume.storageClassName }}
+  volumeName: {{ .Values.fairscape.mongo.volume.volumeName }}
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.fairscape.mongo.volume.storage }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.mongo.appName}}-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.mongo.appName | quote }}
+spec:
+  replicas: {{ .Values.mongo.replicas }}
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.mongo.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mongo.appName }}
+    spec:
+      volumes:
+      - name: prod-mongo-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.mongo.pvc.name }}
+      containers:
+      - name: mongo
+        image: {{ .Values.mongo.image }}
+        ports:
+        - name: db
+          containerPort: {{ .Values.mongo.servicePort }}
+        volumeMounts: 
+        - mountPath: "/data/db"
+          name: {{ .Values.fairscape.mongo.volume.pvcName | quote }}
+          subPath: "/mongodb"
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.accessKey.secretName | quote }}
+              key: {{ .Values.mongo.accessKey.secretKey | quote }}
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongo.secretKey.secretName | quote }}
+              key: {{ .Values.mongo.secretKey.secretKey | quote }}
+        resources:
+          requests:
+            memory: {{ .Values.mongo.requests.memory | quote }}
+            cpu: {{ .Values.mongo.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.mongo.limits.memory | quote }}
+            cpu: {{ .Values.mongo.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mongo.serviceName}}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.mongo.appName }}
+spec:
+  selector:
+    app: {{ .Values.mongo.appName }}
+  ports:
+  - name: mongodb
+    protocol: TCP
+    port: {{ .Values.mongo.servicePort }}
+    targetPort: {{ .Values.mongo.servicePort }}

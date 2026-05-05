@@ -20,6 +20,20 @@ jupyterhub:
 
 fairscape:
   pullSecretName: "ghcr-pull-secret"
+  mongo:
+    appName: "mongo-db"
+    volume:
+      pvcName: "mongo-prod-research-project-pvc"
+      storageClassName: "clarklab-sc"
+      volumeName: "proj-store-mongo-volume"
+      storage: "200Gi"
+    image: "docker.io/library/mongo:8.0.21"
+    requests:
+      memory: "8000Mi"
+      cpu: "2000m"
+    limits:
+      memory: "16000Mi"
+      cpu: "5000m"
   minio:
     image: quay.io/minio/minio:latest
     appName: minio-app
@@ -119,7 +133,9 @@ redis:
     cpu: "300m"
 
 mongo:
-  hostURI: "prod-mongo-psmdb-db-rs0.clarklab.svc.cluster.local"
+  #hostURI: "prod-mongo-psmdb-db-rs0.clarklab.svc.cluster.local"
+  hostURI: "mongodb.clarklab.svc.cluster.local"
+  serviceName: "mongodb"
   port: "27017"
   test:
     db: "test"
