@@ -45,7 +45,7 @@ spec:
         volumeMounts: 
         - mountPath: "/data/db"
           name: {{ .Values.fairscape.mongo.volume.pvcName | quote }}
-          subPath: "/mongodb"
+          subPath: "mongodb"
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
