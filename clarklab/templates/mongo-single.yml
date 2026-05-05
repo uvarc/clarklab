@@ -44,7 +44,7 @@ spec:
           containerPort: {{ .Values.mongo.port }}
         volumeMounts: 
         - mountPath: "/data/db"
-          name: {{ .Values.fairscape.mongo.volume.pvcName | quote }}
+          name: prod-mongo-storage
           subPath: "mongodb"
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
