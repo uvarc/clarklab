@@ -17,28 +17,28 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.mongo.appName}}-deployment
+  name: {{ .Values.fairscape.mongo.appName}}-deployment
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.mongo.appName | quote }}
+    app: {{ .Values.fairscape.mongo.appName | quote }}
 spec:
-  replicas: {{ .Values.mongo.replicas }}
+  replicas: {{ .Values.fairscape.mongo.replicas }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: {{ .Values.mongo.appName }}
+      app: {{ .Values.fairscape.mongo.appName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.mongo.appName }}
+        app: {{ .Values.fairscape.mongo.appName }}
     spec:
       volumes:
       - name: prod-mongo-storage
         persistentVolumeClaim:
-          claimName: {{ .Values.mongo.pvc.name }}
+          claimName: {{ .Values.fairscape.mongo.volume.pvcName }}
       containers:
       - name: mongo
-        image: {{ .Values.mongo.image }}
+        image: {{ .Values.fairscape.mongo.image }}
         ports:
         - name: db
           containerPort: {{ .Values.mongo.servicePort }}
@@ -71,10 +71,10 @@ metadata:
   name: {{ .Values.mongo.serviceName}}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.mongo.appName }}
+    app: {{ .Values.fairscape.mongo.appName }}
 spec:
   selector:
-    app: {{ .Values.mongo.appName }}
+    app: {{ .Values.fairscape.mongo.appName }}
   ports:
   - name: mongodb
     protocol: TCP

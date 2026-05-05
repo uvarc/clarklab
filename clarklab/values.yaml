@@ -21,6 +21,8 @@ jupyterhub:
 fairscape:
   pullSecretName: "ghcr-pull-secret"
   mongo:
+    serviceName: "mongodb"
+    replicas: 1
     appName: "mongo-db"
     volume:
       pvcName: "mongo-prod-research-project-pvc"
