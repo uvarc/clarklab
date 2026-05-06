@@ -26,8 +26,9 @@ fairscape:
     appName: "mongo-db"
     volume:
       pvcName: "mongo-prod-research-project-pvc"
-      storageClassName: "clarklab-sc"
-      volumeName: "clarklab-nfs-pv"
+      storageClassName: "longhorn-ll"
+      #storageClassName: "clarklab-sc"
+      #volumeName: "clarklab-nfs-pv"
       storage: "200Gi"
     image: "docker.io/library/mongo:8.0.21"
     requests:

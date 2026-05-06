@@ -7,7 +7,7 @@ metadata:
     app: {{ .Values.fairscape.mongo.appName }}
 spec:
   storageClassName: {{ .Values.fairscape.mongo.volume.storageClassName }}
-  volumeName: {{ .Values.fairscape.mongo.volume.volumeName }}
+  #volumeName: {{ .Values.fairscape.mongo.volume.volumeName }}
   accessModes:
     - ReadWriteMany
   resources:
