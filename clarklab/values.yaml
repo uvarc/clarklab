@@ -96,8 +96,8 @@ fairscape:
       memory: "4024Mi"
       cpu: "700m"
   worker:
-    image: "ghcr.io/fairscape/mds_python:RELEASE.2026-04-17.v1"
-    testImage: "ghcr.io/fairscape/mds_python:RELEASE.2026-04-17.v1"
+    image: "ghcr.io/fairscape/mds_python:RELEASE.2026-05-11.v2"
+    testImage: "ghcr.io/fairscape/mds_python:RELEASE.2026-05-11.v2"
     appName: "fairscape-worker-app"
     requests:
       memory: "3Gi"

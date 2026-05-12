@@ -165,6 +165,8 @@ spec:
             secretKeyRef:
               name: {{ .Values.mongo.test.password.secretName | quote }}
               key: {{ .Values.mongo.test.password.secretKey | quote }}
+        - name: "FAIRSCAPE_MONGO_AUTH_DATABASE"
+          value: {{ .Values.mongo.test.db}}
         - name: "FAIRSCAPE_LOGFIRE_ENV"
           value: {{ .Values.fairscape.backend.logfire.test.env}}
         - name: "FAIRSCAPE_LOGFIRE_TOKEN"
