@@ -19,7 +19,7 @@ jupyterhub:
     storage: "50Gi"
 
 fairscape:
-  pullSecretName: "ghcr-pull-secret"
+  pullSecretName: "ghcr-secret"
   mongo:
     serviceName: "mongodb"
     replicas: 1
