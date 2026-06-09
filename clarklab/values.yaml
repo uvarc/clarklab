@@ -1,7 +1,7 @@
 namespace: "clarklab"
 
 jupyterhub:
-  image: "quay.io/jupyter/datascience-notebook:notebook-7.4.5"
+  image: "quay.io/jupyter/datascience-notebook:notebook-7.5.7"
   serviceName: "dev-jupyterhub"
   servicePort: 8080
   serviceTargetPort: 8080
