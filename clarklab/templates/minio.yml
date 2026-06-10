@@ -33,7 +33,7 @@ spec:
         app: {{ .Values.fairscape.minio.appName }}
     spec:
       securityContext:
-        runAsUser: 0
+        #runAsUser: 0
         runAsGroup: 31090
         fsGroup: 31090
         fsGroupChangePolicy: "Always"
