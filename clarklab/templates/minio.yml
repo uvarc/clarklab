@@ -41,11 +41,11 @@ spec:
           mountPath: /data
         resources:
           requests:
-            memory: "500Mb"
-            cpu: "500m"
+            memory: 500Mb
+            cpu: 500m
           limits:
-            memory: "1000Mb"
-            cpu: "1000m"
+            memory: 1000Mb
+            cpu: 1000m
       securityContext:
         runAsUser: 1000
         runAsGroup: 31090
