@@ -33,7 +33,7 @@ spec:
         app: {{ .Values.fairscape.minio.appName }}
     spec:
       securityContext:
-        runAsUser: 1000
+        runAsUser: 0
         runAsGroup: 31090
         fsGroup: 31090
       imagePullSecrets:
