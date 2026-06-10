@@ -32,20 +32,20 @@ spec:
       labels:
         app: {{ .Values.fairscape.minio.appName }}
     spec:
-      #initContainers:
-      #- name: volume-permissions
-      #  image: busybox:latest
-      #  command: ["sh", "-c", "chown -R 0:31090 /data"]
-      #  volumeMounts:
-      #  - name: project-volume
-      #    mountPath: /data
-      #  resources:
-      #    requests:
-      #      memory: 500Mi
-      #      cpu: 500m
-      #    limits:
-      #      memory: 1000Mi
-      #      cpu: 1000m
+      initContainers:
+      - name: volume-permissions
+        image: busybox:latest
+        command: ["sh", "-c", "sudo chown -R root. /data/Fairscape && sudo chmod u+rxw /data/Fairscape"]
+        volumeMounts:
+        - name: project-volume
+          mountPath: /data
+        resources:
+          requests:
+            memory: 1000Mi
+            cpu: 1000m
+          limits:
+            memory: 2000Mi
+            cpu: 2000m
       securityContext:
         runAsUser: 0
         runAsGroup: 31090
