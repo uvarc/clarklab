@@ -55,6 +55,10 @@ fairscape:
     limits:
       memory: "8024Mi"
       cpu: "3000m"
+    onNodeVolume:
+      storageClassName: "longhorn-ll"
+      pvcName: "minio-prod-on-node-pvc"
+      storage: "500Gi"
     volume:
       storageClassName: "clarklab-sc"
       volumeName: "clarklab-nfs-pv"

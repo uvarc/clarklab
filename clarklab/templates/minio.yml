@@ -14,7 +14,21 @@ spec:
   resources:
     requests:
       storage: {{ .Values.fairscape.minio.volume.storage }}
-
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.fairscape.minio.onNodeVolume.pvcName | quote }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.fairscape.minio.appName }}
+spec:
+  storageClassName: {{ .Values.fairscape.minio.onNodeVolume.storageClassName }}
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.fairscape.minio.onNodeVolume.storage }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -40,13 +54,16 @@ spec:
       imagePullSecrets:
       - name: ghcr-secret
       volumes:
+      - name: on-node-volume
+        persistentVolumeClaim:
+          claimName: {{ .Values.fairscape.minio.onNodeVolume.pvcName | quote}}
       - name: project-volume
         persistentVolumeClaim:
           claimName: {{ .Values.fairscape.minio.volume.pvcName | quote}}
       containers:
       - name: minio
         image: {{ .Values.fairscape.minio.image }}
-        command: ["minio", "server", "/data/Fairscape", "--console-address", ":9001"]
+        command: ["minio", "server", "/mnt/local/Fairscape", "--console-address", ":9001"]
         ports:
         - containerPort: {{ .Values.fairscape.minio.serviceTargetPort }}
         resources:
@@ -59,6 +76,8 @@ spec:
         volumeMounts:
         - mountPath: "/data"
           name: project-volume
+        - mountPath: "/mnt/local"
+          name: on-node-volume
         env:
         - name: "MINIO_ROOT_USER"
           valueFrom:
