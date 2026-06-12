@@ -1,19 +1,19 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.fairscape.minio.volume.pvcName | quote }}
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.fairscape.minio.appName }}
-spec:
-  storageClassName: {{ .Values.fairscape.minio.volume.storageClassName }}
-  volumeName: {{ .Values.fairscape.minio.volume.volumeName }}
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: {{ .Values.fairscape.minio.volume.storage }}
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+  #name: {{ .Values.fairscape.minio.volume.pvcName | quote }}
+  #namespace: {{ .Values.namespace }}
+  #labels:
+    #app: {{ .Values.fairscape.minio.appName }}
+#spec:
+  #storageClassName: {{ .Values.fairscape.minio.volume.storageClassName }}
+  #volumeName: {{ .Values.fairscape.minio.volume.volumeName }}
+  #accessModes:
+    #- ReadWriteMany
+  #resources:
+    #requests:
+      #storage: {{ .Values.fairscape.minio.volume.storage }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -63,7 +63,7 @@ spec:
       containers:
       - name: minio
         image: {{ .Values.fairscape.minio.image }}
-        command: ["minio", "server", "/mnt/local/Fairscape", "/mnt/project/Fairscape", "--console-address", ":9001"]
+        command: ["minio", "server", "/mnt/local/Fairscape", "--console-address", ":9001"]
         ports:
         - containerPort: {{ .Values.fairscape.minio.serviceTargetPort }}
         resources:
@@ -74,8 +74,8 @@ spec:
             memory: {{ .Values.fairscape.minio.limits.memory | quote }}
             cpu: {{ .Values.fairscape.minio.limits.cpu | quote }}
         volumeMounts:
-        - mountPath: "/mnt/project"
-          name: project-volume
+        #- mountPath: "/mnt/project"
+          #name: project-volume
         - mountPath: "/mnt/local"
           name: on-node-volume
         env:
