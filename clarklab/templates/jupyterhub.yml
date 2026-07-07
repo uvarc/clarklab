@@ -37,10 +37,10 @@ spec:
         runAsGroup: 100
         fsGroup: 100
         #allowPrivilegeEscalation: true
-      volumes:
-      - name: {{ .Values.jupyterhub.volume.name }}
-        persistentVolumeClaim:
-          claimName: {{ .Values.jupyterhub.volume.pvcName }}
+      #volumes:
+      #- name: {{ .Values.jupyterhub.volume.name }}
+      #  persistentVolumeClaim:
+      #    claimName: {{ .Values.jupyterhub.volume.pvcName }}
       containers:
       - name: jupyterhub
         image: {{ .Values.jupyterhub.image }}
@@ -51,9 +51,9 @@ spec:
         - "--ServerApp.port=8888"
         - "--ServerApp.open_browser=False"
         - "--NotebookApp.allow_origin='https://jupyterhub.fairscape.pods.uvarc.io'"
-        volumeMounts:
-        - mountPath: "/home/jovyan/work"
-          name: {{ .Values.jupyterhub.volume.name }}
+        #volumeMounts:
+        #- mountPath: "/home/jovyan/work"
+        #  name: {{ .Values.jupyterhub.volume.name }}
         ports:
         - name: http
           containerPort: 8888
