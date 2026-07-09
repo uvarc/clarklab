@@ -1,3 +1,4 @@
+{{- if .Values.fairscape.search }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -93,3 +94,4 @@ spec:
       protocol: TCP
       port: {{ .Values.fairscape.search.servicePort }}
       targetPort: {{ .Values.fairscape.search.serviceTargetPort }}
+{{- end }}
