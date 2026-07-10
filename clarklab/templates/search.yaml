@@ -1,7 +1,7 @@
 {{- if .Values.fairscape.search }}
 {{- /*
 One search Deployment + Service per environment (test, prod), mirroring the
-test-*/prod-* pairing used elsewhere in this chart. Each talks to its own mongo
+test- / prod- pairing used elsewhere in this chart. Each talks to its own mongo
 db with its own sealed credential and serves a single chroma collection, so no
 credential needs cross-db read access. The image bakes in the ONNX model and all
 deps, so there is no pip-install PVC and no install spike at boot.
