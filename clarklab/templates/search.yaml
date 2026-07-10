@@ -1,17 +1,11 @@
 {{- if .Values.fairscape.search }}
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: fairscape-search-packages-pvc
-  namespace: {{ .Values.namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 15Gi
-  storageClassName: longhorn-ll
----
+{{- /*
+One search Deployment + Service per environment (test, prod), mirroring the
+test-*/prod-* pairing used elsewhere in this chart. Each talks to its own mongo
+db with its own sealed credential and serves a single chroma collection, so no
+credential needs cross-db read access. The image bakes in the ONNX model and all
+deps, so there is no pip-install PVC and no install spike at boot.
+*/}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,10 +24,6 @@ spec:
     spec:
       imagePullSecrets:
         - name: {{ .Values.fairscape.pullSecretName }}
-      volumes:
-        - name: pip-packages-volume
-          persistentVolumeClaim:
-            claimName: fairscape-search-packages-pvc
       containers:
         - name: fairscape-search
           image: {{ .Values.fairscape.search.image }}
@@ -41,10 +31,10 @@ spec:
           ports:
             - containerPort: 5050
           env:
-            - name: "PIP_PACKAGES_DIR"
-              value: "/mnt/pip_packages"
             - name: "FAIRSCAPE_MONGO_DATABASE"
-              value: {{ .Values.mongo.test.db }}
+              value: {{ .Values.mongo.test.db | quote }}
+            - name: "FAIRSCAPE_MONGO_AUTH_DATABASE"
+              value: {{ .Values.mongo.test.db | quote }}
             - name: "FAIRSCAPE_MONGO_HOST"
               value: {{ .Values.mongo.hostURI | quote }}
             - name: "FAIRSCAPE_MONGO_PORT"
@@ -62,16 +52,23 @@ spec:
             - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
               value: "fairscape"
             - name: "FAIRSCAPE_CHROMA_HOST"
-              value: "test-chromadb-service"
+              value: {{ .Values.chromadb.serviceName | quote }}
             - name: "FAIRSCAPE_CHROMA_PORT"
-              value: "8000"
+              value: {{ .Values.chromadb.servicePort | quote }}
             - name: "FAIRSCAPE_CHROMA_COLLECTION"
-              value: "fairscape_qa_minilm"
-            - name: "FORCE_REINSTALL_PACKAGES"
-              value: "true"
-          volumeMounts:
-            - name: pip-packages-volume
-              mountPath: /mnt/pip_packages
+              value: {{ .Values.fairscape.search.test.collection | quote }}
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 5050
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 5050
+            initialDelaySeconds: 30
+            periodSeconds: 30
           resources:
             requests:
               memory: {{ .Values.fairscape.search.requests.memory | quote }}
@@ -89,6 +86,92 @@ spec:
   type: ClusterIP
   selector:
     app: "test-fairscape-search"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.fairscape.search.servicePort }}
+      targetPort: {{ .Values.fairscape.search.serviceTargetPort }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-fairscape-search-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "prod-fairscape-search"
+  template:
+    metadata:
+      labels:
+        app: "prod-fairscape-search"
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.fairscape.pullSecretName }}
+      containers:
+        - name: fairscape-search
+          image: {{ .Values.fairscape.search.image }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5050
+          env:
+            - name: "FAIRSCAPE_MONGO_DATABASE"
+              value: {{ .Values.mongo.prod.db | quote }}
+            - name: "FAIRSCAPE_MONGO_AUTH_DATABASE"
+              value: {{ .Values.mongo.prod.db | quote }}
+            - name: "FAIRSCAPE_MONGO_HOST"
+              value: {{ .Values.mongo.hostURI | quote }}
+            - name: "FAIRSCAPE_MONGO_PORT"
+              value: {{ .Values.mongo.port | quote }}
+            - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mongo.prod.username.secretName | quote }}
+                  key: {{ .Values.mongo.prod.username.secretKey | quote }}
+            - name: "FAIRSCAPE_MONGO_SECRET_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mongo.prod.password.secretName | quote }}
+                  key: {{ .Values.mongo.prod.password.secretKey | quote }}
+            - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
+              value: "fairscape"
+            - name: "FAIRSCAPE_CHROMA_HOST"
+              value: {{ .Values.chromadb.serviceName | quote }}
+            - name: "FAIRSCAPE_CHROMA_PORT"
+              value: {{ .Values.chromadb.servicePort | quote }}
+            - name: "FAIRSCAPE_CHROMA_COLLECTION"
+              value: {{ .Values.fairscape.search.prod.collection | quote }}
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 5050
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 5050
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              memory: {{ .Values.fairscape.search.requests.memory | quote }}
+              cpu: {{ .Values.fairscape.search.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.fairscape.search.limits.memory | quote }}
+              cpu: {{ .Values.fairscape.search.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "prod-fairscape-search-service"
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-fairscape-search"
   ports:
     - name: http
       protocol: TCP

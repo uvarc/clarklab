@@ -1,0 +1,118 @@
+{{- if .Values.fairscape.search }}
+{{- /*
+Nightly populate jobs, one per environment, from the same search image. Each
+runs populate.py against one mongo db and upserts+prunes its chroma collection,
+so search stays live during a run. Staggered so they don't contend for chroma.
+
+Seed immediately (without waiting for the schedule) with:
+  kubectl -n {{ .Values.namespace }} create job --from=cronjob/search-populate-test seed-test
+  kubectl -n {{ .Values.namespace }} create job --from=cronjob/search-populate-prod seed-prod
+*/}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: search-populate-test
+  namespace: {{ .Values.namespace }}
+spec:
+  schedule: "0 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: Never
+          imagePullSecrets:
+            - name: {{ .Values.fairscape.pullSecretName }}
+          containers:
+            - name: populate
+              image: {{ .Values.fairscape.search.image }}
+              imagePullPolicy: Always
+              command: ["python", "populate.py"]
+              env:
+                - name: "FAIRSCAPE_CHROMA_HOST"
+                  value: {{ .Values.chromadb.serviceName | quote }}
+                - name: "FAIRSCAPE_CHROMA_PORT"
+                  value: {{ .Values.chromadb.servicePort | quote }}
+                - name: "FAIRSCAPE_CHROMA_COLLECTION"
+                  value: {{ .Values.fairscape.search.test.collection | quote }}
+                - name: "FAIRSCAPE_MONGO_DATABASE"
+                  value: {{ .Values.mongo.test.db | quote }}
+                - name: "FAIRSCAPE_MONGO_AUTH_DATABASE"
+                  value: {{ .Values.mongo.test.db | quote }}
+                - name: "FAIRSCAPE_MONGO_HOST"
+                  value: {{ .Values.mongo.hostURI | quote }}
+                - name: "FAIRSCAPE_MONGO_PORT"
+                  value: {{ .Values.mongo.port | quote }}
+                - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.mongo.test.username.secretName | quote }}
+                      key: {{ .Values.mongo.test.username.secretKey | quote }}
+                - name: "FAIRSCAPE_MONGO_SECRET_KEY"
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.mongo.test.password.secretName | quote }}
+                      key: {{ .Values.mongo.test.password.secretKey | quote }}
+                - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
+                  value: "fairscape"
+              resources:
+                requests: { memory: "512Mi", cpu: "250m" }
+                limits: { memory: "1Gi", cpu: "1" }
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: search-populate-prod
+  namespace: {{ .Values.namespace }}
+spec:
+  schedule: "30 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: Never
+          imagePullSecrets:
+            - name: {{ .Values.fairscape.pullSecretName }}
+          containers:
+            - name: populate
+              image: {{ .Values.fairscape.search.image }}
+              imagePullPolicy: Always
+              command: ["python", "populate.py"]
+              env:
+                - name: "FAIRSCAPE_CHROMA_HOST"
+                  value: {{ .Values.chromadb.serviceName | quote }}
+                - name: "FAIRSCAPE_CHROMA_PORT"
+                  value: {{ .Values.chromadb.servicePort | quote }}
+                - name: "FAIRSCAPE_CHROMA_COLLECTION"
+                  value: {{ .Values.fairscape.search.prod.collection | quote }}
+                - name: "FAIRSCAPE_MONGO_DATABASE"
+                  value: {{ .Values.mongo.prod.db | quote }}
+                - name: "FAIRSCAPE_MONGO_AUTH_DATABASE"
+                  value: {{ .Values.mongo.prod.db | quote }}
+                - name: "FAIRSCAPE_MONGO_HOST"
+                  value: {{ .Values.mongo.hostURI | quote }}
+                - name: "FAIRSCAPE_MONGO_PORT"
+                  value: {{ .Values.mongo.port | quote }}
+                - name: "FAIRSCAPE_MONGO_ACCESS_KEY"
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.mongo.prod.username.secretName | quote }}
+                      key: {{ .Values.mongo.prod.username.secretKey | quote }}
+                - name: "FAIRSCAPE_MONGO_SECRET_KEY"
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.mongo.prod.password.secretName | quote }}
+                      key: {{ .Values.mongo.prod.password.secretKey | quote }}
+                - name: "FAIRSCAPE_MONGO_IDENTIFIER_COLLECTION"
+                  value: "fairscape"
+              resources:
+                requests: { memory: "512Mi", cpu: "250m" }
+                limits: { memory: "1Gi", cpu: "1" }
+{{- end }}

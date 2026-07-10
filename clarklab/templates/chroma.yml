@@ -1,3 +1,19 @@
+# One chroma instance holds both environments' collections (fairscape_test,
+# fairscape_prod). Persist its data dir so the index survives pod restarts —
+# without a volume chroma starts empty every restart until the nightly repopulate.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{.Values.chromadb.volume.pvcName}}
+  namespace: {{.Values.namespace}}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{.Values.chromadb.volume.storageClassName}}
+  resources:
+    requests:
+      storage: {{.Values.chromadb.volume.storage}}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -7,6 +23,10 @@ metadata:
     app: {{.Values.chromadb.appName}}
 spec:
   replicas: 1
+  # ReadWriteOnce volume: a rolling update's new pod cannot mount while the old
+  # one still holds it, so replace rather than surge.
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{.Values.chromadb.appName}}
@@ -22,6 +42,9 @@ spec:
         ports:
         - containerPort: {{.Values.chromadb.containerPort}}
           name: http
+        volumeMounts:
+          - name: chroma-data
+            mountPath: /data
         resources:
           requests:
             memory: {{.Values.chromadb.requests.memory | quote}}
@@ -29,6 +52,10 @@ spec:
           limits:
             memory: {{.Values.chromadb.limits.memory | quote}}
             cpu: {{.Values.chromadb.limits.cpu | quote}}
+      volumes:
+        - name: chroma-data
+          persistentVolumeClaim:
+            claimName: {{.Values.chromadb.volume.pvcName}}
 ---
 apiVersion: v1
 kind: Service

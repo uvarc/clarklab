@@ -76,7 +76,11 @@ spec:
         - name: "FAIRSCAPE_REDIS_RESULT_DATABASE"
           value: {{ .Values.redis.test.resultDB | quote }}
         - name: "FAIRSCAPE_BASE_URL"
-          value: "https://test.fairscape.net/api" 
+          value: "https://test.fairscape.net/api"
+        - name: "FAIRSCAPE_SEMANTIC_SEARCH_URL"
+          value: "http://test-fairscape-search-service:5050"
+        - name: "FAIRSCAPE_SEMANTIC_SEARCH_COLLECTION"
+          value: "fairscape_test"
         - name: "FAIRSCAPE_LOGFIRE_ENV"
           value: {{ .Values.fairscape.backend.logfire.test.env}}
         - name: "FAIRSCAPE_LOGFIRE_TOKEN"

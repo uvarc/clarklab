@@ -109,16 +109,22 @@ fairscape:
     limits:
       memory: "4Gi"
       cpu: "4000m"
-  # search:
-  #   image: "ghcr.io/fairscape/semantic_search:RELEASE.2025-06-20.v2"
-  #   servicePort: 5050
-  #   serviceTargetPort: 5050
-  #   requests:
-  #     memory: "2Gi"
-  #     cpu: "500m"
-  #   limits:
-  #     memory: "4Gi"
-  #     cpu: "1000m"
+  # Set fairscape.search to render the two search deployments + populate CronJobs.
+  # One deployment per env, each serving one chroma collection from its own mongo db.
+  search:
+    image: "ghcr.io/fairscape/semantic_search:RELEASE.2026-07-10.v1"
+    servicePort: 5050
+    serviceTargetPort: 5050
+    test:
+      collection: "fairscape_test"
+    prod:
+      collection: "fairscape_prod"
+    requests:
+      memory: "1Gi"
+      cpu: "250m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
 
 redis:
   image: "public.ecr.aws/docker/library/redis:latest"
@@ -171,11 +177,17 @@ minio:
     secretKey: password
 
 chromadb:
+  # Env-neutral: one instance holds both the fairscape_test and fairscape_prod
+  # collections (was test-chromadb before it served prod too).
   image: "chromadb/chroma:1.0.12"
-  appName: "test-chromadb"
-  serviceName: "test-chromadb-service"
+  appName: "chromadb"
+  serviceName: "chromadb-service"
   servicePort: 8000
   containerPort: 8000
+  volume:
+    pvcName: "chromadb-data-pvc"
+    storageClassName: "longhorn-ll"
+    storage: "5Gi"
   requests:
     memory: "1Gi"
     cpu: "200m"
