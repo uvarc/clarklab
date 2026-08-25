@@ -67,22 +67,13 @@ spec:
             memory: {{ .Values.radar.backend.limits.memory | quote }}
             cpu: {{ .Values.radar.backend.limits.cpu | quote }}
       volumes:
+      # emptyDir on purpose (demoware): the Longhorn PVC wouldn't attach
+      # and losing state on pod restart is acceptable. SQLite DB, vault
+      # PDFs, chroma index, and the HF model cache all live for the
+      # pod's lifetime only — swap back to a PVC when this graduates.
       - name: radar-state
-        persistentVolumeClaim:
-          claimName: {{ .Values.radar.backend.volume.pvcName }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.radar.backend.volume.pvcName }}
-  namespace: {{ .Values.namespace }}
-spec:
-  storageClassName: {{ .Values.radar.backend.volume.storageClassName }}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.radar.backend.volume.storage }}
+        emptyDir:
+          sizeLimit: {{ .Values.radar.backend.scratch.sizeLimit }}
 ---
 apiVersion: v1
 kind: Service

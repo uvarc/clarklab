@@ -206,10 +206,12 @@ radar:
     anthropic:
       secretName: ""
       secretKey: "api-key"
-    volume:
-      pvcName: "radar-data-pvc"
-      storageClassName: "longhorn-ll"
-      storage: "20Gi"
+    # Demoware: state lives in an emptyDir, so everything (DB, PDFs,
+    # chroma index, downloaded model weights) resets when the pod is
+    # rescheduled. Deliberate — the longhorn-ll PVC stuck at
+    # "not ready for workloads" and simple beats durable for now.
+    scratch:
+      sizeLimit: "20Gi"
     # CPU-only MedCPT reranking + SPECTER2 embedding happen in-process;
     # give it headroom or the daily gather crawls.
     requests:
