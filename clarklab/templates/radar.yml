@@ -1,0 +1,151 @@
+# RADAR — CPU-only deployment: FastAPI backend + nginx-served SPA.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.radar.backend.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: "prod-{{ .Values.radar.backend.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "prod-{{ .Values.radar.backend.appName }}"
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.fairscape.pullSecretName }}
+      containers:
+      - name: radar-backend
+        image: {{ .Values.radar.backend.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.radar.backend.serviceTargetPort }}
+        env:
+        {{- if .Values.radar.backend.anthropic.secretName }}
+        - name: "RADAR_ANTHROPIC_API_KEY"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.radar.backend.anthropic.secretName | quote }}
+              key: {{ .Values.radar.backend.anthropic.secretKey | quote }}
+        {{- end }}
+        {{- range $envVar := .Values.radarConfig.env }}
+        - name: {{ $envVar.name }}
+          value: {{ $envVar.value | quote }}
+        {{- end }}
+        volumeMounts:
+        - name: radar-state
+          mountPath: /app/data
+          subPath: data
+        - name: radar-state
+          mountPath: /app/vault
+          subPath: vault
+        - name: radar-state
+          mountPath: /app/chroma
+          subPath: chroma
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: {{ .Values.radar.backend.serviceTargetPort }}
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: {{ .Values.radar.backend.serviceTargetPort }}
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: {{ .Values.radar.backend.requests.memory | quote }}
+            cpu: {{ .Values.radar.backend.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.radar.backend.limits.memory | quote }}
+            cpu: {{ .Values.radar.backend.limits.cpu | quote }}
+      volumes:
+      - name: radar-state
+        persistentVolumeClaim:
+          claimName: {{ .Values.radar.backend.volume.pvcName }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.radar.backend.volume.pvcName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  storageClassName: {{ .Values.radar.backend.volume.storageClassName }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.radar.backend.volume.storage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "prod-{{ .Values.radar.backend.serviceName }}"
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-{{ .Values.radar.backend.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.radar.backend.servicePort }}
+      targetPort: {{ .Values.radar.backend.serviceTargetPort }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.radar.frontend.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.radar.frontend.appName }}"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "prod-{{ .Values.radar.frontend.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "prod-{{ .Values.radar.frontend.appName }}"
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.fairscape.pullSecretName }}
+      containers:
+      - name: radar-frontend
+        image: {{ .Values.radar.frontend.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.radar.frontend.serviceTargetPort }}
+        resources:
+          requests:
+            memory: {{ .Values.radar.frontend.requests.memory | quote }}
+            cpu: {{ .Values.radar.frontend.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.radar.frontend.limits.memory | quote }}
+            cpu: {{ .Values.radar.frontend.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.radar.frontend.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.radar.frontend.appName }}"
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-{{ .Values.radar.frontend.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.radar.frontend.servicePort }}
+      targetPort: {{ .Values.radar.frontend.serviceTargetPort }}

@@ -195,6 +195,75 @@ chromadb:
     memory: "2Gi"
     cpu: "500m"
 
+radar:
+  host: "radar.fairscape.net"
+  backend:
+    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-08-25.v1"
+    appName: "radar-backend-app"
+    serviceName: "radar-backend-service"
+    servicePort: 8000
+    serviceTargetPort: 8000
+    anthropic:
+      secretName: ""
+      secretKey: "api-key"
+    volume:
+      pvcName: "radar-data-pvc"
+      storageClassName: "longhorn-ll"
+      storage: "20Gi"
+    # CPU-only MedCPT reranking + SPECTER2 embedding happen in-process;
+    # give it headroom or the daily gather crawls.
+    requests:
+      memory: "4Gi"
+      cpu: "1000m"
+    limits:
+      memory: "8Gi"
+      cpu: "4000m"
+  frontend:
+    image: "ghcr.io/fairscape/radar-frontend:RELEASE.2026-08-25.v1"
+    appName: "radar-frontend-app"
+    serviceName: "radar-frontend-service"
+    servicePort: 80
+    serviceTargetPort: 5173
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "300m"
+
+radarConfig:
+  env:
+    - name: "RADAR_DB_PATH"
+      value: "/app/data/radar.db"
+    - name: "RADAR_VAULT_DIR"
+      value: "/app/vault"
+    - name: "RADAR_CHROMA_DIR"
+      value: "/app/chroma"
+    - name: "RADAR_DEFAULT_MAILTO"
+      value: "jcn4rh@virginia.edu"
+    - name: "RADAR_CORS_ORIGINS"
+      value: '["https://radar.fairscape.net"]'
+    - name: "RADAR_LOG_JSON"
+      value: "true"
+    - name: "RADAR_SCHEDULER_ENABLED"
+      value: "true"
+    - name: "RADAR_REQUIRE_AUTH"
+      value: "true"
+    - name: "RADAR_LLM_PROVIDER"
+      value: "ollama"
+    - name: "RADAR_CHAT_EMBEDDING_MODEL"
+      value: ""
+    - name: "RADAR_UMLS_ENABLED"
+      value: "false"
+    - name: "RADAR_RERANKER_ENABLED"
+      value: "true"
+    - name: "RADAR_RERANKER_DEVICE"
+      value: "cpu"
+    - name: "RADAR_RERANKER_QUERY_MODE"
+      value: "topic"
+    - name: "HF_HOME"
+      value: "/app/data/hf"
+
 fairscapeConfig:
   env:
     - name: "FAIRSCAPE_HOST"
