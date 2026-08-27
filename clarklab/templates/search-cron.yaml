@@ -61,6 +61,7 @@ spec:
               resources:
                 requests: { memory: "512Mi", cpu: "250m" }
                 limits: { memory: "1Gi", cpu: "1" }
+{{- /* 2026-08-27: search-populate-prod disabled it keeps crashing.
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -115,4 +116,5 @@ spec:
               resources:
                 requests: { memory: "512Mi", cpu: "250m" }
                 limits: { memory: "1Gi", cpu: "1" }
+end of disabled search-populate-prod */}}
 {{- end }}

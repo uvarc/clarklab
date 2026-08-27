@@ -47,17 +47,25 @@ spec:
         - name: radar-state
           mountPath: /app/chroma
           subPath: chroma
+        # Startup loads SPECTER2 + the SciSpacy/UMLS pipeline before
+        # uvicorn binds — several minutes on CPU. The startupProbe gives
+        # it up to 10 min before liveness takes over; without it the
+        # liveness probe kills the pod mid-preload in a crash loop.
+        startupProbe:
+          httpGet:
+            path: /api/health
+            port: {{ .Values.radar.backend.serviceTargetPort }}
+          periodSeconds: 15
+          failureThreshold: 40
         readinessProbe:
           httpGet:
             path: /api/health
             port: {{ .Values.radar.backend.serviceTargetPort }}
-          initialDelaySeconds: 10
           periodSeconds: 15
         livenessProbe:
           httpGet:
             path: /api/health
             port: {{ .Values.radar.backend.serviceTargetPort }}
-          initialDelaySeconds: 30
           periodSeconds: 30
         resources:
           requests:

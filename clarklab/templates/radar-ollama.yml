@@ -1,0 +1,70 @@
+# CPU-only Ollama for RADAR — serves ONLY the mxbai-embed-large
+# embedding model, which powers UMLS concept->topic mapping and the
+# chat-side vault index. Embedding models are small and fast on CPU;
+# no LLM is pulled here, so /api/chat stays a clean 503 until a real
+# LLM host (e.g. the partner GPU box) is pointed at via RADAR_OLLAMA_URL.
+# Weights live in an emptyDir (demoware): a pod restart re-pulls ~670MB.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.radar.ollama.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "prod-{{ .Values.radar.ollama.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "prod-{{ .Values.radar.ollama.appName }}"
+    spec:
+      containers:
+      - name: ollama
+        image: {{ .Values.radar.ollama.image }}
+        command: ["/bin/sh", "-c"]
+        # Serve, then pull the embedder once the server answers. `wait`
+        # keeps the server process in the foreground for the pod's life.
+        args:
+          - |
+            ollama serve &
+            until ollama list >/dev/null 2>&1; do sleep 2; done
+            ollama pull {{ .Values.radar.ollama.embeddingModel }}
+            wait
+        ports:
+        - containerPort: 11434
+        volumeMounts:
+        - name: ollama-models
+          mountPath: /root/.ollama
+        readinessProbe:
+          exec:
+            command: ["ollama", "list"]
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        resources:
+          requests:
+            memory: {{ .Values.radar.ollama.requests.memory | quote }}
+            cpu: {{ .Values.radar.ollama.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.radar.ollama.limits.memory | quote }}
+            cpu: {{ .Values.radar.ollama.limits.cpu | quote }}
+      volumes:
+      - name: ollama-models
+        emptyDir:
+          sizeLimit: {{ .Values.radar.ollama.scratch.sizeLimit }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.radar.ollama.serviceName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-{{ .Values.radar.ollama.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: 11434
+      targetPort: 11434

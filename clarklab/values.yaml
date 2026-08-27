@@ -198,7 +198,9 @@ chromadb:
 radar:
   host: "radar.fairscape.net"
   backend:
-    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-08-25.v1"
+    # 2026-08-27 tag adds scispacy + the sci-lg model, the pre-warmed
+    # UMLS KB, and the mxbai topic index baked into the image.
+    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-08-27.v1"
     appName: "radar-backend-app"
     serviceName: "radar-backend-service"
     servicePort: 8000
@@ -220,6 +222,21 @@ radar:
     limits:
       memory: "8Gi"
       cpu: "4000m"
+  # CPU ollama serving only the mxbai embedding model (UMLS topic
+  # mapping + chat-side vault index). See templates/radar-ollama.yml.
+  ollama:
+    image: "ollama/ollama:latest"
+    appName: "radar-ollama-app"
+    serviceName: "radar-ollama-service"
+    embeddingModel: "mxbai-embed-large"
+    scratch:
+      sizeLimit: "5Gi"
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "3Gi"
+      cpu: "2000m"
   frontend:
     image: "ghcr.io/fairscape/radar-frontend:RELEASE.2026-08-25.v1"
     appName: "radar-frontend-app"
@@ -253,10 +270,19 @@ radarConfig:
       value: "true"
     - name: "RADAR_LLM_PROVIDER"
       value: "ollama"
+    # In-cluster CPU ollama (templates/radar-ollama.yml) serves ONLY the
+    # mxbai embedding model — /api/chat still 503s (no LLM pulled) until
+    # RADAR_OLLAMA_URL points at a host that has one.
+    - name: "RADAR_OLLAMA_URL"
+      value: "http://radar-ollama-service:11434"
     - name: "RADAR_CHAT_EMBEDDING_MODEL"
-      value: ""
+      value: "mxbai-embed-large"
+    # UMLS extraction is CPU scispacy; the 2026-08-27+ backend image
+    # bakes the model, ~1GB KB, and mxbai topic index at /app/umls_cache.
     - name: "RADAR_UMLS_ENABLED"
-      value: "false"
+      value: "true"
+    - name: "RADAR_UMLS_CACHE_DIR"
+      value: "/app/umls_cache"
     - name: "RADAR_RERANKER_ENABLED"
       value: "true"
     - name: "RADAR_RERANKER_DEVICE"
