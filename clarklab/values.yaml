@@ -214,13 +214,14 @@ radar:
     # "not ready for workloads" and simple beats durable for now.
     scratch:
       sizeLimit: "20Gi"
-    # CPU-only MedCPT reranking + SPECTER2 embedding happen in-process;
-    # give it headroom or the daily gather crawls.
+    # CPU-only MedCPT reranking + SPECTER2 embedding happen in-process,
+    # and the UMLS linker (sci-lg + nmslib index + tfidf KB) is the big
+    # one: verified OOMKilled at an 8Gi limit during startup preload.
     requests:
-      memory: "4Gi"
+      memory: "8Gi"
       cpu: "1000m"
     limits:
-      memory: "8Gi"
+      memory: "16Gi"
       cpu: "4000m"
   # CPU ollama serving only the mxbai embedding model (UMLS topic
   # mapping + chat-side vault index). See templates/radar-ollama.yml.
