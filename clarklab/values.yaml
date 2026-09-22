@@ -202,7 +202,7 @@ radar:
     # SPECTER2 baked in + OpenAlex gatherer, Prosopia import, recalibrated
     # scoring. UMLS / reranker / chat stay in the code but are switched
     # off below; scispacy is not installed in this image.
-    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-09-22.v4"
+    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-09-22.v5"
     appName: "radar-backend-app"
     serviceName: "radar-backend-service"
     servicePort: 8000
