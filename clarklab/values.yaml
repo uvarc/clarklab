@@ -198,9 +198,11 @@ chromadb:
 radar:
   host: "radar.fairscape.net"
   backend:
-    # 2026-08-27 tag adds scispacy + the sci-lg model, the pre-warmed
-    # UMLS KB, and the mxbai topic index baked into the image.
-    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-08-27.v1"
+    # 2026-09-22 tag: lean image from the committed Dockerfile — API +
+    # SPECTER2 baked in + OpenAlex gatherer, Prosopia import, recalibrated
+    # scoring. UMLS / reranker / chat stay in the code but are switched
+    # off below; scispacy is not installed in this image.
+    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-09-22.v1"
     appName: "radar-backend-app"
     serviceName: "radar-backend-service"
     servicePort: 8000
@@ -214,18 +216,20 @@ radar:
     # "not ready for workloads" and simple beats durable for now.
     scratch:
       sizeLimit: "20Gi"
-    # CPU-only MedCPT reranking + SPECTER2 embedding happen in-process,
-    # and the UMLS linker (sci-lg + nmslib index + tfidf KB) is the big
-    # one: verified OOMKilled at an 8Gi limit during startup preload.
+    # SPECTER2 embedding happens in-process on CPU (~2-3Gi resident).
+    # The UMLS linker that needed 8Gi+ is off in this deployment; if it
+    # comes back, restore requests 8Gi / limits 16Gi.
     requests:
-      memory: "8Gi"
+      memory: "4Gi"
       cpu: "1000m"
     limits:
-      memory: "16Gi"
+      memory: "8Gi"
       cpu: "4000m"
   # CPU ollama serving only the mxbai embedding model (UMLS topic
   # mapping + chat-side vault index). See templates/radar-ollama.yml.
+  # Off: nothing in the lean deployment needs it (/api/chat 503s).
   ollama:
+    enabled: false
     image: "ollama/ollama:latest"
     appName: "radar-ollama-app"
     serviceName: "radar-ollama-service"
@@ -239,7 +243,7 @@ radar:
       memory: "3Gi"
       cpu: "2000m"
   frontend:
-    image: "ghcr.io/fairscape/radar-frontend:RELEASE.2026-08-25.v1"
+    image: "ghcr.io/fairscape/radar-frontend:RELEASE.2026-09-22.v1"
     appName: "radar-frontend-app"
     serviceName: "radar-frontend-service"
     servicePort: 80
@@ -271,27 +275,32 @@ radarConfig:
       value: "true"
     - name: "RADAR_LLM_PROVIDER"
       value: "ollama"
-    # In-cluster CPU ollama (templates/radar-ollama.yml) serves ONLY the
-    # mxbai embedding model — /api/chat still 503s (no LLM pulled) until
-    # RADAR_OLLAMA_URL points at a host that has one.
+    # No ollama in this deployment (radar.ollama.enabled=false): /api/chat
+    # 503s and the chat-side vault index is skipped. Point this at a host
+    # that has one to turn chat back on.
     - name: "RADAR_OLLAMA_URL"
       value: "http://radar-ollama-service:11434"
+    # Empty = skip the chat-side vault index on upload entirely (it would
+    # call the missing ollama). Set back to "mxbai-embed-large" with ollama.
     - name: "RADAR_CHAT_EMBEDDING_MODEL"
-      value: "mxbai-embed-large"
-    # UMLS extraction is CPU scispacy; the 2026-08-27+ backend image
-    # bakes the model, ~1GB KB, and mxbai topic index at /app/umls_cache.
+      value: ""
+    # UMLS extraction and the MedCPT reranker are off: the lean image has
+    # no scispacy. Flip both to "true" (and use an image that bakes
+    # scispacy + the topic index) to turn them back on.
     - name: "RADAR_UMLS_ENABLED"
-      value: "true"
+      value: "false"
     - name: "RADAR_UMLS_CACHE_DIR"
       value: "/app/umls_cache"
     - name: "RADAR_RERANKER_ENABLED"
-      value: "true"
+      value: "false"
     - name: "RADAR_RERANKER_DEVICE"
       value: "cpu"
     - name: "RADAR_RERANKER_QUERY_MODE"
       value: "topic"
+    # Must match the image's baked cache: pointing HF_HOME at the
+    # emptyDir made every pod restart re-download SPECTER2 + MedCPT.
     - name: "HF_HOME"
-      value: "/app/data/hf"
+      value: "/app/hf_cache"
 
 fairscapeConfig:
   env:
