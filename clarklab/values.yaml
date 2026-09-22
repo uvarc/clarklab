@@ -202,7 +202,7 @@ radar:
     # SPECTER2 baked in + OpenAlex gatherer, Prosopia import, recalibrated
     # scoring. UMLS / reranker / chat stay in the code but are switched
     # off below; scispacy is not installed in this image.
-    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-09-22.v1"
+    image: "ghcr.io/fairscape/radar-backend:RELEASE.2026-09-22.v2"
     appName: "radar-backend-app"
     serviceName: "radar-backend-service"
     servicePort: 8000
@@ -243,7 +243,7 @@ radar:
       memory: "3Gi"
       cpu: "2000m"
   frontend:
-    image: "ghcr.io/fairscape/radar-frontend:RELEASE.2026-09-22.v1"
+    image: "ghcr.io/fairscape/radar-frontend:RELEASE.2026-09-22.v2"
     appName: "radar-frontend-app"
     serviceName: "radar-frontend-service"
     servicePort: 80
@@ -273,6 +273,11 @@ radarConfig:
       value: "true"
     - name: "RADAR_REQUIRE_AUTH"
       value: "true"
+    # Ceiling on candidates per gather (trial scan, scan-now, daily job).
+    # Every candidate is embedded in-process on CPU, so this bounds a
+    # scan's wall time; raise it once the backend has more CPU.
+    - name: "RADAR_GATHER_MAX_CANDIDATES"
+      value: "300"
     - name: "RADAR_LLM_PROVIDER"
       value: "ollama"
     # No ollama in this deployment (radar.ollama.enabled=false): /api/chat
