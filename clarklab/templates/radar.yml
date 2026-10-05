@@ -1,3 +1,4 @@
+{{- if .Values.radar.enabled }}
 # RADAR — CPU-only deployment: FastAPI backend + nginx-served SPA.
 apiVersion: apps/v1
 kind: Deployment
@@ -148,3 +149,4 @@ spec:
       protocol: TCP
       port: {{ .Values.radar.frontend.servicePort }}
       targetPort: {{ .Values.radar.frontend.serviceTargetPort }}
+{{- end }}

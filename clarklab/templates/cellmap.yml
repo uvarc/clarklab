@@ -1,0 +1,67 @@
+# Cell Map Explorer — single stateless container (API + static site + baked-in data).
+{{- if .Values.cellmap.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.cellmap.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.cellmap.appName }}"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "prod-{{ .Values.cellmap.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "prod-{{ .Values.cellmap.appName }}"
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.fairscape.pullSecretName }}
+      containers:
+      - name: cellmap-explorer
+        image: {{ .Values.cellmap.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.cellmap.serviceTargetPort }}
+        env:
+        # Served at the host root, so no path prefix.
+        - name: "ROOT_PATH"
+          value: ""
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.cellmap.serviceTargetPort }}
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.cellmap.serviceTargetPort }}
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: {{ .Values.cellmap.requests.memory | quote }}
+            cpu: {{ .Values.cellmap.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.cellmap.limits.memory | quote }}
+            cpu: {{ .Values.cellmap.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.cellmap.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.cellmap.appName }}"
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-{{ .Values.cellmap.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.cellmap.servicePort }}
+      targetPort: {{ .Values.cellmap.serviceTargetPort }}
+{{- end }}

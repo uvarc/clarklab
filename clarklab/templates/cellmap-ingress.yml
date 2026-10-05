@@ -1,0 +1,25 @@
+{{- if .Values.cellmap.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: cellmap-ingress
+  namespace: {{ .Values.namespace }}
+spec:
+  rules:
+    - host: {{ .Values.cellmap.host | quote }}
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: {{ .Values.cellmap.serviceName }}
+              port:
+                number: {{ .Values.cellmap.servicePort }}
+  tls:
+    - hosts:
+      - {{ .Values.cellmap.host | quote }}
+      secretName: star-fairscape-tls
+{{- end }}

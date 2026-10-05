@@ -195,7 +195,10 @@ chromadb:
     memory: "2Gi"
     cpu: "500m"
 
+# RADAR is switched off for now: radar.enabled gates radar.yml and
+# radar-ingress.yml (and radar-ollama.yml). Set it back to true to redeploy.
 radar:
+  enabled: false
   host: "radar.fairscape.net"
   backend:
     # 2026-09-22 tag: lean image from the committed Dockerfile — API +
@@ -306,6 +309,24 @@ radarConfig:
     # emptyDir made every pod restart re-download SPECTER2 + MedCPT.
     - name: "HF_HOME"
       value: "/app/hf_cache"
+
+# Cell Map Explorer — read-only FastAPI + static site for the CM4AI
+# MDA-MB-468 cell map. The image bakes in all data (sqlite + WebP images),
+# so there is no volume, secret or database; ~40Mi resident.
+cellmap:
+  enabled: true
+  host: "cellmap.fairscape.net"
+  image: "ghcr.io/fairscape/cellmap-explorer:RELEASE.2026-10-05.v1"
+  appName: "cellmap-explorer-app"
+  serviceName: "cellmap-explorer-service"
+  servicePort: 80
+  serviceTargetPort: 8765
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "1000m"
 
 fairscapeConfig:
   env:
