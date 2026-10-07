@@ -313,20 +313,25 @@ radarConfig:
 # Cell Map Explorer — read-only FastAPI + static site for the CM4AI
 # MDA-MB-468 cell map. The image bakes in all data (sqlite + WebP images),
 # so there is no volume, secret or database; ~40Mi resident.
+# Turned off for now. To re-enable: delete the stub below and uncomment the block.
+# (The stub stays because the cellmap templates read .Values.cellmap.enabled.)
 cellmap:
-  enabled: true
-  host: "cellmap.fairscape.net"
-  image: "ghcr.io/fairscape/cellmap-explorer:RELEASE.2026-10-06.v2"
-  appName: "cellmap-explorer-app"
-  serviceName: "cellmap-explorer-service"
-  servicePort: 80
-  serviceTargetPort: 8765
-  requests:
-    memory: "128Mi"
-    cpu: "100m"
-  limits:
-    memory: "512Mi"
-    cpu: "1000m"
+  enabled: false
+
+# cellmap:
+#   enabled: true
+#   host: "cellmap.fairscape.net"
+#   image: "ghcr.io/fairscape/cellmap-explorer:RELEASE.2026-10-06.v2"
+#   appName: "cellmap-explorer-app"
+#   serviceName: "cellmap-explorer-service"
+#   servicePort: 80
+#   serviceTargetPort: 8765
+#   requests:
+#     memory: "128Mi"
+#     cpu: "100m"
+#   limits:
+#     memory: "512Mi"
+#     cpu: "1000m"
 
 fairscapeConfig:
   env:
