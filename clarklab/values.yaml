@@ -372,7 +372,7 @@ fairscapeConfig:
 lite:
   enabled: true
   host: "lite.fairscape.net"
-  image: "ghcr.io/fairscape/fairscape-lite:RELEASE.2026-10-08.v2"
+  image: "ghcr.io/fairscape/fairscape-lite:RELEASE.2026-10-08.v3"
   appName: "fairscape-lite-app"
   serviceName: "fairscape-lite-service"
   servicePort: 80
