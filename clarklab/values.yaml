@@ -363,3 +363,28 @@ fairscapeConfig:
       value: "59852"
     - name: "FAIRSCAPE_URL"
       value: "https://fairscape.net"
+
+# fairscape-lite — FastAPI + SQLite metadata server with its UI baked in.
+# People upload a crate zip (metadata + data files) and the dataset pages
+# link to the files. Demoware: index and uploads live in an emptyDir, so
+# everything resets when the pod is rescheduled. No auth: anyone who can
+# reach the host can upload and delete crates.
+lite:
+  enabled: true
+  host: "lite.fairscape.net"
+  image: "ghcr.io/fairscape/fairscape-lite:RELEASE.2026-10-08.v1"
+  appName: "fairscape-lite-app"
+  serviceName: "fairscape-lite-service"
+  servicePort: 80
+  serviceTargetPort: 8000
+  # Ingress body limit and the server's own cap on one unpacked zip.
+  maxUploadSize: "1000M"
+  maxUnpackedBytes: "4294967296"
+  scratch:
+    sizeLimit: "20Gi"
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "2Gi"
+    cpu: "1000m"

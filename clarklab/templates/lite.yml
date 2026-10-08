@@ -1,0 +1,78 @@
+# fairscape-lite — single container (API + UI); state in an emptyDir.
+{{- if .Values.lite.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.lite.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.lite.appName }}"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  # One SQLite file on an emptyDir: never run two pods side by side.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: "prod-{{ .Values.lite.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "prod-{{ .Values.lite.appName }}"
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.fairscape.pullSecretName }}
+      containers:
+      - name: fairscape-lite
+        image: {{ .Values.lite.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.lite.serviceTargetPort }}
+        env:
+        - name: "FAIRSCAPE_LITE_MAX_UNPACKED"
+          value: {{ .Values.lite.maxUnpackedBytes | quote }}
+        volumeMounts:
+        - name: lite-state
+          mountPath: /data
+        readinessProbe:
+          httpGet:
+            path: /rocrate
+            port: {{ .Values.lite.serviceTargetPort }}
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /rocrate
+            port: {{ .Values.lite.serviceTargetPort }}
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: {{ .Values.lite.requests.memory | quote }}
+            cpu: {{ .Values.lite.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.lite.limits.memory | quote }}
+            cpu: {{ .Values.lite.limits.cpu | quote }}
+      volumes:
+      # emptyDir on purpose (demoware): uploads and the index last as
+      # long as the pod. Swap for a PVC to keep them.
+      - name: lite-state
+        emptyDir:
+          sizeLimit: {{ .Values.lite.scratch.sizeLimit }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.lite.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.lite.appName }}"
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-{{ .Values.lite.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.lite.servicePort }}
+      targetPort: {{ .Values.lite.serviceTargetPort }}
+{{- end }}
