@@ -392,7 +392,7 @@ lite:
 studio:
   enabled: true
   host: "studio.fairscape.net"
-  image: "ghcr.io/fairscape/fairscape-studio:RELEASE.2026-10-12.v1"
+  image: "ghcr.io/fairscape/fairscape-studio:RELEASE.2026-10-12.v2"
   appName: "fairscape-studio-app"
   serviceName: "fairscape-studio-service"
   servicePort: 80
