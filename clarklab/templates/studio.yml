@@ -1,0 +1,88 @@
+# FAIRSCAPE Studio demo: sign-in with one shared password, a folder per
+# visitor, Nextflow + Snakemake runs. Everything lives in an emptyDir.
+{{- if .Values.studio.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.studio.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.studio.appName }}"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  # running jobs live in one process's memory: never two pods side by side
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: "prod-{{ .Values.studio.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "prod-{{ .Values.studio.appName }}"
+    spec:
+      # visitors can run workflows, so the pod gets no cluster credentials
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      imagePullSecrets:
+      - name: {{ .Values.fairscape.pullSecretName }}
+      containers:
+      - name: fairscape-studio
+        image: {{ .Values.studio.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.studio.serviceTargetPort }}
+        env:
+        - name: "ROCRATE_STUDIO_MULTI_USER"
+          value: "1"
+        - name: "ROCRATE_STUDIO_PASSWORD"
+          value: {{ .Values.studio.password | quote }}
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+        - name: studio-work
+          mountPath: /work
+        readinessProbe:
+          httpGet:
+            path: /api/session
+            port: {{ .Values.studio.serviceTargetPort }}
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /api/session
+            port: {{ .Values.studio.serviceTargetPort }}
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: {{ .Values.studio.requests.memory | quote }}
+            cpu: {{ .Values.studio.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.studio.limits.memory | quote }}
+            cpu: {{ .Values.studio.limits.cpu | quote }}
+      volumes:
+      # emptyDir on purpose: every redeploy starts the demo clean
+      - name: studio-work
+        emptyDir:
+          sizeLimit: {{ .Values.studio.scratch.sizeLimit }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.studio.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.studio.appName }}"
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-{{ .Values.studio.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.studio.servicePort }}
+      targetPort: {{ .Values.studio.serviceTargetPort }}
+{{- end }}

@@ -388,3 +388,23 @@ lite:
   limits:
     memory: "2Gi"
     cpu: "1000m"
+
+studio:
+  enabled: true
+  host: "studio.fairscape.net"
+  image: "ghcr.io/fairscape/fairscape-studio:RELEASE.2026-10-12.v1"
+  appName: "fairscape-studio-app"
+  serviceName: "fairscape-studio-service"
+  servicePort: 80
+  serviceTargetPort: 8765
+  # One shared password at the sign-in screen. Only a speed bump: this
+  # repo is public.
+  password: "fairscapetester"
+  scratch:
+    sizeLimit: "10Gi"
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "4Gi"
+    cpu: "2000m"
