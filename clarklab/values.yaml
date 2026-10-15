@@ -310,31 +310,15 @@ radarConfig:
     - name: "HF_HOME"
       value: "/app/hf_cache"
 
-# Cell Map Explorer — read-only FastAPI + static site for the CM4AI
-# MDA-MB-468 cell map. The image bakes in all data (sqlite + WebP images),
-# so there is no volume, secret or database; ~40Mi resident.
-# Behind a sign-in gate (approved emails + password, api/users.json in the image).
+# Cell Map Explorer — read-only FastAPI + static site:
+# Published CM4AI U2OS cell map (Schaffer et al. 2025). The image bakes in all data (sqlite + WebP images),
+# so there is no volume, secret or database; ~40Mi resident. Public: AUTH_DISABLED=1 in templates/cellmap.yml.
 cellmap:
   enabled: true
   host: "cellmap.fairscape.net"
-  image: "ghcr.io/fairscape/cellmap-explorer:RELEASE.2026-10-09.v5"
+  image: "ghcr.io/fairscape/cellmap-explorer:U2OS.RELEASE.2026-10-15.v3"
   appName: "cellmap-explorer-app"
   serviceName: "cellmap-explorer-service"
-  servicePort: 80
-  serviceTargetPort: 8765
-  requests:
-    memory: "128Mi"
-    cpu: "100m"
-  limits:
-    memory: "512Mi"
-    cpu: "1000m"
-
-cellmapU2os:
-  enabled: true
-  host: "cellmap-u2os.fairscape.net"
-  image: "ghcr.io/fairscape/cellmap-explorer:U2OS.RELEASE.2026-10-15.v2"
-  appName: "cellmap-u2os-explorer-app"
-  serviceName: "cellmap-u2os-explorer-service"
   servicePort: 80
   serviceTargetPort: 8765
   requests:

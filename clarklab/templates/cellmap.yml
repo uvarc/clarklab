@@ -1,4 +1,4 @@
-# Cell Map Explorer — single stateless container (API + static site + baked-in data).
+# Cell Map Explorer (published CM4AI U2OS map, public: no login gate) — single stateless container (API + static site + baked-in data).
 {{- if .Values.cellmap.enabled }}
 apiVersion: apps/v1
 kind: Deployment
@@ -30,6 +30,9 @@ spec:
         # Served at the host root, so no path prefix.
         - name: "ROOT_PATH"
           value: ""
+        # Fully released map: no login gate.
+        - name: "AUTH_DISABLED"
+          value: "1"
         readinessProbe:
           httpGet:
             path: /healthz
