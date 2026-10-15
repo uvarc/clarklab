@@ -332,7 +332,7 @@ cellmap:
 cellmapU2os:
   enabled: true
   host: "cellmap-u2os.fairscape.net"
-  image: "ghcr.io/fairscape/cellmap-explorer:U2OS.RELEASE.2026-10-15.v1"
+  image: "ghcr.io/fairscape/cellmap-explorer:U2OS.RELEASE.2026-10-15.v2"
   appName: "cellmap-u2os-explorer-app"
   serviceName: "cellmap-u2os-explorer-service"
   servicePort: 80
