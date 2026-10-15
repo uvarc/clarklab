@@ -1,0 +1,25 @@
+{{- if .Values.cellmapU2os.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: cellmap-u2os-ingress
+  namespace: {{ .Values.namespace }}
+spec:
+  rules:
+    - host: {{ .Values.cellmapU2os.host | quote }}
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: {{ .Values.cellmapU2os.serviceName }}
+              port:
+                number: {{ .Values.cellmapU2os.servicePort }}
+  tls:
+    - hosts:
+      - {{ .Values.cellmapU2os.host | quote }}
+      secretName: star-fairscape-tls
+{{- end }}

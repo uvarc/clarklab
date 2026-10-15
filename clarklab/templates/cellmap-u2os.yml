@@ -1,0 +1,70 @@
+# Cell Map Explorer (U2OS, public: no login gate) — single stateless container (API + static site + baked-in data).
+{{- if .Values.cellmapU2os.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "prod-{{ .Values.cellmapU2os.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.cellmapU2os.appName }}"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: "prod-{{ .Values.cellmapU2os.appName }}"
+  template:
+    metadata:
+      labels:
+        app: "prod-{{ .Values.cellmapU2os.appName }}"
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.fairscape.pullSecretName }}
+      containers:
+      - name: cellmap-u2os-explorer
+        image: {{ .Values.cellmapU2os.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.cellmapU2os.serviceTargetPort }}
+        env:
+        # Served at the host root, so no path prefix.
+        - name: "ROOT_PATH"
+          value: ""
+        # Fully released map: no login gate.
+        - name: "AUTH_DISABLED"
+          value: "1"
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.cellmapU2os.serviceTargetPort }}
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.cellmapU2os.serviceTargetPort }}
+          periodSeconds: 30
+        resources:
+          requests:
+            memory: {{ .Values.cellmapU2os.requests.memory | quote }}
+            cpu: {{ .Values.cellmapU2os.requests.cpu | quote }}
+          limits:
+            memory: {{ .Values.cellmapU2os.limits.memory | quote }}
+            cpu: {{ .Values.cellmapU2os.limits.cpu | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.cellmapU2os.serviceName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: "prod-{{ .Values.cellmapU2os.appName }}"
+spec:
+  type: ClusterIP
+  selector:
+    app: "prod-{{ .Values.cellmapU2os.appName }}"
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.cellmapU2os.servicePort }}
+      targetPort: {{ .Values.cellmapU2os.serviceTargetPort }}
+{{- end }}
