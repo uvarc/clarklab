@@ -316,7 +316,7 @@ radarConfig:
 cellmap:
   enabled: true
   host: "cellmap.fairscape.net"
-  image: "ghcr.io/fairscape/cellmap-explorer:U2OS.RELEASE.2026-10-18.v1"
+  image: "ghcr.io/fairscape/cellmap-explorer:U2OS.RELEASE.2026-10-18.v2"
   appName: "cellmap-explorer-app"
   serviceName: "cellmap-explorer-service"
   servicePort: 80
