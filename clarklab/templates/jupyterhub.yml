@@ -128,8 +128,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
-    acme.cert-manager.io/http01-edit-in-place: "false"
-    acme.cert-manager.io/http01-ingress-class: haproxy
+    acme.cert-manager.io/http01-edit-in-place: "true"
 # annotations for jupyterhub websockets
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.org/websocket-services: {{ .Values.jupyterhub.serviceName }}
